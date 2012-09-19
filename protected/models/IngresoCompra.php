@@ -56,7 +56,7 @@ class IngresoCompra extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('INGRESO_COMPRA, PROVEEDOR, FECHA_INGRESO, TIENE_FACTURA, ESTADO', 'required'),
+			array('PROVEEDOR, FECHA_INGRESO', 'required'),
 			array('INGRESO_COMPRA', 'length', 'max'=>10),
 			array('PROVEEDOR, APLICADO_POR, CANCELADO_POR, CREADO_POR, MODIFICADO_POR', 'length', 'max'=>20),
 			array('TIENE_FACTURA, ESTADO', 'length', 'max'=>1),
@@ -151,14 +151,14 @@ class IngresoCompra extends CActiveRecord
 			'CTimestampBehavior' => array(
 				'class' => 'zii.behaviors.CTimestampBehavior',
 				'createAttribute' => 'CREADO_EL',
-				'updateAttribute' => 'ACTUALIZADO_EL',
+				'updateAttribute' => 'MODIFICADO_EL',
 				'setUpdateOnCreate' => true,
 			),
 			
 			'BlameableBehavior' => array(
 				'class' => 'application.components.BlameableBehavior',
 				'createdByColumn' => 'CREADO_POR',
-				'updatedByColumn' => 'ACTUALIZADO_POR',
+				'updatedByColumn' => 'MODIFICADO_POR',
 			),
 		);
 	}

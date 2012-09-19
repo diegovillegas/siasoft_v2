@@ -32,7 +32,7 @@ class IngresoCompraController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea', 'Advertencias'),
+				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -65,22 +65,7 @@ class IngresoCompraController extends Controller
             );
             echo CJSON::encode($res);
         }
-        
-        public function actionAdvertencias(){
-            $model = new IngresoCompra;
-            $model->attributes = $_POST['IngresoCompra'];
-            $ruta = Yii::app()->request->baseUrl.'/images/cargando.gif';
-            if($model->validate()){
-                
-            }
-            else{
-                echo '<div id="alert" class="alert alert-error" data-dismiss="modal">
-                            <h2 align="center">Falta Validar</h2>
-                            </div>
-                     <span id="form-cargado" style="display:none">';
-            }
-        }
-        
+               
         public function actionActlinea(){
             $linea = new IngresoCompraLinea;
             $linea->attributes = $_POST['IngresoCompraLinea'];
@@ -177,7 +162,15 @@ class IngresoCompraController extends Controller
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{
+	{            
+                $dataProviderOrdenes=new CActiveDataProvider(OrdenCompraLinea::model(), array(
+                    'keyAttribute'=>'ORDEN_COMPRA_LINEA',
+                    'criteria'=>array(      
+                        'select'=>'o.PROVEEDOR, t.ORDEN_COMPRA_LINEA, t.ARTICULO, t.FECHA_REQUERIDA',
+                        'join'=>'inner join orden_compra o ON t.ORDEN_COMPRA = o.ORDEN_COMPRA',
+                        'condition'=>'o.PROVEEDOR=-1',
+                    ),
+                ));
 		$model = new IngresoCompra;
                 $articulo = new Articulo;
                 $proveedor = new Proveedor;
@@ -186,7 +179,29 @@ class IngresoCompraController extends Controller
                 $config = ConfCo::model()->find();
                 $ruta = Yii::app()->request->baseUrl.'/images/cargando.gif';
                 $i = 1;
-
+                
+                if(Yii::app()->request->isAjaxRequest){
+                    if(isset($_GET[0])){
+                        $busqueda = $_GET[0];
+                        $dataProviderOrdenes->criteria = array(
+                            'select'=>'o.PROVEEDOR, t.ORDEN_COMPRA_LINEA, t.ARTICULO, t.FECHA_REQUERIDA',
+                            'join'=>'inner join orden_compra o ON t.ORDEN_COMPRA = o.ORDEN_COMPRA',
+                            'condition'=>'o.PROVEEDOR='.$busqueda
+                        );
+                        // para responderle al request ajax debes hacer un ECHO con el JSON del dataprovider
+                        echo CJSON::encode($dataProviderOrdenes);
+                    }
+                }
+                
+                /* creacion del dataProvider
+                */
+                $dataProvider=new CActiveDataProvider(Proveedor::model(), array(
+                    'keyAttribute'=>'PROVEEDOR',// IMPORTANTE, para que el CGridView conozca la seleccion
+                    'criteria'=>array(
+                        //'condition'=>'cualquier condicion where de tu sql iria aqui',
+                    ),
+                ));
+                
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
                 
@@ -206,6 +221,7 @@ class IngresoCompraController extends Controller
 		if(isset($_POST['IngresoCompra']))
 		{
 			$model->attributes=$_POST['IngresoCompra'];
+                            $_POST['IngresoCompra']['TIENE_FACTURA'] == 1 ? $model->TIENE_FACTURA = 'S' : $model->TIENE_FACTURA = 'N';
 			if($model->save())
                             if(isset($_POST['LineaNuevo'])){
                                 foreach ($_POST['LineaNuevo'] as $datos){
@@ -237,6 +253,7 @@ class IngresoCompraController extends Controller
                         'linea' => $linea,
                         'articulo' => $articulo,
                         'ordenLinea' => $ordenLinea,
+                        'dataProviderOrdenes' => $dataProviderOrdenes,
 		));
 	}
 

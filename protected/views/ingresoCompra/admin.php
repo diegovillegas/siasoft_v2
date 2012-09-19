@@ -1,3 +1,10 @@
+<script>
+function obtenerSeleccion(){
+
+    var idcategoria = $.fn.yiiGridView.getSelection('ingreso-compra-grid');
+    $('#check').val(idcategoria);
+}
+</script>
 <?php
 /* @var $this IngresoCompraController */
 /* @var $model IngresoCompra */
@@ -44,23 +51,26 @@ $this->widget('bootstrap.widgets.BootButton', array(
 <?php $this->widget('bootstrap.widgets.BootGridView', array(
         'type'=>'striped bordered condensed',
 	'id'=>'ingreso-compra-grid',
+        'selectableRows'=>2,
+        'selectionChanged'=>'obtenerSeleccion',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
+                array('class'=>'CCheckBoxColumn'),
 		'INGRESO_COMPRA',
 		'PROVEEDOR',
 		'FECHA_INGRESO',
 		'TIENE_FACTURA',
-		'RUBRO1',
-		'RUBRO2',
+                'APLICADO_POR',
+		'APLICADO_EL',
 		/*
+                'RUBRO1',
+		'RUBRO2',
 		'RUBRO3',
 		'RUBRO4',
 		'RUBRO5',
 		'NOTAS',
 		'ESTADO',
-		'APLICADO_POR',
-		'APLICADO_EL',
 		'CANCELADO_POR',
 		'CANCELADO_EL',
 		'CREADO_POR',
@@ -68,9 +78,6 @@ $this->widget('bootstrap.widgets.BootButton', array(
 		'MODIFICADO_POR',
 		'MODIFICADO_EL',
 		*/
-		array(
-			'class'=>'bootstrap.widgets.BootButtonColumn',
-                        'template'=>'{update}',
-		),
 	),
 )); ?>
+<?php echo CHtml::HiddenField('check',''); ?>
