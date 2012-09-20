@@ -53,6 +53,10 @@
         }
     }
 </script>
+<div id="advertenciaLineas" class="alert alert-warning">
+    <h2 align="center">Debe ingresar proveedor antes de introducir lineas</h2>
+</div>
+<div id="cargarLineasBoton" style="display: none;">
 <?php $this->widget('bootstrap.widgets.BootButton', array(
     'type'=>'',
     'size'=>'mini',
@@ -61,6 +65,7 @@
     'icon'=>'icon-download-alt',
     'htmlOptions'=>array('data-toggle'=>'modal', 'id'=>"cargar"),
 )); ?>
+</div>
 <p>&nbsp;</p>
 <?php
 

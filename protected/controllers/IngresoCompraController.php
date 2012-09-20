@@ -32,7 +32,7 @@ class IngresoCompraController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea'),
+				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea', 'Listar'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -186,7 +186,7 @@ class IngresoCompraController extends Controller
                         $dataProviderOrdenes->criteria = array(
                             'select'=>'o.PROVEEDOR, t.ORDEN_COMPRA_LINEA, t.ARTICULO, t.FECHA_REQUERIDA',
                             'join'=>'inner join orden_compra o ON t.ORDEN_COMPRA = o.ORDEN_COMPRA',
-                            'condition'=>'o.PROVEEDOR='.$busqueda
+                            'condition'=>'o.PROVEEDOR="'.$busqueda.'" AND t.ESTADO = "N"',
                         );
                         // para responderle al request ajax debes hacer un ECHO con el JSON del dataprovider
                         echo CJSON::encode($dataProviderOrdenes);
@@ -347,4 +347,79 @@ class IngresoCompraController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        public function actionListar(){
+            
+            Yii::app()->request->cookies['suma'] = new CHttpCookie('suma', '');           
+            $check = explode(',',$_POST['check']);
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
+                        
+            foreach($check as $id){
+                $ingreso = IngresoCompra::model()->findByPk($id);
+                
+                switch ($ingreso->ESTADO){
+                    case 'P' :
+                        $documento->ESTADO = 'A';
+                        $this->modificarExistencias($ingreso);
+                        $contSucces+=1;
+                        $succes .= $id.',';
+                        break;
+                    case 'A' :
+                        $contWarning+=1;
+                        $warning.= $id.',';
+                        break;
+                    case 'C' :
+                        $contError+=1;
+                        $error.= $id.',';
+                        break;
+                }
+            }
+        }
+        
+        protected function modificarExistencias($documento){
+            
+            $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$documento->INGRESO_COMPRA.'"');
+            
+            foreach($lineas as $datos){
+                $articulo = Articulo::model()->findByPk($datos->ARTICULO);
+                $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
+               
+                if($existenciaBodega){
+                    
+                    $i = 0;
+                    $cookie1 = Yii::app()->request->cookies['articulo']->value;
+                    if($cookie1 != ''){
+                        $evaluar = explode(';', $cookie1);
+                        foreach($evaluar as $ev){
+                            if($ev == $datos->ARTICULO){
+                                
+                            }
+                            else{$i++;}
+                        }
+                    }
+                    else{
+                        Yii::app()->request->cookies['suma'] = new CHttpCookie('suma', $datos->ARTICULO.";".$datos->CANTIDAD_ACEPTADA);                        
+                    }
+                    
+                    $cookie .= '';
+                    Yii::app()->request->cookies['sumar'] = new CHttpCookie('sumar', $habilitar);
+                    
+                    if($datos->CANTIDAD_ACEPTADA > $existenciaBodega->EXISTENCIA_MINIMA){
+                        
+                    }
+                    
+                    echo $existenciaBodega->CANT_RESERVADA.'<br />';
+                    echo $existenciaBodega->CANT_REMITIDA.'<br />';
+                    echo $existenciaBodega->CANT_VENCIDA.'<br /><br />';
+                }else{
+                    echo 'no existe nada<br /><br />';
+                }
+            }
+            
+        }
 }

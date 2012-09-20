@@ -303,5 +303,39 @@ class Articulo extends CActiveRecord
             
             return $bus->NOMBRE;
         }
+        
+        public function darCampocosto($costo,$form,$model,$conf){
+            
+            switch ($costo){
+                case 'Estándar':
+                    return '<span id="estandar" style="display: block">'.$form->textFieldRow($model,'COSTO_ESTANDAR',array('prepend'=>'$','size'=>9,'disabled'=>$conf->COSTO_FISCAL == 'Estándar' ? false :true)).'</span>';
+               break;     
+                case 'Promedio':
+                    return $form->textFieldRow($model,'COSTO_PROMEDIO',array('prepend'=>'$','size'=>9,'disabled'=>true));
+               break;     
+                case 'Último':
+                    return  $form->textFieldRow($model,'COSTO_ULTIMO',array('prepend'=>'$','size'=>9,'disabled'=>true));
+               break;     
+                    
+            }
+            
+        }
+        public static function darCosto($id){
+            
+            $articulo = Articulo::model()->findByPk($id);
+            
+            switch ($articulo->COSTO_FISCAL){
+                case 'Estándar':
+                    return $articulo->COSTO_ESTANDAR;
+               break;     
+                case 'Promedio':
+                    return $articulo->COSTO_PROMEDIO;
+               break;     
+                case 'Último':
+                    return $articulo->COSTO_ULTIMO;
+               break;     
+                    
+            }
+        }
             
 }

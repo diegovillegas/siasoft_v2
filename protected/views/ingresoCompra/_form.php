@@ -14,7 +14,6 @@ $(document).ready(function(){
           return true;
     });
     $(".escritoProv").live("change", function (e) {      
-       //upModalLineas($(this).attr('value'));
        $.fn.yiiGridView.update('lineas-grid', {data : '0=' + $(this).val()});
        $.getJSON(
             '<?php echo $this->createUrl('ordenCompra/CargarProveedor'); ?>&buscar='+$(this).attr('value'),
@@ -23,18 +22,14 @@ $(document).ready(function(){
                 $('#ProvNombre2').val(data.NOMBRE);
             }
        )
+        $('#advertenciaLineas').css('display','none');
+        $('#cargarLineasBoton').css('display','block');
     });
 });
 
-function upModalLineas(buscar){
-    alert(buscar);
-    $.fn.yiiGridView.update('lineas-grid', {data:buscar});
-}
-
 function cargaProveedorGrilla (grid_id){    
     var buscar = $.fn.yiiGridView.getSelection(grid_id);
-    upModalLineas(buscar);
-    //$.fn.yiiGridView.update('lineas-grid', {data:buscar});
+    $.fn.yiiGridView.update('lineas-grid', {data:buscar});
     $.getJSON(
         '<?php echo $this->createUrl('ingresoCompra/CargarProveedor'); ?>&buscar='+buscar,
         function(data)
@@ -43,6 +38,8 @@ function cargaProveedorGrilla (grid_id){
             $('#ProvNombre2').val(data.NOMBRE);
         }
     )
+    $('#advertenciaLineas').css('display','none');
+    $('#cargarLineasBoton').css('display','block');
 }
 </script>
 

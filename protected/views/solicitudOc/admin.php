@@ -129,7 +129,7 @@ $('.search-form form').submit(function(){
             'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
             'size'=>'mini', // '', 'large', 'small' or 'mini'
             'url'=>'',
-            'htmlOptions'=>array('id' => 'cancelar'),
+            'htmlOptions'=>array('id' => 'cancelar', 'onclick'=>'return confirm("¿Está seguro que desea cancelar esta(s) solicitud(es)?");'),
             'icon' => 'remove white'
         )); 
 
