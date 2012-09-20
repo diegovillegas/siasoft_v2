@@ -37,29 +37,15 @@
                             
                             $('#DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD').append("<option value=''>Seleccione</option>");
                             
-                            $.each(data.TRANSACCIONES, function(key, transaccion) {
+                            $.each(data.TRANSACCIONES, function(value, name) {
                                 
-                                $.getJSON('<?php echo $this->createUrl('agregarlinea'); ?>&cantidad='+transaccion.CANTIDAD,
-                                    function(respuesta){
-
-                                        nombre_cantidad = respuesta.NOMBRE;
-
-                                        $('#DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD').append("<option value='"+transaccion.CANTIDAD+"'>"+nombre_cantidad+"</option>");
-                                });
+                                $('#DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD').append("<option value='"+value+"'>"+name+"</option>");
                             });
                         }else{
-                            $('#DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD').append("<option value=''>Seleccione</option>");
-                            
-                            $.getJSON('<?php echo $this->createUrl('agregarlinea'); ?>&cantidades='+1,
-                                    function(data){
-
-                                        $.each(data, function(value, name) {
-                                            $('#DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD').append("<option value='"+value+"'>"+name+"</option>");
-                                        });
-                            });
+                            $('#DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD').append("<option value=''>Ninguno</option>");
                         }
                         
-                        switch(data.TRANSACCION_BASE){
+                        switch($(this).val()){
                             case 'COST':
                                   $('#DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD').attr('readonly',true);
                             break;

@@ -14,7 +14,12 @@
                     function(data){
                         
                         $('#consecutivo').val($('#DocumentoInv_CONSECUTIVO').val());
-
+                        
+                        //borrar combo de cantidades
+                        $('select[id$=DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD ] > option').remove();
+                        $('#DocumentoInvLinea_TIPO_TRANSACCION_CANTIDAD').append("<option value=''>Seleccione</option>");
+                        
+                        //borrar combo de transacciones
                         $('select[id$=DocumentoInvLinea_TIPO_TRANSACCION ] > option').remove();
                         $('#DocumentoInvLinea_TIPO_TRANSACCION').append("<option value=''>Seleccione</option>");
 
@@ -91,7 +96,7 @@
                                      'buttonImage'=>Yii::app()->request->baseUrl.'/images/calendar.gif',
                                      'buttonImageOnly'=>true,
                               ),
-                              'htmlOptions'=>array('style'=>'width:80px;vertical-align:top',),
+                              'htmlOptions'=>array('style'=>'width:80px;vertical-align:top','disabled'=>$model->ESTADO == 'P' ? false : true),
                 ),true);
 ?>
 
@@ -125,8 +130,8 @@
                                         .'<br>'
                                         .$form->error($model,'FECHA_DOCUMENTO')
                                  .'</div>'
-                                    .$form->textAreaRow($model,'REFERENCIA',array('style'=>'width: 500px; height: 100px;'))
-                                    .$form->hiddenField($model,'ESTADO',array('value'=>'P'))
+                                    .$form->textAreaRow($model,'REFERENCIA',array('style'=>'width: 500px; height: 100px;','disabled'=>$model->ESTADO == 'P' ? false : true))
+                                    .$form->hiddenField($model,'ESTADO')
                                 ,   
                                 'active'=>true
                             ),

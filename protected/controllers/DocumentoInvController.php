@@ -101,7 +101,7 @@ class DocumentoInvController extends SBaseController
                 
                 if(isset($_GET['Articulo']))
 			$articulo->attributes=$_GET['Articulo'];
-                
+                $model->ESTADO = 'P';
                 $this->render('create',array(
 			'model'=>$model,
 			'modelLi'=>$modelLi,
@@ -126,9 +126,6 @@ class DocumentoInvController extends SBaseController
         //TODAS LAS OPERACIONES QUE SE HAGAN CON LAS LINEAS
         public function actionAgregarlinea(){
             
-            if(isset($_GET['cantidades']))
-                 echo CJSON::encode(TipoCantidadArticulo::darCombo());
-            
             if(isset($_POST['restaurarCombos'])){
                 $res=array(
                     'SUBTIPOS'=>SubtipoTransaccion::darSubtipos(),
@@ -146,9 +143,7 @@ class DocumentoInvController extends SBaseController
            if(isset($_GET['tipo_transaccion']))
                $this->cargarCantidades($_GET['tipo_transaccion']);
            
-           if(isset($_GET['cantidad']))
-               echo CJSON::encode(array('NOMBRE'=>TipoCantidadArticulo::darNombre($_GET['cantidad']) ));
-                
+               
            if(isset($_GET['idBodega']))
                 $this->cargarBodega($_GET['idBodega']);
            
@@ -159,13 +154,11 @@ class DocumentoInvController extends SBaseController
         //CARGAR LAS CANTIDADES A AFECTAR SEGUN TRANSACCION BASE
         protected function cargarCantidades($id_transaccion){
             
-            $bus = TipoTransaccion::model()->findByPk($id_transaccion);
+            $transacciones= CHtml::listData(TipoTransaccionCantidad::model()->with('cANTIDAD')->findAll('TIPO_TRANSACCION = "'.$id_transaccion.'"'),'CANTIDAD','cANTIDAD.NOMBRE');
             
             $res = array(
-                'TRANSACCIONES'=> TipoTransaccionCantidad::darTransacciones($bus->TRANSACCION_BASE),
-                'TRANSACCION_BASE'=> $bus->TRANSACCION_BASE
+                'TRANSACCIONES'=>$transacciones ? $transacciones : array(),
             );
-            
             
             echo CJSON::encode($res);
             Yii::app()->end();
@@ -606,11 +599,10 @@ class DocumentoInvController extends SBaseController
                 echo $datos->ARTICULO.' - '.$datos->BODEGA.'<br />';
                 $articulo = Articulo::model()->findByPk($datos->ARTICULO);
                 $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
-                $tipo_transaccion = TipoTransaccion::model()->findByPk($datos->TIPO_TRANSACCION);
                 
                // echo $datos->TIPO_TRANSACCION_CANTIDAD.'<br />';
                 if($existenciaBodega){
-                    switch($tipo_transaccion->TRANSACCION_BASE){
+                    switch($datos->TIPO_TRANSACCION){
                         case 'APRO':
                             if($datos->TIPO_TRANSACCION_CANTIDAD == 'D')
                                 $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
