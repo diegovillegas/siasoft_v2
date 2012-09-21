@@ -3,6 +3,17 @@ function obtenerSeleccion(){
     var idcategoria = $.fn.yiiGridView.getSelection('ingreso-compra-grid');
     $('#check').val(idcategoria);
 }
+
+function cargando(){
+    $("#cargando").html('<div align="center" style="height: 300px; margin-top: 150px;"><?php echo CHtml::image($ruta);?></div>');
+}
+
+function reescribir(){
+    $('.close').click();
+    $('#alert').remove();
+    $('#form-cargado').slideDown('slow');
+    $('#boton-cargado').remove();
+}
 </script>
 <?php
 /* @var $this IngresoCompraController */
@@ -121,12 +132,18 @@ $('.search-form form').submit(function(){
 )); ?>
 
 <?php $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'advertencia')); ?>
-        <div class="modal-body">
-                <a class="close" data-dismiss="modal">&times;</a>
-                <br>
-                <div id="respuesta">modal</div>                
-	</div>
-        <div class="modal-footer">
+        
+<div class="modal-header"><a class="close" data-dismiss="modal">&times;</a></div>
+<div id="cargando">
+<div class="modal-body">                
+                <br>                
+                <?php 
+                    Yii::app()->user->setFlash('warning', '<h3>Advertencias</h3><p>&nbsp;</p><div id="respuesta">Seleccione Ingresos para aplicar</div>');
+                    $this->widget('bootstrap.widgets.BootAlert');       
+                ?>
+          </div>
+	
+        <div class="modal-footer">            
             <table>
                 <tr>
                     <td><div align="right"><h3>¿Desea Continuar?</h3></div></td>
@@ -140,9 +157,9 @@ $('.search-form form').submit(function(){
                     'url' => array('aplicar'),
                     'ajaxOptions'=>array(
                         'type'=>'POST',
-                        'update'=>'#repuesta',
-                        'complete'=>'completado()',
-                    ),
+                        'update'=>'#cargando',                        
+                        'beforeSend'=>'cargando()',
+                    ),                    
                 ));
             ?>
 
@@ -153,6 +170,7 @@ $('.search-form form').submit(function(){
             )); ?>
                         </td>
                 </tr>
-            </table>
+            </table>                      
         </div>
+    </div>
  <?php $this->endWidget(); ?>

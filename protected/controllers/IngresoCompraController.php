@@ -32,7 +32,7 @@ class IngresoCompraController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea', 'Listar'),
+				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea', 'Listar', 'Aplicar'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -162,10 +162,10 @@ class IngresoCompraController extends Controller
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
-	{            
+	{
                 $dataProviderOrdenes=new CActiveDataProvider(OrdenCompraLinea::model(), array(
                     'keyAttribute'=>'ORDEN_COMPRA_LINEA',
-                    'criteria'=>array(      
+                    'criteria'=>array(
                         'select'=>'o.PROVEEDOR, t.ORDEN_COMPRA_LINEA, t.ARTICULO, t.FECHA_REQUERIDA',
                         'join'=>'inner join orden_compra o ON t.ORDEN_COMPRA = o.ORDEN_COMPRA',
                         'condition'=>'o.PROVEEDOR=-1',
@@ -312,13 +312,16 @@ class IngresoCompraController extends Controller
 	public function actionAdmin()
 	{
 		$model=new IngresoCompra('search');
+                $ruta = Yii::app()->request->baseUrl.'/images/cargando.gif';
 		$model->unsetAttributes();  // clear any default values
+                
 		if(isset($_GET['IngresoCompra']))
 			$model->attributes=$_GET['IngresoCompra'];
                 
 
 		$this->render('admin',array(
 			'model'=>$model,
+                        'ruta'=>$ruta,
 		));
 	}
 
@@ -348,10 +351,29 @@ class IngresoCompraController extends Controller
 		}
 	}
         
-        public function actionListar(){
-            
-            Yii::app()->request->cookies['suma'] = new CHttpCookie('suma', '');           
-            $check = explode(',',$_POST['check']);
+        public function actionAplicar(){
+            $check = Yii::app()->request->cookies['check']->value;
+            echo '<div id="alert" class="alert alert-success" data-dismiss="modal">
+                            <h2 align="center">Operacion Satisfactoria</h2>
+                            </div>
+                                 <span id="form-cargado" style="display:none">';                           
+                                 echo '</span>                         
+                         <div id="boton-cargado" class="modal-footer">';
+                            $this->widget('bootstrap.widgets.BootButton', array(
+                                 'buttonType'=>'button',
+                                 'type'=>'normal',
+                                 'label'=>'Aceptar',
+                                 'icon'=>'ok',
+                                 'htmlOptions'=>array('id'=>'nuevo','onclick'=>'reescribir();')
+                              ));
+                     echo '</div>';
+                     Yii::app()->end();
+        }
+        
+        public function actionListar(){            
+                       
+            Yii::app()->request->cookies['check'] = new CHttpCookie('check', $_POST['check']);
+            $check = explode(',',$_POST['check']);            
             $contSucces = 0;
             $contError = 0;
             $contWarning = 0;
@@ -389,35 +411,12 @@ class IngresoCompraController extends Controller
                 $articulo = Articulo::model()->findByPk($datos->ARTICULO);
                 $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
                
-                if($existenciaBodega){
-                    
-                    $i = 0;
-                    $cookie1 = Yii::app()->request->cookies['articulo']->value;
-                    if($cookie1 != ''){
-                        $evaluar = explode(';', $cookie1);
-                        foreach($evaluar as $ev){
-                            if($ev == $datos->ARTICULO){
-                                
-                            }
-                            else{$i++;}
-                        }
+                if($existenciaBodega){                                        
+                    if($datos->CANTIDAD_ACEPTADA > $existenciaBodega->EXISTENCIA_MAXIMA){
+                        echo "La cantidad aceptada para el articulo <b>".Articulo::darNombre($datos->ARTICULO)."</b> exede a la maxima permitida => Agregar<br /><br />";                        
                     }
-                    else{
-                        Yii::app()->request->cookies['suma'] = new CHttpCookie('suma', $datos->ARTICULO.";".$datos->CANTIDAD_ACEPTADA);                        
-                    }
-                    
-                    $cookie .= '';
-                    Yii::app()->request->cookies['sumar'] = new CHttpCookie('sumar', $habilitar);
-                    
-                    if($datos->CANTIDAD_ACEPTADA > $existenciaBodega->EXISTENCIA_MINIMA){
-                        
-                    }
-                    
-                    echo $existenciaBodega->CANT_RESERVADA.'<br />';
-                    echo $existenciaBodega->CANT_REMITIDA.'<br />';
-                    echo $existenciaBodega->CANT_VENCIDA.'<br /><br />';
                 }else{
-                    echo 'no existe nada<br /><br />';
+                    echo 'El articulo <b>'.Articulo::darNombre($datos->ARTICULO).'</b> no pertenece a esta bodega => añadirlo<br /><br />';
                 }
             }
             
