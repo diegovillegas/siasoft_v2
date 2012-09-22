@@ -797,7 +797,8 @@ class DocumentoInvController extends SBaseController
                    break;
                
                    case 'RESE':
-
+                       $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                       $existenciaBodega->CANT_RESERVADA  += $datos->CANTIDAD;
                    break;
 
                    case 'TRAS':

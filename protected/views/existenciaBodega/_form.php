@@ -71,7 +71,7 @@
                  </tr>
             </table>
             <fieldset style="float: left;width: 300px;">
-                 <legend ><font face="arial" size=3 >Existencias</font></legend>
+                 <legend ><font face="arial" size=3 >Existencias en Bodega</font></legend>
                  <?php echo $form->textFieldRow($model,'EXISTENCIA_MINIMA',array('size'=>4,'maxlength'=>28)); ?>
 
                  <?php echo $form->textFieldRow($model,'PUNTO_REORDEN',array('size'=>4,'maxlength'=>28)); ?>
