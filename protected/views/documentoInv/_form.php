@@ -104,7 +104,7 @@
             <tr>
                 <td>
                     <div align="left" style="width: 60px;">
-                        <?php echo $form->dropDownListRow($model,'CONSECUTIVO',CHtml::ListData(ConsecutivoCi::model()->findAll(),'ID','DESCRIPCION'),array('empty'=>'Seleccione','disabled'=>$model->isNewRecord ? false :true)); ?>
+                        <?php echo $form->dropDownListRow($model,'CONSECUTIVO',CHtml::ListData(ConsecutivoCi::model()->findAll('ACTIVO = "S"'),'ID','DESCRIPCION'),array('empty'=>'Seleccione','disabled'=>$model->isNewRecord ? false :true)); ?>
                     </div>
                 </td>
                 <td>

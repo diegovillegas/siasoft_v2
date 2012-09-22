@@ -129,6 +129,7 @@ class Bodega extends CActiveRecord
 		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
 		$criteria->compare('ACTUALIZADO_POR',$this->ACTUALIZADO_POR,true);
 		$criteria->compare('ACTUALIZADO_EL',$this->ACTUALIZADO_EL,true);
+                $criteria->compare('ACTIVO','S');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

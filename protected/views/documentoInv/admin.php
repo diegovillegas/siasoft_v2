@@ -66,7 +66,7 @@ $this->breadcrumbs=array(
                         'update'=>'#repuesta',
                         'complete'=>'completado()',
                     ),
-                    'htmlOptions'=>array('id'=>'cancelar'),
+                    'htmlOptions'=>array('id'=>'cancelar','confirm'=>'¿Desea Cancelar Documento(s) Seleccionado(s)?'),
             )); 
 
     ?>

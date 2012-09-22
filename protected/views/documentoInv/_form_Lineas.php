@@ -3,9 +3,8 @@
     $(document).ready(inicio);
     
     function inicio(){ 
-        var nombre_cantidad;
         $('#DocumentoInvLinea_TIPO_TRANSACCION').change(function (){
-            
+            $('#signo').slideUp('slow');
             $.getJSON('<?php echo $this->createUrl('agregarlinea'); ?>&tipo='+$(this).val(),
                 function(data){
                     $('select[id$=DocumentoInvLinea_SUBTIPO ] > option').remove();
@@ -27,6 +26,12 @@
             
             $.getJSON('<?php echo $this->createUrl('agregarlinea'); ?>&tipo_transaccion='+$(this).val(),
                 function(data){
+                    
+                        if(data.NATURALEZA == 'A')
+                           $('#signo').slideDown('slow');
+                        else
+                           $('#signo').slideUp('slow');
+                    
                         $('#DocumentoInvLinea_BODEGA_DESTINO').attr('disabled',true);
                         $('#bodega-destino').attr('disabled',true);
                         
@@ -538,6 +543,11 @@
                 </td>
             </tr>
             <tr>
+                <td>
+                    <span id="signo" style="display: none"><?php echo $form->radioButtonListRow($modelLi,'SIGNO',array(''=>'+','-'=>'-'))?></span>
+                </td>
+            </tr>
+            <tr>
                  <td>
                         <div align="left" style="width: 120px;">
                                 <?php echo $form->textFieldRow($modelLi,'CANTIDAD',array('size'=>13,'maxlength'=>28)); ?>
@@ -545,7 +555,7 @@
                 </td>
                 <td>
                         <div align="left" style="margin-left: 30px;">
-                                <?php echo $form->dropDownList($modelLi,'UNIDAD',CHtml::listData(UnidadMedida::model()->findAll(),'ID','NOMBRE'),array('empty'=>'Seleccione')); ?>
+                                <?php echo $form->dropDownList($modelLi,'UNIDAD',CHtml::listData(UnidadMedida::model()->findAll('ACTIVO = "S"'),'ID','NOMBRE'),array('empty'=>'Seleccione')); ?>
                         </div>
                 </td>
            </tr>

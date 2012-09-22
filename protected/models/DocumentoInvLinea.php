@@ -39,6 +39,9 @@ class DocumentoInvLinea extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return DocumentoInvLinea the static model class
 	 */
+    
+        public $SIGNO;  
+        
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -68,6 +71,7 @@ class DocumentoInvLinea extends CActiveRecord
 			array('CANTIDAD, COSTO_UNITARIO', 'length', 'max'=>28),
                     
 			array('BODEGA_DESTINO', 'validarBodegadestino'),
+			array('CANTIDAD', 'validarCantidad'),
                     
                         array('BODEGA', 'exist', 'attributeName'=>'ID', 'className'=>'Bodega','allowEmpty'=>false),
                         array('BODEGA_DESTINO', 'exist', 'attributeName'=>'ID', 'className'=>'Bodega','allowEmpty'=>true),
@@ -79,6 +83,16 @@ class DocumentoInvLinea extends CActiveRecord
 		);
 	}
         
+        public function validarCantidad($attribute,$params){
+	
+            if ($this->TIPO_TRANSACCION != ''){
+                $tipo_transaccion = TipoTransaccion::model()->findbyPk($this->TIPO_TRANSACCION);
+            
+		if ($tipo_transaccion->NATURALEZA != 'A' && $this->CANTIDAD < 0)
+			$this->addError('CANTIDAD','Cantidad debe ser Positiva');
+            }            
+                
+	}
         public function validarBodegadestino($attribute,$params){
 		
 		if ($this->TIPO_TRANSACCION == 'TRAS' && $this->BODEGA_DESTINO == '')
@@ -148,7 +162,6 @@ class DocumentoInvLinea extends CActiveRecord
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',
 			'ACTUALIZADO_POR' => 'Actualizado Por',
-			'ACTUALIZADO_EL' => 'Actualizado El',
 		);
 	}
 
