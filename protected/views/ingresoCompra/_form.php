@@ -16,7 +16,7 @@ $(document).ready(function(){
     $(".escritoProv").live("change", function (e) {      
        $.fn.yiiGridView.update('lineas-grid', {data : '0=' + $(this).val()});
        $.getJSON(
-            '<?php echo $this->createUrl('ordenCompra/CargarProveedor'); ?>&buscar='+$(this).attr('value'),
+            '<?php echo $this->createUrl('ingresoCompra/CargarProveedor'); ?>&buscar='+$(this).attr('value'),
             function(data)
             {
                 $('#ProvNombre2').val(data.NOMBRE);

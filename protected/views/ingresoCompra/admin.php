@@ -12,8 +12,20 @@ function reescribir(){
     $('.close').click();
     $('#alert').remove();
     $('#form-cargado').slideDown('slow');
-    $('#boton-cargado').remove();
+    $('#boton-cargado').remove();    
 }
+
+$(document).ready(function(){
+    $("#continuar").click(function (e) {
+    $.ajax({        
+        'beforeSend':cargando(),
+        'url':'/siasoft_v2/index.php?r=ingresoCompra/aplicar&pasar='+$('#check').val(),
+        'cache':false,
+        'success':function(html){jQuery("#cargando").html(html)}});
+    });
+});
+
+function buscar(){}
 </script>
 <?php
 /* @var $this IngresoCompraController */
@@ -47,15 +59,9 @@ $('.search-form form').submit(function(){
 <br />
 <div align="right">
     
-    <?php    
-        /*Yii::app()->request->cookies['habilitar'] = new CHttpCookie('habilitar', 'si');
-        $habilitar = Yii::app()->request->cookies['habilitar']->value;
-        $habilitar .= ' -- aqui';
-        Yii::app()->request->cookies['habilitar'] = new CHttpCookie('habilitar', $habilitar);
-        echo Yii::app()->request->cookies['habilitar']->value;*/
-    ?>
     <?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array()); ?>
     <?php echo CHtml::HiddenField('check',''); ?>
+    
     
 <?php 
     $this->widget('bootstrap.widgets.BootButton', array(
@@ -135,42 +141,6 @@ $('.search-form form').submit(function(){
         
 <div class="modal-header"><a class="close" data-dismiss="modal">&times;</a></div>
 <div id="cargando">
-<div class="modal-body">                
-                <br>                
-                <?php 
-                    Yii::app()->user->setFlash('warning', '<h3>Advertencias</h3><p>&nbsp;</p><div id="respuesta">Seleccione Ingresos para aplicar</div>');
-                    $this->widget('bootstrap.widgets.BootAlert');       
-                ?>
-          </div>
-	
-        <div class="modal-footer">            
-            <table>
-                <tr>
-                    <td><div align="right"><h3>¿Desea Continuar?</h3></div></td>
-                    <td>
-            <?php 
-                $this->widget('bootstrap.widgets.BootButton', array(
-                    'label'=>'Continuar',
-                    'buttonType'=>'ajaxSubmit',
-                    'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-                    'icon' => 'ok-circle white white',
-                    'url' => array('aplicar'),
-                    'ajaxOptions'=>array(
-                        'type'=>'POST',
-                        'update'=>'#cargando',                        
-                        'beforeSend'=>'cargando()',
-                    ),                    
-                ));
-            ?>
-
-            <?php $this->widget('bootstrap.widgets.BootButton', array(
-                'label'=>'Cancelar',
-                'url'=>'#',
-                'htmlOptions'=>array('data-dismiss'=>'modal'),
-            )); ?>
-                        </td>
-                </tr>
-            </table>                      
-        </div>
+        <?php $this->renderPartial('_aplicar'); ?>
     </div>
  <?php $this->endWidget(); ?>

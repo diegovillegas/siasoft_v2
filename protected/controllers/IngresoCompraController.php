@@ -352,12 +352,57 @@ class IngresoCompraController extends Controller
 	}
         
         public function actionAplicar(){
-            $check = Yii::app()->request->cookies['check']->value;
+            
+            $check = explode(',',$_GET['pasar']);
+            foreach($check as $id){
+                
+                $ingreso = IngresoCompra::model()->findByPk($id);
+                switch ($ingreso->ESTADO){
+                    case 'P' :
+                        $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$ingreso->INGRESO_COMPRA.'"');            
+                        foreach($lineas as $datos){
+                            $articulo = Articulo::model()->findByPk($datos->ARTICULO);
+                            $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
+
+                            if($existenciaBodega){                                       
+                                if($datos->CANTIDAD_ACEPTADA > $existenciaBodega->EXISTENCIA_MAXIMA){
+                                    $existenciaBodega->CANT_DISPONIBLE = $existenciaBodega->CANT_DISPONIBLE + $lineas->CANTIDAD_ACEPTADA;
+                                    $existenciaBodega->save(); //- La cantidad aceptada para el articulo exede a la maxima permitida;                        
+                                }
+                            }else{
+                                $existenciaBodega = new ExistenciaBodega;
+                                $existenciaBodega->ARTICULO = $lineas->ARTICULO;
+                                $existenciaBodega->BODEGA = $lineas->BODEGA;
+                                $existenciaBodega->EXISTENCIA_MINIMA = 0;
+                                $existenciaBodega->EXISTENCIA_MAXIMA = 0;
+                                $existenciaBodega->PUNTO_REORDEN = 0;
+                                $existenciaBodega->CANT_RESERVADA = 0;
+                                $existenciaBodega->CANT_REMITIDA = 0;
+                                $existenciaBodega->CANT_CUARENTENA = 0;
+                                $existenciaBodega->CANT_VENCIDA = 0;
+                                $existenciaBodega->ACTIVO = 'S';                        
+                                $existenciaBodega->CANT_DISPONIBLE = $lineas->CANTIDAD_ACEPTADA;    
+                                $existenciaBodega->save(); // - El articulo no pertenece a esta bodega
+                            }
+                        }
+                        break;
+                    case 'A' :
+                        $contWarning+=1;
+                        $warning.= $id.',';
+                        break;
+                    case 'C' :
+                        $contError+=1;
+                        $error.= $id.',';
+                        break;
+                }
+            }
+            
             echo '<div id="alert" class="alert alert-success" data-dismiss="modal">
                             <h2 align="center">Operacion Satisfactoria</h2>
                             </div>
-                                 <span id="form-cargado" style="display:none">';                           
-                                 echo '</span>                         
+                                 <span id="form-cargado" style="display:none">';     
+                                    $this->renderPartial('_aplicar');
+                                 echo '</span>                      
                          <div id="boton-cargado" class="modal-footer">';
                             $this->widget('bootstrap.widgets.BootButton', array(
                                  'buttonType'=>'button',
@@ -366,13 +411,12 @@ class IngresoCompraController extends Controller
                                  'icon'=>'ok',
                                  'htmlOptions'=>array('id'=>'nuevo','onclick'=>'reescribir();')
                               ));
-                     echo '</div>';
+                     echo '</div>';                     
                      Yii::app()->end();
         }
         
-        public function actionListar(){            
-                       
-            Yii::app()->request->cookies['check'] = new CHttpCookie('check', $_POST['check']);
+        public function actionListar(){
+            
             $check = explode(',',$_POST['check']);            
             $contSucces = 0;
             $contError = 0;
@@ -401,22 +445,35 @@ class IngresoCompraController extends Controller
                         break;
                 }
             }
+            $mensajeSucces = MensajeSistema::model()->findByPk('S002');
+            $mensajeError = MensajeSistema::model()->findByPk('E001');
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');            
+            
+           if($contSucces !=0)
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h4 align="center">'.$mensajeSucces->MENSAJE.': <br>'.$contSucces.' Ingreso(s)<br>('.$succes.')</h4>');
+            
+            if($contError !=0)
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h4 align="center">'.$mensajeError->MENSAJE.': <br>'.$contError.' Ingreso(s) no Alicados<br>('.$error.')</h4>');
+            
+            if($contWarning !=0)
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h4 align="center">'.$mensajeWarning->MENSAJE.': <br>'.$contWarning.' Ingreso(s) ya Aplicados<br>('.$warning.')</h4>');
+            
+            $this->widget('bootstrap.widgets.BootAlert'); 
         }
         
         protected function modificarExistencias($documento){
             
-            $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$documento->INGRESO_COMPRA.'"');
-            
+            $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$documento->INGRESO_COMPRA.'"');            
             foreach($lineas as $datos){
                 $articulo = Articulo::model()->findByPk($datos->ARTICULO);
                 $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
                
                 if($existenciaBodega){                                        
                     if($datos->CANTIDAD_ACEPTADA > $existenciaBodega->EXISTENCIA_MAXIMA){
-                        echo "La cantidad aceptada para el articulo <b>".Articulo::darNombre($datos->ARTICULO)."</b> exede a la maxima permitida => Agregar<br /><br />";                        
+                        echo " - La cantidad aceptada para el articulo <b>".Articulo::darNombre($datos->ARTICULO)."</b> exede a la maxima permitida => Agregar<br /><br />";                        
                     }
                 }else{
-                    echo 'El articulo <b>'.Articulo::darNombre($datos->ARTICULO).'</b> no pertenece a esta bodega => añadirlo<br /><br />';
+                    echo ' - El articulo <b>'.Articulo::darNombre($datos->ARTICULO).'</b> no pertenece a esta bodega => añadirlo<br /><br />';
                 }
             }
             
