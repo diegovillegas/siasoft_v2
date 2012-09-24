@@ -72,6 +72,7 @@ class DocumentoInvLinea extends CActiveRecord
                     
 			array('BODEGA_DESTINO', 'validarBodegadestino'),
 			array('CANTIDAD', 'validarCantidad'),
+			array('ARTICULO', 'validarArticulo'),
                     
                         array('BODEGA', 'exist', 'attributeName'=>'ID', 'className'=>'Bodega','allowEmpty'=>false),
                         array('BODEGA_DESTINO', 'exist', 'attributeName'=>'ID', 'className'=>'Bodega','allowEmpty'=>true),
@@ -83,6 +84,30 @@ class DocumentoInvLinea extends CActiveRecord
 		);
 	}
         
+        public function validarArticulo($attribute,$params){
+	
+            if ($this->BODEGA != null){
+                $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$this->ARTICULO,'BODEGA'=>$this->BODEGA));
+            
+		if (!$existenciaBodega)
+			$this->addError('ARTICULO','Articulo no esta en esta Bodega');
+                
+                if ($this->BODEGA_DESTINO != null){
+                    $existenciaBodegaDestino = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$this->ARTICULO,'BODEGA'=>$this->BODEGA_DESTINO));
+                    
+                    if (!$existenciaBodega)
+			$this->addError('ARTICULO','Articulo no esta en la Bodega Origen');
+                    
+                    if (!$existenciaBodegaDestino);
+                        $this->addError('ARTICULO','Articulo no esta en la Bodega Destino');
+                        
+                    if (!$existenciaBodega && !$existenciaBodegaDestino)
+                        $this->addError('ARTICULO','Articulo no esta en Ninguna Bodega');
+                    
+                }
+            }            
+                
+	}
         public function validarCantidad($attribute,$params){
 	
             if ($this->TIPO_TRANSACCION != ''){
