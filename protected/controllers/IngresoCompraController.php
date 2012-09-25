@@ -354,25 +354,33 @@ class IngresoCompraController extends Controller
         public function actionAplicar(){
             
             $check = explode(',',$_GET['pasar']);
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
             foreach($check as $id){
                 
                 $ingreso = IngresoCompra::model()->findByPk($id);
                 switch ($ingreso->ESTADO){
                     case 'P' :
-                        $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$ingreso->INGRESO_COMPRA.'"');            
+                        $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$ingreso->INGRESO_COMPRA.'"'); 
+                        $ingreso->ESTADO = 'A';
+                        $ingreso->APLICADO_POR = Yii::app()->user->name;
+                        $ingreso->APLICADO_EL = date("Y-m-d H:i:s");
+                        $ingreso->save();
                         foreach($lineas as $datos){
                             $articulo = Articulo::model()->findByPk($datos->ARTICULO);
                             $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
 
-                            if($existenciaBodega){                                       
-                                if($datos->CANTIDAD_ACEPTADA > $existenciaBodega->EXISTENCIA_MAXIMA){
-                                    $existenciaBodega->CANT_DISPONIBLE = $existenciaBodega->CANT_DISPONIBLE + $lineas->CANTIDAD_ACEPTADA;
-                                    $existenciaBodega->save(); //- La cantidad aceptada para el articulo exede a la maxima permitida;                        
-                                }
-                            }else{
+                            if($existenciaBodega){
+                                    $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD_ACEPTADA;
+                                    $existenciaBodega->save(); //- La cantidad aceptada para el articulo exede a la maxima permitida;                                
+                            }else{                                
                                 $existenciaBodega = new ExistenciaBodega;
-                                $existenciaBodega->ARTICULO = $lineas->ARTICULO;
-                                $existenciaBodega->BODEGA = $lineas->BODEGA;
+                                $existenciaBodega->ARTICULO = $datos->ARTICULO;
+                                $existenciaBodega->BODEGA = $datos->BODEGA;
                                 $existenciaBodega->EXISTENCIA_MINIMA = 0;
                                 $existenciaBodega->EXISTENCIA_MAXIMA = 0;
                                 $existenciaBodega->PUNTO_REORDEN = 0;
@@ -381,8 +389,8 @@ class IngresoCompraController extends Controller
                                 $existenciaBodega->CANT_CUARENTENA = 0;
                                 $existenciaBodega->CANT_VENCIDA = 0;
                                 $existenciaBodega->ACTIVO = 'S';                        
-                                $existenciaBodega->CANT_DISPONIBLE = $lineas->CANTIDAD_ACEPTADA;    
-                                $existenciaBodega->save(); // - El articulo no pertenece a esta bodega
+                                $existenciaBodega->CANT_DISPONIBLE = $datos->CANTIDAD_ACEPTADA;    
+                                $existenciaBodega->insert(); // - El articulo no pertenece a esta bodega
                             }
                         }
                         break;
@@ -395,6 +403,7 @@ class IngresoCompraController extends Controller
                         $error.= $id.',';
                         break;
                 }
+                
             }
             
             echo '<div id="alert" class="alert alert-success" data-dismiss="modal">
@@ -476,6 +485,56 @@ class IngresoCompraController extends Controller
                     echo ' - El articulo <b>'.Articulo::darNombre($datos->ARTICULO).'</b> no pertenece a esta bodega => añadirlo<br /><br />';
                 }
             }
+            
+        }
+        
+        public function actionCancelar(){
+            
+            $documentos = explode(',',$_POST['check']);
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
+            
+            foreach($documentos as $id){
+                 $documento = DocumentoInv::model()->findByPk($id);
+                 
+                 if($documento->ESTADO == 'L'){
+                      $contError+=1;
+                      $error.= $id.',';
+                 }elseif($documento->ESTADO == 'A'){
+                     $documento->ESTADO = 'C';
+                     $contSucces+=1;
+                     $succes .= $id.',';
+                 }elseif($documento->ESTADO == 'C'){
+                     $contWarning+=1;
+                     $warning.= $id.',';
+                     
+                 }elseif($documento->ESTADO == 'P'){
+                     $contError+=1;
+                     $error.= $id.',';
+                 }
+                    
+                 $documento->save();
+            }
+                       
+            $mensajeSucces = MensajeSistema::model()->findByPk('S001');
+            $mensajeError = MensajeSistema::model()->findByPk('E001');
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
+            
+            
+           if($contSucces !=0)
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Documento(s) Cancelados<br>('.$succes.')</h3>');
+            
+            if($contError !=0)
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Documento(s) no Cancelados<br>('.$error.')</h3>');
+            
+            if($contWarning !=0)
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Documento(s) ya Cancelados<br>('.$warning.')</h3>');
+            
+           $this->widget('bootstrap.widgets.BootAlert');
             
         }
 }

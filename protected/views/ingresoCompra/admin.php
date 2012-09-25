@@ -12,7 +12,8 @@ function reescribir(){
     $('.close').click();
     $('#alert').remove();
     $('#form-cargado').slideDown('slow');
-    $('#boton-cargado').remove();    
+    $('#boton-cargado').remove();   
+    $.fn.yiiGridView.update('ingreso-compra-grid');
 }
 
 $(document).ready(function(){
@@ -21,7 +22,7 @@ $(document).ready(function(){
         'beforeSend':cargando(),
         'url':'/siasoft_v2/index.php?r=ingresoCompra/aplicar&pasar='+$('#check').val(),
         'cache':false,
-        'success':function(html){jQuery("#cargando").html(html)}});
+        'success':function(html){jQuery("#cargando").html(html)}});    
     });
 });
 
@@ -54,7 +55,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-
+<div id="mensaje"></div>
 <h1>Administrar Ingreso de Compras</h1>
 <br />
 <div align="right">
@@ -66,11 +67,17 @@ $('.search-form form').submit(function(){
 <?php 
     $this->widget('bootstrap.widgets.BootButton', array(
         'label'=>'Cancelar',
+        'buttonType'=>'ajaxSubmit',
         'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'size'=>'mini', // '', 'large', 'small' or 'mini'
-        'url' => array('ingresoCompra/create'),
+        'url' => array('cancelar'),
         'icon' => 'remove white',
-        'htmlOptions'=>array('onclick'=>'return confirm("¿Está seguro que desea cancelar este(os) ingreso(s)?");'),
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            //'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('onclick'=>'return confirm("¿Está seguro que desea cancelar este(os) ingreso(s)?");', 'id'=>'cancelar'),
     ));
 ?>
     
@@ -116,7 +123,12 @@ $('.search-form form').submit(function(){
 		'PROVEEDOR',
 		'FECHA_INGRESO',
 		//'TIENE_FACTURA',
-                'ESTADO',
+                array(
+                    'name'=>'ESTADO',
+                    'header'=>'Estado',
+                    'filter'=>array('P'=>'Planeado','A'=>'Aplicado','C'=>'Cancelado'),
+                ),
+                //'ESTADO',
                 'APLICADO_POR',
 		'APLICADO_EL',
 		/*

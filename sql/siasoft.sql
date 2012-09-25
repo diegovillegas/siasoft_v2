@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-09-2012 a las 22:17:09
+-- Tiempo de generación: 25-09-2012 a las 22:19:42
 -- Versión del servidor: 5.5.20
 -- Versión de PHP: 5.3.10
 
@@ -1852,7 +1852,7 @@ CREATE TABLE IF NOT EXISTS `compania` (
 --
 
 INSERT INTO `compania` (`ID`, `NOMBRE`, `NOMBRE_ABREV`, `NIT`, `UBICACION_GEOGRAFICA1`, `UBICACION_GEOGRAFICA2`, `PAIS`, `DIRECCION`, `TELEFONO1`, `TELEFONO2`, `LOGO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
-(30, 'ALERENS', 'ALERENS', '38361706-8', '73', '73001', 'COL', 'CLL 39 N 12 - 50', '2665027', '3138439289', NULL, 'admin', '2012-05-22 00:00:00', 'admin', '2012-05-22 00:00:00');
+(30, 'ALERENS', 'ALERENS', '38361706-8', '73', '73001', 'COL', 'CLL 39 N 12 - 50', '2665027', '3138439289', '', 'admin', '2012-05-22 00:00:00', 'admin', '2012-09-22 09:02:20');
 
 -- --------------------------------------------------------
 
@@ -1987,7 +1987,7 @@ CREATE TABLE IF NOT EXISTS `conf_co` (
 --
 
 INSERT INTO `conf_co` (`ID`, `BODEGA_DEFAULT`, `ULT_SOLICITUD`, `ULT_ORDEN_COMPRA`, `ULT_EMBARQUE`, `ULT_SOLICITUD_M`, `ULT_ORDEN_COMPRA_M`, `ULT_EMBARQUE_M`, `ULT_DEVOLUCION`, `ULT_DEVOLUCION_M`, `USAR_RUBROS`, `ORDEN_OBSERVACION`, `MAXIMO_LINORDEN`, `POR_VARIAC_COSTO`, `CP_EN_LINEA`, `IMP1_AFECTA_DESCTO`, `FACTOR_REDONDEO`, `PRECIO_DEC`, `CANTIDAD_DEC`, `PEDIDOS_SOLICITUD`, `PEDIDOS_ORDEN`, `PEDIDOS_EMBARQUE`, `DIRECCION_EMBARQUE`, `DIRECCION_COBRO`, `RUBRO1_SOLNOM`, `RUBRO2_SOLNOM`, `RUBRO3_SOLNOM`, `RUBRO4_SOLNOM`, `RUBRO5_SOLNOM`, `RUBRO1_EMBNOM`, `RUBRO2_EMBNOM`, `RUBRO3_EMBNOM`, `RUBRO4_EMBNOM`, `RUBRO5_EMBNOM`, `RUBRO1_ORDNOM`, `RUBRO2_ORDNOM`, `RUBRO3_ORDNOM`, `RUBRO4_ORDNOM`, `RUBRO5_ORDNOM`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
-(1, '1', '', '', '', 'SC9999', 'OC9999', 'IC9999', '', 'DC9999', '', '', NULL, '0', '0', 'L', '0', NULL, NULL, '0', '0', '0', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '0000-00-00 00:00:00', 'admin', '2012-09-18 14:37:54');
+(1, '1', '', 'OC0019', '', 'SC9999', 'OC9999', 'IC9999', '', 'DC9999', '', '', NULL, '0', '0', 'L', '0', NULL, NULL, '0', '0', '0', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '0000-00-00 00:00:00', 'admin', '2012-09-21 08:25:00');
 
 -- --------------------------------------------------------
 
@@ -2251,14 +2251,14 @@ CREATE TABLE IF NOT EXISTS `existencia_bodega` (
   PRIMARY KEY (`ID`),
   KEY `FK_ARTICULO_BODEGA` (`ARTICULO`),
   KEY `FK_BODEGA_ARTICULO` (`BODEGA`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Tabla donde se relaciona un articulo con una bodega donde se' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Tabla donde se relaciona un articulo con una bodega donde se' AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `existencia_bodega`
 --
 
 INSERT INTO `existencia_bodega` (`ID`, `ARTICULO`, `BODEGA`, `EXISTENCIA_MINIMA`, `EXISTENCIA_MAXIMA`, `PUNTO_REORDEN`, `CANT_DISPONIBLE`, `CANT_RESERVADA`, `CANT_REMITIDA`, `CANT_CUARENTENA`, `CANT_VENCIDA`, `ACTIVO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
-(1, '001', '23', '5.00000000', '15.00000000', '10.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', 'S', 'admin', '2012-06-28 17:02:03', 'admin', '2012-09-06 17:24:55'),
+(1, '001', '23', '5.00000000', '400.00000000', '10.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', 'S', 'admin', '2012-06-28 17:02:03', 'admin', '2012-09-25 10:08:23'),
 (2, '12', '23', '20.00000000', '100.00000000', '30.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', 'S', 'admin', '2012-09-18 06:32:07', 'admin', '2012-09-18 06:32:07'),
 (3, 'B-AMMO', '504', '20.00000000', '100.00000000', '30.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', 'S', 'admin', '2012-09-18 06:32:52', 'admin', '2012-09-18 06:32:52');
 
@@ -2347,12 +2347,13 @@ CREATE TABLE IF NOT EXISTS `ingreso_compra` (
 --
 
 INSERT INTO `ingreso_compra` (`INGRESO_COMPRA`, `PROVEEDOR`, `FECHA_INGRESO`, `TIENE_FACTURA`, `RUBRO1`, `RUBRO2`, `RUBRO3`, `RUBRO4`, `RUBRO5`, `NOTAS`, `ESTADO`, `APLICADO_POR`, `APLICADO_EL`, `CANCELADO_POR`, `CANCELADO_EL`, `CREADO_POR`, `CREADO_EL`, `MODIFICADO_POR`, `MODIFICADO_EL`) VALUES
-('IC0000', '13', '2012-09-19', '', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', '', '2012-09-19 09:24:18', '', '2012-09-19 09:24:18'),
-('IC0001', '13', '2012-09-19', '0', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-19 09:32:13', 'admin', '2012-09-19 09:32:13'),
-('IC0002', '13', '2012-09-19', '1', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-19 09:32:28', 'admin', '2012-09-19 09:32:28'),
+('IC0000', '13', '2012-09-19', '', NULL, NULL, NULL, NULL, NULL, '', 'P', 'admin', '2012-09-25 15:26:08', '', '0000-00-00 00:00:00', '', '2012-09-19 09:24:18', 'admin', '2012-09-25 10:26:08'),
+('IC0001', '13', '2012-09-19', '0', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-19 09:32:13', 'admin', '2012-09-25 10:08:22'),
+('IC0002', '13', '2012-09-19', '1', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-19 09:32:28', 'admin', '2012-09-25 10:08:23'),
 ('IC0003', '13', '2012-09-19', 'N', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-19 09:37:56', 'admin', '2012-09-19 09:37:56'),
 ('IC0004', '13', '2012-09-19', 'N', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-19 09:38:16', 'admin', '2012-09-19 09:38:16'),
-('IC0005', '14', '2012-09-19', 'S', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-19 09:38:49', 'admin', '2012-09-19 09:38:49');
+('IC0005', '14', '2012-09-19', 'S', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-19 09:38:49', 'admin', '2012-09-25 10:01:46'),
+('IC0006', '10', '2012-09-21', 'N', NULL, NULL, NULL, NULL, NULL, '', 'P', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'admin', '2012-09-21 08:25:35', 'admin', '2012-09-25 10:01:46');
 
 -- --------------------------------------------------------
 
@@ -2384,7 +2385,7 @@ CREATE TABLE IF NOT EXISTS `ingreso_compra_linea` (
   KEY `FK_LINEA_PERTENECE_INGRESO_COMPRA` (`INGRESO_COMPRA`),
   KEY `FK_SATISFACE_LINEA_OC` (`ORDEN_COMPRA_LINEA`),
   KEY `FK_UNIDAD_INGRESO_COMPRA` (`UNIDAD_ORDENADA`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Lineas del ingreso de la compra' AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Lineas del ingreso de la compra' AUTO_INCREMENT=14 ;
 
 --
 -- Volcado de datos para la tabla `ingreso_compra_linea`
@@ -2402,7 +2403,8 @@ INSERT INTO `ingreso_compra_linea` (`INGRESO_COMPRA_LINEA`, `INGRESO_COMPRA`, `L
 (9, 'IC0005', 1, 7, '003', '23', '43.00000000', 3, '43.00000000', '0.00000000', '500.00000000', '0.00000000', 'S', 'admin', '2012-09-19 09:38:49', 'admin', '2012-09-19 09:38:49'),
 (10, 'IC0005', 2, 8, '001', '23', '456.00000000', 3, '456.00000000', '0.00000000', '456.00000000', '0.00000000', 'S', 'admin', '2012-09-19 09:38:49', 'admin', '2012-09-19 09:38:49'),
 (11, 'IC0005', 3, 6, '002', '504', '58.00000000', 2, '58.00000000', '0.00000000', '700.00000000', '0.00000000', 'S', 'admin', '2012-09-19 09:38:49', 'admin', '2012-09-19 09:38:49'),
-(12, 'IC0005', 4, 9, '002', '23', '45.00000000', 2, '45.00000000', '0.00000000', '8797.00000000', '0.00000000', 'S', 'admin', '2012-09-19 09:38:49', 'admin', '2012-09-19 09:38:49');
+(12, 'IC0005', 4, 9, '002', '23', '45.00000000', 2, '45.00000000', '0.00000000', '8797.00000000', '0.00000000', 'S', 'admin', '2012-09-19 09:38:49', 'admin', '2012-09-19 09:38:49'),
+(13, 'IC0006', 1, 37, '001', '23', '2000.00000000', 3, '2000.00000000', '0.00000000', '20.00000000', '0.00000000', 'S', 'admin', '2012-09-21 08:25:35', 'admin', '2012-09-21 08:25:35');
 
 -- --------------------------------------------------------
 
@@ -2429,7 +2431,8 @@ CREATE TABLE IF NOT EXISTS `mensaje_sistema` (
 INSERT INTO `mensaje_sistema` (`CODIGO`, `TIPO`, `MENSAJE`, `ACTIVO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
 ('A001', 'warning', 'Advertencias en la Operación\r\n', 'S', 'admin', '2012-08-21 00:00:00', 'admin', '2012-08-21 00:00:00'),
 ('E001', 'error', 'Error al intentar realizar la operación, verifique nuevamente', 'S', 'admin', '2012-08-21 00:00:00', 'admin', '2012-08-21 00:00:00'),
-('S001', 'success', 'Se realizo la operación con éxito', 'S', 'admin', '2012-08-21 00:00:00', 'admin', '2012-08-21 00:00:00');
+('S001', 'success', 'Se realizo la operación con éxito', 'S', 'admin', '2012-08-21 00:00:00', 'admin', '2012-08-21 00:00:00'),
+('S002', 'success', 'Los siguientes documentos van a ser procesados', 'S', 'admin', '2012-08-21 00:00:00', 'admin', '2012-08-21 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -2624,7 +2627,8 @@ INSERT INTO `orden_compra` (`ORDEN_COMPRA`, `PROVEEDOR`, `FECHA`, `BODEGA`, `DEP
 ('OC0015', '10', '2012-09-12', '23', '1', '2012-09-12', '2012-09-12', '2012-09-12', '2012-09-12', 'A', '1', '', '', NULL, NULL, NULL, NULL, NULL, '', '', '', '10.00000000', '15.00000000', '15.00000000', '15.00000000', 'CAN', '20170.00000000', NULL, NULL, 'P', 'admin', '2012-09-12 10:29:02', 'admin', '2012-09-12 10:29:02'),
 ('OC0016', '13', '2012-09-12', '23', '1', '2012-09-13', '2012-09-29', '2012-09-20', '2012-09-26', 'A', '1', '', '', NULL, NULL, NULL, NULL, NULL, '', '', '', '10.00000000', '20.00000000', '52.00000000', '12.00000000', 'CAN', '14164722.08640000', NULL, NULL, 'P', 'admin', '2012-09-12 10:37:57', 'admin', '2012-09-12 10:37:57'),
 ('OC0017', '13', '2012-09-12', '23', '1', '2012-09-04', '2012-09-21', '2012-09-19', '2012-09-01', 'A', '1', '', '', NULL, NULL, NULL, NULL, NULL, '', '', '', '10.00000000', '200.00000000', '200.00000000', '200.00000000', 'CAN', '16116.00520000', NULL, NULL, 'P', 'admin', '2012-09-12 10:41:45', 'admin', '2012-09-12 10:41:45'),
-('OC0018', '13', '2012-09-13', '23', '1', '2012-09-28', '2012-09-22', '2012-09-25', '2012-09-15', 'A', '1', '', '', NULL, NULL, NULL, NULL, NULL, '', '', '', '10.00000000', '20.00000000', '20.00000000', '20.00000000', 'CAN', '20392.00000000', NULL, NULL, 'P', 'admin', '2012-09-13 09:16:22', 'admin', '2012-09-13 09:47:20');
+('OC0018', '13', '2012-09-13', '23', '1', '2012-09-28', '2012-09-22', '2012-09-25', '2012-09-15', 'A', '1', '', '', NULL, NULL, NULL, NULL, NULL, '', '', '', '10.00000000', '20.00000000', '20.00000000', '20.00000000', 'CAN', '20392.00000000', NULL, NULL, 'P', 'admin', '2012-09-13 09:16:22', 'admin', '2012-09-13 09:47:20'),
+('OC0019', '10', '2012-09-21', '23', '1', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', 'A', '1', '', '', NULL, NULL, NULL, NULL, NULL, '', '', '', '10.00000000', '10.00000000', '10.00000000', '10.00000000', 'CAN', '28820.00000000', NULL, NULL, 'N', 'admin', '2012-09-21 08:25:00', 'admin', '2012-09-21 08:25:13');
 
 -- --------------------------------------------------------
 
@@ -2662,7 +2666,7 @@ CREATE TABLE IF NOT EXISTS `orden_compra_linea` (
   KEY `FK_BODEGA_LINEA_ORDEN_COMPRA` (`BODEGA`),
   KEY `FK_LINEA_PERTENECE_A_ORDEN_COMPRA` (`ORDEN_COMPRA`),
   KEY `FK_UNIDAD_COMPRA_LINEA` (`UNIDAD_COMPRA`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Lineas de la orden de compra' AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='Lineas de la orden de compra' AUTO_INCREMENT=38 ;
 
 --
 -- Volcado de datos para la tabla `orden_compra_linea`
@@ -2703,7 +2707,8 @@ INSERT INTO `orden_compra_linea` (`ORDEN_COMPRA_LINEA`, `ORDEN_COMPRA`, `LINEA_N
 (32, 'OC0017', 1, '001', 'Articulo de ejemplo ', '23', '2012-09-13', '4564', '123.00000000', 3, '123.00000000', '2.00000000', '302.58000000', '16.00000000', '2372.22720000', '0.00000000', '0.00000000', '0000-00-00', '', 'P', 'admin', '2012-09-12 10:41:45', 'admin', '2012-09-12 10:41:45'),
 (33, 'OC0018', 1, '001', 'Articulo de ejemplo ', '23', '2012-09-14', '', '2001.00000000', 3, '200.00000000', '52.00000000', '208104.00000000', '16.00000000', '0.00000000', '0.00000000', '0.00000000', '2012-09-21', '', 'P', 'admin', '2012-09-13 09:16:22', 'admin', '2012-09-13 09:47:20'),
 (35, 'OC0018', 2, '002', 'fsdf', '23', '2012-09-14', '', '10.00000000', 2, '1010.00000000', '10.00000000', '1010.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', '2012-09-07', '', 'P', 'admin', '2012-09-13 09:31:33', 'admin', '2012-09-13 09:47:20'),
-(36, 'OC0018', 3, '003', 'asdfsdfger', '23', '2012-09-15', '', '1010.00000000', 3, '1010.00000000', '11.00000000', '112211.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', '2012-09-13', '', 'P', 'admin', '2012-09-13 09:47:20', 'admin', '2012-09-13 09:47:20');
+(36, 'OC0018', 3, '003', 'asdfsdfger', '23', '2012-09-15', '', '1010.00000000', 3, '1010.00000000', '11.00000000', '112211.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', '2012-09-13', '', 'P', 'admin', '2012-09-13 09:47:20', 'admin', '2012-09-13 09:47:20'),
+(37, 'OC0019', 1, '001', 'Articulo de ejemplo ', '23', '2012-09-21', '', '2000.00000000', 3, '20.00000000', '20.00000000', '8000.00000000', '0.00000000', '0.00000000', '0.00000000', '0.00000000', '2012-09-27', '', 'N', 'admin', '2012-09-21 08:25:00', 'admin', '2012-09-21 08:25:13');
 
 -- --------------------------------------------------------
 
