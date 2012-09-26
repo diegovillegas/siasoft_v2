@@ -55,9 +55,10 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
-<div id="mensaje"></div>
+
 <h1>Administrar Ingreso de Compras</h1>
 <br />
+<div id="mensaje"></div>
 <div align="right">
     
     <?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array()); ?>
@@ -77,7 +78,7 @@ $('.search-form form').submit(function(){
             'update'=>'#mensaje',
             //'complete'=>'completado()',
         ),
-        'htmlOptions'=>array('onclick'=>'return confirm("¿Está seguro que desea cancelar este(os) ingreso(s)?");', 'id'=>'cancelar'),
+        'htmlOptions'=>array('confirm'=>'¿Está seguro que desea cancelar este(os) ingreso(s)?', 'id'=>'cancelar'),
     ));
 ?>
     

@@ -32,7 +32,7 @@ class IngresoCompraController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea', 'Listar', 'Aplicar'),
+				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea', 'Listar', 'Aplicar', 'Cancelar'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -462,7 +462,7 @@ class IngresoCompraController extends Controller
                 Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h4 align="center">'.$mensajeSucces->MENSAJE.': <br>'.$contSucces.' Ingreso(s)<br>('.$succes.')</h4>');
             
             if($contError !=0)
-                Yii::app()->user->setFlash($mensajeError->TIPO, '<h4 align="center">'.$mensajeError->MENSAJE.': <br>'.$contError.' Ingreso(s) no Alicados<br>('.$error.')</h4>');
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h4 align="center">'.$mensajeError->MENSAJE.': <br>'.$contError.' Ingreso(s) no Aplicados<br>('.$error.')</h4>');
             
             if($contWarning !=0)
                 Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h4 align="center">'.$mensajeWarning->MENSAJE.': <br>'.$contWarning.' Ingreso(s) ya Aplicados<br>('.$warning.')</h4>');
@@ -499,24 +499,22 @@ class IngresoCompraController extends Controller
             $warning = '';
             
             foreach($documentos as $id){
-                 $documento = DocumentoInv::model()->findByPk($id);
+                 $documento = IngresoCompra::model()->findByPk($id);
                  
-                 if($documento->ESTADO == 'L'){
+                 if($documento->ESTADO == 'C'){
                       $contError+=1;
                       $error.= $id.',';
-                 }elseif($documento->ESTADO == 'A'){
+                 }elseif($documento->ESTADO == 'P'){
                      $documento->ESTADO = 'C';
+                     $documento->CANCELADO_POR = Yii::app()->user->name;
+                     $documento->CANCELADO_EL = date("Y-m-d H:i:s");
                      $contSucces+=1;
                      $succes .= $id.',';
-                 }elseif($documento->ESTADO == 'C'){
+                 }elseif($documento->ESTADO == 'A'){
                      $contWarning+=1;
                      $warning.= $id.',';
                      
-                 }elseif($documento->ESTADO == 'P'){
-                     $contError+=1;
-                     $error.= $id.',';
-                 }
-                    
+                 }                    
                  $documento->save();
             }
                        
