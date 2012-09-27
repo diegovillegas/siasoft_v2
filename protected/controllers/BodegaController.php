@@ -150,14 +150,14 @@ class BodegaController extends SBaseController
 		{
 			$model2->attributes=$_POST['Bodega'];
 			if($model2->save()){
-                                $mensaje = MensajeSistema::mensaje('S001');
-                                $tipo = "success";
-				$this->redirect(array('admin', 'mensaje'=>$mensaje, 'tipo'=>$tipo));
+                               // $mensaje = MensajeSistema::mensaje('S001');
+                                //$tipo = "success";
+				//$this->redirect(array('admin', 'mensaje'=>$mensaje, 'tipo'=>$tipo));
                         }
                         else{
-                            $mensaje = MensajeSistema::mensaje('E001');
-                            $tipo = "error";
-                            $this->render('admin', array('mensaje'=>$mensaje, 'tipo'=>$tipo));
+                            //$mensaje = MensajeSistema::mensaje('E001');
+                            //$tipo = "error";
+                            //$this->render('admin', array('mensaje'=>$mensaje, 'tipo'=>$tipo));
                         }
 		}
 		if(isset($_GET['Bodega']))

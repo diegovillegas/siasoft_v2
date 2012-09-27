@@ -60,7 +60,7 @@ class IngresoCompraController extends Controller
                    'BODEGA_NOMBRE' => $bodega->DESCRIPCION,
                    'CANTIDAD_ORDENADA' => $bus->CANTIDAD_ORDENADA,   
                    'PRECIO_UNITARIO' => $bus->PRECIO_UNITARIO,
-                   'COSTO_FISCAL_UNITARIO' => $bus2->COSTO_ESTANDAR,
+                   'COSTO_FISCAL_UNITARIO' => Articulo::darCosto($bus->ARTICULO),
                    'ID' => $item_id,
             );
             echo CJSON::encode($res);
@@ -364,12 +364,14 @@ class IngresoCompraController extends Controller
                 
                 $ingreso = IngresoCompra::model()->findByPk($id);
                 switch ($ingreso->ESTADO){
-                    case 'P' :
-                        $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$ingreso->INGRESO_COMPRA.'"'); 
+                    case 'P' :                        
+                        $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$ingreso->INGRESO_COMPRA.'"');
+                        $this->transacciones($lineas, $ingreso);
                         $ingreso->ESTADO = 'A';
                         $ingreso->APLICADO_POR = Yii::app()->user->name;
-                        $ingreso->APLICADO_EL = date("Y-m-d H:i:s");
+                        $ingreso->APLICADO_EL = date("Y-m-d H:i:s");                        
                         $ingreso->save();
+                        
                         foreach($lineas as $datos){
                             $articulo = Articulo::model()->findByPk($datos->ARTICULO);
                             $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
@@ -422,6 +424,32 @@ class IngresoCompraController extends Controller
                               ));
                      echo '</div>';                     
                      Yii::app()->end();
+        }
+        
+        public function transacciones($lineas, $ingreso){
+            $transaccion = new TransaccionInv;
+            
+            $transaccion->CONSECUTIVO_CO = $ingreso->INGRESO_COMPRA;
+            $transaccion->MODULO_ORIGEN = 'CO';
+            $transaccion->REFERENCIA = 'Ingreso de compra';
+            $transaccion->ACTIVO = 'S';
+            $transaccion->save();
+            
+            foreach($lineas as $datos){
+                $detalle = new TransaccionInvDetalle;
+                $detalle->TRANSACCION_INV = $transaccion->TRANSACCION_INV;
+                $detalle->LINEA = $datos->LINEA_NUM;
+                $detalle->ARTICULO = $datos->ARTICULO;
+                $detalle->UNIDAD = $datos->UNIDAD_ORDENADA;
+                $detalle->BODEGA = $datos->BODEGA;
+                $detalle->NATURALEZA = 'E';
+                $detalle->CANTIDAD = $datos->CANTIDAD_ACEPTADA;
+                $detalle->COSTO_UNITARIO = $datos->COSTO_FISCAL_UNITARIO;
+                $detalle->PRECIO_UNITARIO = $datos->PRECIO_UNITARIO;
+                $detalle->ACTIVO = 'S';
+                $detalle->save();
+            }
+            
         }
         
         public function actionListar(){

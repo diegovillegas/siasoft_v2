@@ -138,8 +138,61 @@ class SolicitudOcController extends SBaseController
         }
         
         public function actionCancelar(){
-            $id = explode(",", $_GET['buscar']);
-            $error = 0;
+            $id = explode(",", $_GET['buscar']);            
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
+            
+            foreach($id as $cancela){
+                 $cancelar = SolicitudOc::model()->findByPk($cancela);
+                 
+                 switch ($documento->ESTADO) {
+                     case 'C' :
+                        $contError+=1;
+                        $error.= $cancela.',';
+                        break;
+                 
+                     case 'P' :
+                        $cancelar->ESTADO = 'C';
+                        $cancelar->CANCELADA_POR = Yii::app()->user->name;
+                        $cancelar->FECHA_CANCELADA = date("Y-m-d H:i:s");
+                        $cancelar->save();
+                        $contSucces+=1;
+                        $succes .= $cancela.',';
+                        break;
+                
+                    case 'N' :
+                        $contWarning+=1;
+                        $warning.= $cancela.',';
+                        break;
+                    
+                    case 'A' :
+                        $contWarning+=1;
+                        $warning.= $cancela.',';
+                        break;
+                 }
+                 
+                       
+            $mensajeSucces = MensajeSistema::model()->findByPk('S001');
+            $mensajeError = MensajeSistema::model()->findByPk('E001');
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
+            
+            
+           if($contSucces !=0)
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Documento(s) Cancelados<br>('.$succes.')</h3>');
+            
+            if($contError !=0)
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Documento(s) no Cancelados<br>('.$error.')</h3>');
+            
+            if($contWarning !=0)
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Documento(s) ya Cancelados<br>('.$warning.')</h3>');
+            
+           $this->widget('bootstrap.widgets.BootAlert');
+            
+            /*$error = 0;
             $info = 0;
             $exito = 0;
             
@@ -161,7 +214,8 @@ class SolicitudOcController extends SBaseController
                 
             }}
             $variable = array('error'=>$error, 'info'=>$info, 'exito'=>$exito);
-            echo CJSON::encode($variable);
+            echo CJSON::encode($variable);*/
+        }
         }
         
        public function actionAutorizar(){

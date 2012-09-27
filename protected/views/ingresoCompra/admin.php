@@ -8,6 +8,10 @@ function cargando(){
     $("#cargando").html('<div align="center" style="height: 300px; margin-top: 150px;"><?php echo CHtml::image($ruta);?></div>');
 }
 
+function completado(){
+    $.fn.yiiGridView.update('ingreso-compra-grid');
+}
+
 function reescribir(){
     $('.close').click();
     $('#alert').remove();
@@ -76,7 +80,7 @@ $('.search-form form').submit(function(){
         'ajaxOptions'=>array(
             'type'=>'POST',
             'update'=>'#mensaje',
-            //'complete'=>'completado()',
+            'complete'=>'completado()',
         ),
         'htmlOptions'=>array('confirm'=>'¿Está seguro que desea cancelar este(os) ingreso(s)?', 'id'=>'cancelar'),
     ));

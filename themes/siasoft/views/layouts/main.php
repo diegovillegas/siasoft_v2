@@ -47,9 +47,9 @@
 						'items'=>array(
 							array('label'=>'Configuracion de Compras', 'url'=>$com ? array('/confCo/update','id'=>$com->ID): array('/confCo/create')),
 							array('label'=>'Proveedor', 'url'=>array('/proveedor/admin')),
-                                                        array('label'=>'Solicitud', 'url'=>array('/solicitudOc/admin')),
-                                                        array('label'=>'Ordenes', 'url'=>array('/ordenCompra/admin')),
-                                                        array('label'=>'IngresoCompra', 'url'=>array('/ingresoCompra/admin')),
+                                                        array('label'=>'Solicitud de compra', 'url'=>array('/solicitudOc/admin')),
+                                                        array('label'=>'Ordenes de compra', 'url'=>array('/ordenCompra/admin')),
+                                                        array('label'=>'Ingreso de compra', 'url'=>array('/ingresoCompra/admin')),
 						)
 				),
 				array('label'=>'Inventario', 'url'=>'#',	
