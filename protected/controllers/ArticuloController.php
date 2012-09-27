@@ -86,8 +86,17 @@ class ArticuloController extends SBaseController
                             $model->RETENCION_VENTA = NULL;
                         
 			if($model->save()){
-                            if(isset($_POST['OtraClasificacionNuevo'])){
-                                foreach ($_POST['OtraClasificacionNuevo'] as $datos){
+                            if(isset($_POST['ClasificacionNuevo'])){
+                                foreach ($_POST['ClasificacionNuevo'] as $datos){
+                                     $adi = new ClasificAdiArticulo;
+                                     $adi->ARTICULO = $_POST['Articulo']['ARTICULO'];
+                                     $adi->VALOR = $datos['VALOR'];
+                                     $adi->ACTIVO = 'S';
+                                     $adi->save();
+                                }
+                            }
+                            if(isset($_POST['ObligaClasificacionNuevo'])){
+                                foreach ($_POST['ObligaClasificacionNuevo'] as $datos){
                                      $adi = new ClasificAdiArticulo;
                                      $adi->ARTICULO = $_POST['Articulo']['ARTICULO'];
                                      $adi->VALOR = $datos['VALOR'];
@@ -192,8 +201,8 @@ class ArticuloController extends SBaseController
                                 }
                             }
                             //NUEVOS REGISTROS
-                            if(isset($_POST['OtraClasificacionNuevo'])){
-                                foreach ($_POST['OtraClasificacionNuevo'] as $datos){
+                            if(isset($_POST['ClasificacionNuevo'])){
+                                foreach ($_POST['ClasificacionNuevo'] as $datos){
                                      $adi = new ClasificAdiArticulo;
                                      $adi->ARTICULO = $model->ARTICULO;
                                      $adi->VALOR = $datos['VALOR'];
@@ -315,15 +324,11 @@ class ArticuloController extends SBaseController
 	}
         
         public function actionCargar() {
-                $var = $_POST['ClasificacionAdiValor'];
+                $var = $_GET['ClasificacionAdiValor'];
 		$data=  ClasificacionAdiValor::model()->findAll('CLASIFICACION = '.$var);
                
                $data=CHtml::listData($data,'ID','VALOR');
-               echo "<option value=''>Seleccione</option>";
-               foreach($data as $value=>$name)
-               {
-                       echo CHtml::tag('option',array('value'=>$value),CHtml::encode($name),true);
-               }
+               echo CJSON::encode($data);
 	}
         
         public function actionCargarAjax(){
