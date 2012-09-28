@@ -39,7 +39,7 @@ return array(
 			// In debug mode every user (even guest) can admin srbac, also
 			//if you use internationalization untranslated words/phrases
 			//will be marked with a red star
-			"debug"=>false,
+			"debug"=>true,
 			// The number of items shown in each page (default:15)
 			"pageSize"=>10,
 			// The name of the super user

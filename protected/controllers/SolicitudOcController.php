@@ -138,7 +138,7 @@ class SolicitudOcController extends SBaseController
         }
         
         public function actionCancelar(){
-            $id = explode(",", $_GET['buscar']);            
+            $id = explode(",", $_POST['check']);
             $contSucces = 0;
             $contError = 0;
             $contWarning = 0;
@@ -149,7 +149,7 @@ class SolicitudOcController extends SBaseController
             foreach($id as $cancela){
                  $cancelar = SolicitudOc::model()->findByPk($cancela);
                  
-                 switch ($documento->ESTADO) {
+                 switch ($cancelar->ESTADO){
                      case 'C' :
                         $contError+=1;
                         $error.= $cancela.',';
@@ -182,13 +182,13 @@ class SolicitudOcController extends SBaseController
             
             
            if($contSucces !=0)
-                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Documento(s) Cancelados<br>('.$succes.')</h3>');
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Solicitud(es) Cancelados<br>('.$succes.')</h3>');
             
             if($contError !=0)
-                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Documento(s) no Cancelados<br>('.$error.')</h3>');
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Solicitud(es) no Cancelados<br>('.$error.')</h3>');
             
             if($contWarning !=0)
-                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Documento(s) ya Cancelados<br>('.$warning.')</h3>');
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Solicitud(es) ya Cancelados<br>('.$warning.')</h3>');
             
            $this->widget('bootstrap.widgets.BootAlert');
             

@@ -447,6 +447,7 @@ class IngresoCompraController extends Controller
                 $detalle->COSTO_UNITARIO = $datos->COSTO_FISCAL_UNITARIO;
                 $detalle->PRECIO_UNITARIO = $datos->PRECIO_UNITARIO;
                 $detalle->ACTIVO = 'S';
+                $detalle->TIPO_TRANSACCION_CANTIDAD = 'D';
                 $detalle->save();
             }
             

@@ -1,4 +1,8 @@
 <script>
+function completado(){
+    $.fn.yiiGridView.update('ingreso-compra-grid');
+}
+
 function obtenerSeleccion(){
 
     var idcategoria = $.fn.yiiGridView.getSelection('solicitud-oc-grid');
@@ -22,33 +26,12 @@ $(document).ready(inicio)
 
 function inicio(){
     var accion;
-    
-    accion = $("#cancelar");
-    accion.click(cancelar);
-    
+       
     accion = $("#autorizar");
     accion.click(autorizar);
     
     accion = $("#rever");
     accion.click(reversar);
-}
-
-function cancelar(){
-    var id = $('#check').get(0).value;
-    $.getJSON(
-            '<?php echo $this->createUrl('solicitudOc/Cancelar'); ?>&buscar='+id,
-            function (data){
-                $("#fade").fadeIn(1500);
-                $.fn.yiiGridView.update('solicitud-oc-grid');
-                $("#success").addClass("alert alert-success");
-                $("#success").text(data.exito + " solicitudes se cancelaron con exito.");
-                $("#info").addClass("alert alert-info");
-                $("#info").text(data.info + " solicitudes ya se encontraban con estado cancelado.");
-                $("#warning").addClass("alert alert-warning");
-                $("#warning").text("0 Advertencias");  
-                $("#error").addClass("alert alert-error");
-                $("#error").text(data.error + " solicitudes no pudieron ser canceladas.");                  
-            });
 }
 
 function autorizar(){
@@ -115,6 +98,8 @@ $('.search-form form').submit(function(){
 ?>
 
 <h1>Administrar Solicitudes</h1>
+<br />
+<div id="mensaje"></div>
 <div id="fade">
     <div id="success"></div>
     <div id="info"></div>
@@ -122,28 +107,51 @@ $('.search-form form').submit(function(){
     <div id="error"></div>
 </div>
 <div align="right">
-           
+    <?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array()); ?>
+    <?php echo CHtml::HiddenField('check',''); ?>
     <?php 
-        $this->widget('bootstrap.widgets.BootButton', array(
-            'label'=>'Cancelar',
-            'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size'=>'mini', // '', 'large', 'small' or 'mini'
-            'url'=>'',
-            'htmlOptions'=>array('id' => 'cancelar', 'onclick'=>'return confirm("¿Está seguro que desea cancelar esta(s) solicitud(es)?");'),
-            'icon' => 'remove white'
-        )); 
-
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Cancelar',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('cancelar'),
+        'icon' => 'remove white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('confirm'=>'¿Está seguro que desea cancelar esta(s) solicitud(es)?', 'id'=>'cancelar'),
+    ));
     ?>
     
+    <?php 
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Autorizar',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('autorizar'),
+        'icon' => 'remove white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('confirm'=>'¿Está seguro que desea cancelar esta(s) solicitud(es)?', 'id'=>'cancelar'),
+    ));
+    ?>
+             
         <?php 
-        $this->widget('bootstrap.widgets.BootButton', array(
+        /*$this->widget('bootstrap.widgets.BootButton', array(
             'label'=>'Autorizar',
             'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
             'size'=>'mini', // '', 'large', 'small' or 'mini'
             'url'=>'',
             'htmlOptions'=>array('id' => 'autorizar'),
             'icon' => 'ok white'
-        )); 
+        )); */
 
     ?>
     
@@ -212,4 +220,4 @@ $this->widget('bootstrap.widgets.BootButton', array(
 	),
 )); 
  ?>
-<?php echo CHtml::HiddenField('check',''); ?>
+ <?php $this->endWidget(); ?>
