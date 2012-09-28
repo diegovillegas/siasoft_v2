@@ -492,6 +492,55 @@ class DocumentoInvController extends SBaseController
            $this->widget('bootstrap.widgets.BootAlert');
         }
         
+        public function actionReversar(){
+            
+            $documentos = explode(',',$_POST['seleccion']);
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
+            
+            foreach($documentos as $id){
+                 $documento = DocumentoInv::model()->findByPk($id);
+                 
+                 if($documento->ESTADO == 'L'){
+                      $contError+=1;
+                      $error.= $id.',';
+                 }elseif($documento->ESTADO == 'A'){
+                     $documento->ESTADO = 'P';
+                     $contSucces+=1;
+                     $succes .= $id.',';
+                 }elseif($documento->ESTADO == 'C'){
+                     $contError+=1;
+                     $error.= $id.',';
+                     
+                 }elseif($documento->ESTADO == 'P'){
+                     $contWarning+=1;
+                     $warning.= $id.',';
+                 }
+                    
+                 $documento->save();
+            }
+                       
+            $mensajeSucces = MensajeSistema::model()->findByPk('S001');
+            $mensajeError = MensajeSistema::model()->findByPk('E001');
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
+            
+            
+           if($contSucces !=0)
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Documento(s) Reversado(s)<br>('.$succes.')</h3>');
+            
+            if($contError !=0)
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Documento(s) no Reversado(s)<br>('.$error.')</h3>');
+            
+            if($contWarning !=0)
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Documento(s) ya Reversado(s)<br>('.$warning.')</h3>');
+            
+           $this->widget('bootstrap.widgets.BootAlert');
+            
+        }
         public function actionCancelar(){
             
             $documentos = explode(',',$_POST['seleccion']);
@@ -559,9 +608,18 @@ class DocumentoInvController extends SBaseController
                       $contError+=1;
                       $error.= $id.',';
                  }elseif($documento->ESTADO == 'A'){
+                     echo $documento->DOCUMENTO_INV.'<br />';
+                     $transaction=$documento->dbConnection->beginTransaction();
+                    try{
+                        $this->modificarExistencias($documento);
+                        $documento->save();
+                        $transaction->commit();
+                    }catch(Exception $e) // se arroja una excepción si una consulta falla
+                    {
+                        Yii::app()->user->setFlash('error', $e);
+                        $transaction->rollBack();
+                    }
                      $documento->ESTADO = 'L';
-                     
-                     $this->modificarExistencias($documento); 
                      
                      $contSucces+=1;
                      $succes .= $id.',';
@@ -572,8 +630,7 @@ class DocumentoInvController extends SBaseController
                  }elseif($documento->ESTADO == 'P'){
                      $contError+=1;
                      $error.= $id.',';
-                 } 
-                 //$documento->save();
+                 }
             }
                        
             $mensajeSucces = MensajeSistema::model()->findByPk('S001');
@@ -597,131 +654,199 @@ class DocumentoInvController extends SBaseController
         protected function modificarExistencias($documento){
             
             $lineas = DocumentoInvLinea::model()->findAll('DOCUMENTO_INV = "'.$documento->DOCUMENTO_INV.'"');
+            $transaccionInv = new TransaccionInv;
             
-            foreach($lineas as $datos){
-                echo $datos->ARTICULO.' - '.$datos->BODEGA.'<br />';
-                $articulo = Articulo::model()->findByPk($datos->ARTICULO);
-                $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
-                $tipo_transaccion = TipoTransaccion::model()->findByPk($datos->TIPO_TRANSACCION);
-                
-                $datos->TIPO_TRANSACCION_CANTIDAD;
-               /*
-                * CANTIDADES:
-                * {D}Disponible
-                * {R}Reservada
-                * {T}Remitida
-                * {C}Cuarentena
-                * {V}Vencida
-                */ 
-               $datos->TIPO_TRANSACCION;
-               /*
-                * TIPOS DE TRANSACCION FIJAS
-                * Aprobacion
-                * Compra
-                * Consumo
-                * Costo (Se desabilito temporalmente)
-                * Ensamble
-                * Fisico
-                * Miselaneo
-                * Produccion
-                * Reservacion
-                * Ttraspaso
-                * Vencimiento
-                * Venta
-                */
-               
-                if($existenciaBodega){
-                    switch($datos->TIPO_TRANSACCION_CANTIDAD){
-                        case 'D':
-                            if($tipo_transaccion->NATURALEZA == 'E'){
+            $transaccionInv->CONSECUTIVO_CI = $documento->DOCUMENTO_INV;
+            $transaccionInv->MODULO_ORIGEN = 'CI';
+            $transaccionInv->REFERENCIA = 'Transaccion generada por Documento de Inventario';
+            
+            if($transaccionInv->save()){
+                   
+                foreach($lineas as $datos){
+                    echo $datos->ARTICULO.' - '.$datos->BODEGA.'<br />';
+                    $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
+                    $tipo_transaccion = TipoTransaccion::model()->findByPk($datos->TIPO_TRANSACCION);
 
-                                $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                   
+                    if($existenciaBodega){
+                        $transaccionInvDetalle = new TransaccionInvDetalle;
+                        
+                        $transaccionInvDetalle->TRANSACCION_INV = $documento->DOCUMENTO_INV;
+                        $transaccionInvDetalle->LINEA = $datos->LINEA_NUM;
+                        $transaccionInvDetalle->TIPO_TRANSACCION = $documento->TIPO_TRANSACCION;
+                        $transaccionInvDetalle->SUBTIPO = $documento->SUBTIPO;
+                        $transaccionInvDetalle->TIPO_TRANSACCION_CANTIDAD = $documento->TIPO_TRANSACCION_CANTIDAD;
+                        $transaccionInvDetalle->ARTICULO = $documento->ARTICULO;
+                        $transaccionInvDetalle->UNIDAD = $documento->UNIDAD;
+                        $transaccionInvDetalle->BODEGA = $documento->BODEGA;
+                        $transaccionInvDetalle->COSTO_UNITARIO = $documento->COSTO_UNITARIO;
+                        $transaccionInvDetalle->PRECIO_UNITARIO = 0;
+                        $transaccionInvDetalle->ACTIVO = 'S';
+                        
+                        switch($datos->TIPO_TRANSACCION_CANTIDAD){
+                            case 'D':
+                                if($tipo_transaccion->NATURALEZA == 'E'){
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'S'){
+                                    $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                    
+                                }elseif($tipo_transaccion->NATURALEZA == 'S'){
 
-                                $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'A')
-                                    $this->naturaAmbas($datos,$existenciaBodega);
-                        break;
-                        case 'R':
-                            if($tipo_transaccion->NATURALEZA == 'E'){
+                                }elseif($tipo_transaccion->NATURALEZA == 'A')
+                                        $this->naturaAmbas($datos,$existenciaBodega,$transaccionInvDetalle,$documento);
+                            break;
+                            case 'R':
+                                if($tipo_transaccion->NATURALEZA == 'E'){
 
-                                $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_RESERVADA += $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'S'){
+                                }elseif($tipo_transaccion->NATURALEZA == 'S'){
 
-                                $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_RESERVADA -= $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'A')
-                                    $this->naturaAmbas($datos,$existenciaBodega);
-                        break;
-                        case 'T':
-                            if($tipo_transaccion->NATURALEZA == 'E'){
+                                }elseif($tipo_transaccion->NATURALEZA == 'A')
+                                        $this->naturaAmbas($datos,$existenciaBodega,$transaccionInvDetalle,$documento);
+                            break;
+                            case 'T':
+                                if($tipo_transaccion->NATURALEZA == 'E'){
 
-                                $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_REMITIDA += $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'S'){
+                                }elseif($tipo_transaccion->NATURALEZA == 'S'){
 
-                                $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_REMITIDA -= $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'A')
-                                    $this->naturaAmbas($datos,$existenciaBodega);
-                        break;
-                        case 'C':
-                            if($tipo_transaccion->NATURALEZA == 'E'){
+                                }elseif($tipo_transaccion->NATURALEZA == 'A')
+                                       $this->naturaAmbas($datos,$existenciaBodega,$transaccionInvDetalle,$documento);
+                            break;
+                            case 'C':
+                                if($tipo_transaccion->NATURALEZA == 'E'){
 
-                                $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_CUARENTENA += $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'S'){
+                                }elseif($tipo_transaccion->NATURALEZA == 'S'){
 
-                                $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_CUARENTENA -= $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'A')
-                                    $this->naturaAmbas($datos,$existenciaBodega);
-                        break;
-                        case 'V':
-                            if($tipo_transaccion->NATURALEZA == 'E'){
+                                }elseif($tipo_transaccion->NATURALEZA == 'A')
+                                        $this->naturaAmbas($datos,$existenciaBodega,$transaccionInvDetalle,$documento);
+                            break;
+                            case 'V':
+                                if($tipo_transaccion->NATURALEZA == 'E'){
 
-                                $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_VENCIDA += $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'S'){
+                                }elseif($tipo_transaccion->NATURALEZA == 'S'){
 
-                                $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                    $existenciaBodega->CANT_VENCIDA -= $datos->CANTIDAD;
+                                    
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
 
-                            }elseif($tipo_transaccion->NATURALEZA == 'A')
-                                    $this->naturaAmbas($datos,$existenciaBodega);
-                        break;
+                                }elseif($tipo_transaccion->NATURALEZA == 'A')
+                                        $this->naturaAmbas($datos,$existenciaBodega,$transaccionInvDetalle,$documento);
+                            break;
+                        }
+                        $existenciaBodega->save();
+                        $transaccionInvDetalle->save();
+                    }else{
+                        echo 'No ahy relacion en entre '.$datos->ARTICULO.' y '.$datos->BODEGA.'<br />';
                     }
-                    //$existenciaBodega->save();
-                }else{
-                    echo 'No ahy relacion en entre '.$datos->ARTICULO.' y '.$datos->BODEGA.'<br />';
+
+
                 }
-                
-                
             }
             
         }
         
-        protected function naturaAmbas($datos,$existenciaBodega){
+        protected function naturaAmbas($datos,$existenciaBodega,$transaccionInvDetalle,$documento){
+            $tipo_transaccion_cantidad = TipoTransaccionCantidad::model()->findAllByAttributes(array('TIPO_TRANSACCION'=>$documento->TIPO_TRANSACCION));
+            
+           $transaccionInvDetalle2 = new TransaccionInvDetalle;
+                        
+           $transaccionInvDetalle2->TRANSACCION_INV = $documento->DOCUMENTO_INV;
+           $transaccionInvDetalle2->LINEA = $datos->LINEA_NUM;
+           $transaccionInvDetalle2->TIPO_TRANSACCION = $documento->TIPO_TRANSACCION;
+           $transaccionInvDetalle2->SUBTIPO = $documento->SUBTIPO;
+           $transaccionInvDetalle2->ARTICULO = $documento->ARTICULO;
+           $transaccionInvDetalle2->UNIDAD = $documento->UNIDAD;
+           $transaccionInvDetalle2->BODEGA = $documento->BODEGA;
+           $transaccionInvDetalle2->COSTO_UNITARIO = $documento->COSTO_UNITARIO;
+           $transaccionInvDetalle2->PRECIO_UNITARIO = 0;
+           $transaccionInvDetalle2->ACTIVO = 'S';
             
             switch($datos->TIPO_TRANSACCION){
-                   case 'APRO':
+                   case 'APRO':                         
                        if($datos->TIPO_TRANSACCION_CANTIDAD == 'D'){
+                             $transaccionInvDetalle2->TIPO_TRANSACCION_CANTIDAD = 'C';
                              if($datos->CANTIDAD > 0){
+                                 //GUARDAR EL DETALLE DE LA ENTRADA
                                  $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                 $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                 $transaccionInvDetalle->NATURALEZA = 'E';
+                                 //GUARDAR EL DETALLE DE LA SALIDA
                                  $existenciaBodega->CANT_CUARENTENA -= $datos->CANTIDAD;
+                                 $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                 $transaccionInvDetalle2->NATURALEZA = 'S';
+                                 
                              }else{
+                                 //GUARDAR EL DETALLE DE LA SALIDA
                                  $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                 $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                 $transaccionInvDetalle2->NATURALEZA = 'S';
+                                 //GUARDAR EL DETALLE DE LA ENTRADA
                                  $existenciaBodega->CANT_CUARENTENA += $datos->CANTIDAD;
+                                 $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                 $transaccionInvDetalle->NATURALEZA = 'E';
                              }
                        }elseif($datos->TIPO_TRANSACCION_CANTIDAD == 'C'){
+                           $transaccionInvDetalle2->TIPO_TRANSACCION_CANTIDAD = 'D';
                              if($datos->CANTIDAD > 0){
+                                 //GUARDAR EL DETALLE DE LA ENTRADA
                                  $existenciaBodega->CANT_CUARENTENA += $datos->CANTIDAD;
+                                 $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                 $transaccionInvDetalle->NATURALEZA = 'E';
+                                 //GUARDAR EL DETALLE DE LA SALIDA
                                  $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                 $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                 $transaccionInvDetalle2->NATURALEZA = 'S';
                              }else{
+                                 //GUARDAR EL DETALLE DE LA SALIDA
                                  $existenciaBodega->CANT_CUARENTENA -= $datos->CANTIDAD;
+                                 $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                 $transaccionInvDetalle2->NATURALEZA = 'S';
+                                 //GUARDAR EL DETALLE DE LA ENTRADA
                                  $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                 $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                 $transaccionInvDetalle->NATURALEZA = 'E';
                              }
                        }
                    break;  
@@ -729,92 +854,198 @@ class DocumentoInvController extends SBaseController
                        switch($datos->TIPO_TRANSACCION_CANTIDAD){
                             case 'D':
                                 $existenciaBodega->CANT_DISPONIBLE = $datos->CANTIDAD;
+                                //GUARDA LA CANTIDAD EXEDENTE EN EL AJUSTE FISICO
+                                if($datos->CANTIDAD > $existenciaBodega->CANT_DISPONIBLE){
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD - $existenciaBodega->CANT_DISPONIBLE;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }else{
+                                    $transaccionInvDetalle->CANTIDAD = $existenciaBodega->CANT_DISPONIBLE - $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }
                             break;
                             case 'R':
                                 $existenciaBodega->CANT_RESERVADA = $datos->CANTIDAD;
+                                //GUARDA LA CANTIDAD EXEDENTE EN EL AJUSTE FISICO
+                                if($datos->CANTIDAD > $existenciaBodega->CANT_RESERVADA){
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD - $existenciaBodega->CANT_RESERVADA;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }else{
+                                    $transaccionInvDetalle->CANTIDAD = $existenciaBodega->CANT_RESERVADA - $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }
                             break;
                             case 'T':
                                 $existenciaBodega->CANT_REMITIDA = $datos->CANTIDAD;
+                                //GUARDA LA CANTIDAD EXEDENTE EN EL AJUSTE FISICO
+                                if($datos->CANTIDAD > $existenciaBodega->CANT_REMITIDA){
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD - $existenciaBodega->CANT_REMITIDA;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }else{
+                                    $transaccionInvDetalle->CANTIDAD = $existenciaBodega->CANT_REMITIDA - $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }
                             break;
                             case 'C':
                                 $existenciaBodega->CANT_CUARENTENA = $datos->CANTIDAD;
+                                //GUARDA LA CANTIDAD EXEDENTE EN EL AJUSTE FISICO
+                                if($datos->CANTIDAD > $existenciaBodega->CANT_CUARENTENA){
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD - $existenciaBodega->CANT_CUARENTENA;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }else{
+                                    $transaccionInvDetalle->CANTIDAD = $existenciaBodega->CANT_CUARENTENA - $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }
                             break;
                             case 'V':
                                 $existenciaBodega->CANT_VENCIDA = $datos->CANTIDAD;
+                                //GUARDA LA CANTIDAD EXEDENTE EN EL AJUSTE FISICO
+                                if($datos->CANTIDAD > $existenciaBodega->CANT_VENCIDA){
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD - $existenciaBodega->CANT_VENCIDA;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }else{
+                                    $transaccionInvDetalle->CANTIDAD = $existenciaBodega->CANT_VENCIDA - $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }
                             break;
                         }
                    break;
                    case 'MISC':
+                        $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
                         switch($datos->TIPO_TRANSACCION_CANTIDAD){
                             case 'D':
-                                if($datos->CANTIDAD > 0)
+                                if($datos->CANTIDAD > 0){
                                     $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
-                                else
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }else{
                                     $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }
                             break;
                             case 'R':
-                                if($datos->CANTIDAD > 0)
-                                    $existenciaBodega->CANT_RESERVADA  -= $datos->CANTIDAD;
-                                else
-                                    $existenciaBodega->CANT_RESERVADA  += $datos->CANTIDAD;
+                                if($datos->CANTIDAD > 0){
+                                    $existenciaBodega->CANT_RESERVADA -= $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }else{
+                                    $existenciaBodega->CANT_RESERVADA += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }
                             break;
                             case 'T':
-                                if($datos->CANTIDAD > 0)
-                                    $existenciaBodega->CANT_REMITIDA  -= $datos->CANTIDAD;
-                                else
-                                    $existenciaBodega->CANT_REMITIDA  += $datos->CANTIDAD;
+                                if($datos->CANTIDAD > 0){
+                                    $existenciaBodega->CANT_REMITIDA -= $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }else{
+                                    $existenciaBodega->CANT_REMITIDA += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }
                             break;
                             case 'C':
-                                if($datos->CANTIDAD > 0)
+                                if($datos->CANTIDAD > 0){
                                     $existenciaBodega->CANT_CUARENTENA -= $datos->CANTIDAD;
-                                else
-                                    $existenciaBodega->CANT_CUARENTENA  += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }else{
+                                    $existenciaBodega->CANT_CUARENTENA += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }
                                 
                             break;
                             case 'V':
-                                if($datos->CANTIDAD > 0)
-                                    $existenciaBodega->CANT_VENCIDA  -= $datos->CANTIDAD;
-                                else
+                                 if($datos->CANTIDAD > 0){
+                                    $existenciaBodega->CANT_VENCIDA -= $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'S';
+                                }else{
                                     $existenciaBodega->CANT_VENCIDA += $datos->CANTIDAD;
-                                
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
+                                }                                
                             break;
                         }
                    break;
                
                    case 'RESE':
+                       $transaccionInvDetalle2->TIPO_TRANSACCION_CANTIDAD = 'R';
+                       //SI EL VALOR ES POSITIVO O NEGATIVO
                        if($datos->CANTIDAD > 0){
+                           //GUARDAR EL DETALLE DE LA SALIDA
                            $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
-                           $existenciaBodega->CANT_RESERVADA  += $datos->CANTIDAD;
+                           $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                           $transaccionInvDetalle2->NATURALEZA = 'S';
+                       
+                           //GUARDAR EL DETALLE DE LA ENTRADA
+                            $existenciaBodega->CANT_RESERVADA  += $datos->CANTIDAD;
+                            $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                            $transaccionInvDetalle->NATURALEZA = 'E';
                        }else{
+                           //GUARDAR EL DETALLE DE LA SALIDA
                            $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
+                           $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                           $transaccionInvDetalle2->NATURALEZA = 'S';
+                           
+                           //GUARDAR EL DETALLE DE LA ENTRADA
                            $existenciaBodega->CANT_RESERVADA  += (-1*$datos->CANTIDAD);
+                           $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                           $transaccionInvDetalle->NATURALEZA = 'E';
                        }
                    break;
 
                    case 'TRAS':
                        $existenciaBodegaDestino = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA_DESTINO));
-                       
+                       $transaccionInvDetalle2->BODEGA = $datos->BODEGA_DESTINO;
                        if($existenciaBodegaDestino){
                             switch($datos->TIPO_TRANSACCION_CANTIDAD){
                                 case 'D':
+                                    $transaccionInvDetalle2->TIPO_TRANSACCION_CANTIDAD = 'D';
+                                    //GUARDAR LA SALIDA DE BODEGA ORIGEN
                                     $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->NATURALEZA = 'S';
+                                    //GUARDAR LA ENTRADA A LA BODEGA DESTINO
                                     $existenciaBodegaDestino->CANT_DISPONIBLE += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
                                 break;
                                 case 'R':
+                                    $transaccionInvDetalle2->TIPO_TRANSACCION_CANTIDAD = 'R';
+                                    //GUARDAR LA SALIDA DE BODEGA ORIGEN
                                     $existenciaBodega->CANT_RESERVADA -= $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->NATURALEZA = 'S';
+                                    //GUARDAR LA ENTRADA A LA BODEGA DESTINO
                                     $existenciaBodegaDestino->CANT_RESERVADA += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
                                 break;
                                 case 'T':
+                                    $transaccionInvDetalle2->TIPO_TRANSACCION_CANTIDAD = 'T';
+                                    //GUARDAR LA SALIDA DE BODEGA ORIGEN
                                     $existenciaBodega->CANT_REMITIDA -= $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->NATURALEZA = 'S';
+                                    //GUARDAR LA ENTRADA A LA BODEGA DESTINO
                                     $existenciaBodegaDestino->CANT_REMITIDA += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
                                 break;
                                 case 'C':
+                                    $transaccionInvDetalle2->TIPO_TRANSACCION_CANTIDAD = 'C';
+                                    //GUARDAR LA SALIDA DE BODEGA ORIGEN
                                     $existenciaBodega->CANT_CUARENTENA -= $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->NATURALEZA = 'S';
+                                    //GUARDAR LA ENTRADA A LA BODEGA DESTINO
                                     $existenciaBodegaDestino->CANT_CUARENTENA += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
                                 break;
                                 case 'V':
+                                    $transaccionInvDetalle2->TIPO_TRANSACCION_CANTIDAD = 'V';
+                                    //GUARDAR LA SALIDA DE BODEGA ORIGEN
                                     $existenciaBodega->CANT_VENCIDA -= $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle2->NATURALEZA = 'S';
+                                    //GUARDAR LA ENTRADA A LA BODEGA DESTINO
                                     $existenciaBodegaDestino->CANT_VENCIDA += $datos->CANTIDAD;
+                                    $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                                    $transaccionInvDetalle->NATURALEZA = 'E';
                                 break;
                             }
                             $existenciaBodegaDestino->save();
@@ -825,15 +1056,33 @@ class DocumentoInvController extends SBaseController
 
                    case 'VENC':
                        if($datos->CANTIDAD > 0){
+                           //GUARDAR EL DETALLE DE LA SALIDA
                            $existenciaBodega->CANT_DISPONIBLE -= $datos->CANTIDAD;
-                           $existenciaBodega->CANT_VENCIDA  += $datos->CANTIDAD;
+                           $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                           $transaccionInvDetalle2->NATURALEZA = 'S';
+                       
+                           //GUARDAR EL DETALLE DE LA ENTRADA
+                            $existenciaBodega->CANT_VENCIDA  += $datos->CANTIDAD;
+                            $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                            $transaccionInvDetalle->NATURALEZA = 'E';
                        }else{
+                           //GUARDAR EL DETALLE DE LA SALIDA
                            $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
-                           $existenciaBodega->CANT_VENCIDA  += (-1*$datos->CANTIDAD);
+                           $transaccionInvDetalle2->CANTIDAD = $datos->CANTIDAD;
+                           $transaccionInvDetalle2->NATURALEZA = 'S';
+                       
+                           //GUARDAR EL DETALLE DE LA ENTRADA
+                            $existenciaBodega->CANT_VENCIDA  += (-1*$datos->CANTIDAD);
+                            $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;                           
                        }
                    break;
                    default:
-                        switch($datos->TIPO_TRANSACCION_CANTIDAD){
+                       $transaccionInvDetalle->CANTIDAD = $datos->CANTIDAD;
+                       if($datos->CANTIDAD > 0)
+                            $transaccionInvDetalle->NATURALEZA = 'E';
+                       else
+                            $transaccionInvDetalle->NATURALEZA = 'S';
+                       switch($datos->TIPO_TRANSACCION_CANTIDAD){
                                 case 'D':
                                     $existenciaBodega->CANT_DISPONIBLE += $datos->CANTIDAD;
                                 break;
@@ -849,9 +1098,10 @@ class DocumentoInvController extends SBaseController
                                 case 'V':
                                     $existenciaBodega->CANT_VENCIDA += $datos->CANTIDAD;
                                 break;
-                            }
-                            break;
+                       }
+                  break;
             }
+            $transaccionInvDetalle2->save();
             
         }
         
