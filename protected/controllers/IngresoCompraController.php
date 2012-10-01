@@ -239,6 +239,7 @@ class IngresoCompraController extends Controller
                                     $salvar->COSTO_FISCAL_UNITARIO = $datos['COSTO_FISCAL_UNITARIO'];
                                     $salvar->ACTIVO = 'S';
                                     $salvar->save();
+                                    Articulo::model()->actualizarCosto($datos['ARTICULO']);
                                     $i++;
                                 }
                             }
@@ -427,8 +428,7 @@ class IngresoCompraController extends Controller
         }
         
         public function transacciones($lineas, $ingreso){
-            $transaccion = new TransaccionInv;
-            
+            $transaccion = new TransaccionInv;            
             $transaccion->CONSECUTIVO_CO = $ingreso->INGRESO_COMPRA;
             $transaccion->MODULO_ORIGEN = 'CO';
             $transaccion->REFERENCIA = 'Ingreso de compra';

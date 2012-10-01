@@ -154,6 +154,19 @@ class SolicitudOc extends CActiveRecord
 		));
 	}
         
+        public static function estado($codigo){
+            switch ($codigo){
+                case 'C' : return 'Cancelado';
+                break;
+                case 'A' : return'Asignado';
+                break;
+                case 'N' : return 'No asignado';
+                break;
+                case 'P' : return 'Planeado';
+                break;
+            }
+        }
+        
         public function behaviors()
 	{
 		return array(

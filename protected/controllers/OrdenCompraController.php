@@ -161,31 +161,70 @@ class OrdenCompraController extends SBaseController
         }
         
         public function actionCancelar(){
-            $id = explode(",", $_GET['buscar']);
-            $error = 0;
-            $exito = 0;
-            $info = 0;
+            
+            $id = explode(",", $_POST['check']);
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
             
             foreach($id as $cancela){
-                $cancelar = OrdenCompra::model()->findByPk($cancela);
+                 $cancelar = OrdenCompra::model()->findByPk($cancela);
+                 
+                 switch ($cancelar->ESTADO){
+                     case 'C' :
+                        $contError+=1;
+                        $error.= $cancela.',';
+                        break;
+                    
+                     case 'E' :
+                        $contError+=1;
+                        $error.= $cancela.',';
+                        break;
+                 
+                     case 'P' :
+                        $cancelar->ESTADO = 'C';
+                        $cancelar->USUARIO_CANCELA = Yii::app()->user->name;
+                        $cancelar->FECHA_CANCELA = date("Y-m-d H:i:s");
+                        $cancelar->save();
+                        $contSucces+=1;
+                        $succes .= $cancela.',';
+                        break;
                 
-                if($cancelar->ESTADO == 'C'){
-                    $info++; // ya esta cancelada
-                }
-                else{
-                    $cancelar->ESTADO = 'C';
-                    $cancelar->USUARIO_CANCELA = Yii::app()->user->name;
-                    $cancelar->FECHA_CANCELA = date("Y-m-d H:i:s");
-                    if($cancelar->save()){
-                        $exito++; // se cancelo correctamente
-                    }
-                    else{
-                        $error++; // error al cancelar
-                    }
-                
-            }}
-            $variable = array('error'=>$error, 'info'=>$info, 'exito'=>$exito);
-            echo CJSON::encode($variable);
+                    case 'B' :
+                        $contWarning+=1;
+                        $warning.= $cancela.',';
+                        break;
+                    
+                    case 'R' :
+                        $contWarning+=1;
+                        $warning.= $cancela.',';
+                        break;
+                    
+                    case 'A' :
+                        $contWarning+=1;
+                        $warning.= $cancela.',';
+                        break;
+                 }
+                 
+                       
+            $mensajeSucces = MensajeSistema::model()->findByPk('S001');
+            $mensajeError = MensajeSistema::model()->findByPk('E001');
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
+            }
+            if($contSucces !=0)
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Orden(es) Cancelada(s)<br>('.$succes.')</h3>');
+            
+            if($contError !=0)
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Orden(es) no Cancelada(s)<br>('.$error.')</h3>');
+            
+            if($contWarning !=0)
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Orden(es) ya Cancelada(s) o Cerrada(s)<br>('.$warning.')</h3>');
+            
+           $this->widget('bootstrap.widgets.BootAlert');        
+            
         }
         
         public function actionAutorizar(){
@@ -269,6 +308,68 @@ class OrdenCompraController extends SBaseController
         }
         
         public function actionCerrar(){
+            
+            $id = explode(",", $_POST['check']);
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
+            
+            foreach($id as $cierra){
+                 $cerrar = OrdenCompra::model()->findByPk($cierra);
+                 
+                 switch ($cerrar->ESTADO){
+                     case 'C' :
+                        $contError+=1;
+                        $error.= $cierra.',';
+                        break;
+                    
+                     case 'E' :
+                        $contError+=1;
+                        $error.= $cierra.',';
+                        break;
+                 
+                     case 'R' :
+                        $cerrar->ESTADO = 'E';
+                        $cerrar->save();
+                        $contSucces+=1;
+                        $succes .= $cierra.',';
+                        break;
+                
+                    case 'B' :
+                        $contWarning+=1;
+                        $warning.= $cierra.',';
+                        break;
+                    
+                    case 'P' :
+                        $contWarning+=1;
+                        $warning.= $cierra.',';
+                        break;
+                    
+                    case 'A' :
+                        $contWarning+=1;
+                        $warning.= $cierra.',';
+                        break;
+                 }
+                 
+                       
+            $mensajeSucces = MensajeSistema::model()->findByPk('S001');
+            $mensajeError = MensajeSistema::model()->findByPk('E001');
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
+            }
+            if($contSucces !=0)
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Orden(es) Cancelada(s)<br>('.$succes.')</h3>');
+            
+            if($contError !=0)
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Orden(es) no Cancelada(s)<br>('.$error.')</h3>');
+            
+            if($contWarning !=0)
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Orden(es) ya Cancelada(s) o Cerrada(s)<br>('.$warning.')</h3>');
+            
+           $this->widget('bootstrap.widgets.BootAlert');   
+            /*
             $error = 0;
             $exito = 0;
             $info = 0;
@@ -290,7 +391,7 @@ class OrdenCompraController extends SBaseController
                 }
             }
             $variable = array('error'=>$error, 'info'=>$info, 'exito'=>$exito);
-            echo CJSON::encode($variable);
+            echo CJSON::encode($variable);*/
         }
         
          /**

@@ -5,108 +5,14 @@ function obtenerSeleccion(){
     $('#check').val(idcategoria);
 }
 
-function ocultarMensajes(){
-    $("#fade").fadeOut(1500, function(){
-        //$("#success").removeClass("alert alert-success");
-    $("#success").text("");
-    //$("#info").removeClass("alert alert-info");
-    $("#info").text("");
-    //$("#warning").removeClass("alert alert-info");
-    $("#warning").text("");
-    //$("#error").removeClass("alert alert-error");
-    $("#error").text("");
-    });
+function completado(){
+    $.fn.yiiGridView.update('orden-compra-grid');
 }
 
 $(document).ready(inicio)
 
 function inicio(){
-    var accion;
-    var a = 0;
-    
-    accion = $("#cancelar");
-    accion.click(cancelar);
-    
-    accion = $("#autorizar");
-    accion.click(autorizar);
-    
-    accion = $("#rever");
-    accion.click(reversar);
-    
-    accion = $("#cerrar");
-    accion.click(cerrar);
-}
 
-function cancelar(){
-    var id = $('#check').get(0).value;
-    $.getJSON(
-            '<?php echo $this->createUrl('ordenCompra/Cancelar'); ?>&buscar='+id,
-            function (data){
-                $("#fade").fadeIn(1500);
-                $.fn.yiiGridView.update('orden-compra-grid');
-                $("#success").addClass("alert alert-success");
-                $("#success").text(data.exito + " ordenes se cancelaron con exito.");
-                $("#info").addClass("alert alert-info");
-                $("#info").text(data.info + " ordenes ya se encontraban con estado cancelado.");
-                $("#warning").addClass("alert alert-warning");
-                $("#warning").text("0 Advertencias");  
-                $("#error").addClass("alert alert-error");
-                $("#error").text(data.error + " ordenes no pudieron ser canceladas.");             
-            });
-}
-
-function cerrar(){
-    var id = $('#check').get(0).value;
-    $.getJSON(
-            '<?php echo $this->createUrl('ordenCompra/Cerrar'); ?>&buscar='+id,
-            function (data){
-                $("#fade").fadeIn(1500);
-                $.fn.yiiGridView.update('orden-compra-grid');
-                $("#success").addClass("alert alert-success");
-                $("#success").text(data.exito + " ordenes se cerraron con exito.");
-                $("#info").addClass("alert alert-info");
-                $("#info").text(data.info + " ordenes ya se encontraban con estado cerrado.");
-                $("#warning").addClass("alert alert-warning");
-                $("#warning").text("0 Advertencias");                
-                $("#error").addClass("alert alert-error");
-                $("#error").text(data.error + " ordenes no pudieron ser cerradas.");             
-            });
-}
-
-function autorizar(){
-    var id = $('#check').get(0).value;
-    $.getJSON(
-            '<?php echo $this->createUrl('ordenCompra/Autorizar'); ?>&buscar='+id,
-            function (data){
-                $("#fade").fadeIn(1500);
-                $.fn.yiiGridView.update('orden-compra-grid');
-                $("#success").addClass("alert alert-success");
-                $("#success").text(data.exito + " ordenes se autorizaron con exito.");
-                $("#info").addClass("alert alert-info");
-                $("#info").text(data.info + " ordenes ya se encontraban con estado autorizado o no asignado.");
-                $("#warning").addClass("alert alert-warning");
-                $("#warning").text(data.advertencia + " ordenes se encontraban en estado cancelar o cerrada por tanto no se puede autorizar.");
-                $("#error").addClass("alert alert-error");
-                $("#error").text(data.error + " ordenes no pudieron ser autorizadas.");             
-            });
-}
-
-function reversar(){
-    var id = $('#check').get(0).value;
-    $.getJSON(
-            '<?php echo $this->createUrl('ordenCompra/Reversar'); ?>&buscar='+id,
-            function (data){
-                $("#fade").fadeIn(1500);
-                $.fn.yiiGridView.update('orden-compra-grid');
-                $("#success").addClass("alert alert-success");
-                $("#success").text(data.exito + " ordenes se reversaron con exito.");
-                $("#info").addClass("alert alert-info");
-                $("#info").text(data.info + " ordenes ya se encontraban en estado planeado, por lo tanto no se pueden reversar.");
-                $("#warning").addClass("alert alert-warning");
-                $("#warning").text(data.advertencia + " ordenes se encontraban en estado autorizado, cerrado o cancelado, por lo tanto no se pueden reversar.");
-                $("#error").addClass("alert alert-error");
-                $("#error").text(data.error + " ordenes no pudieron ser reversadas.");             
-            });
 }
 </script>
 <?php
@@ -135,62 +41,79 @@ $('.search-form form').submit(function(){
 ?>
 
 <h1>Administrar Ordenes de Compras</h1>
-
-<div id="fade">
-    <div id="success"></div>
-    <div id="info"></div>
-    <div id="warning"></div>
-    <div id="error"></div>
-</div>
+<br />
+<div id="mensaje"></div>
 
 <div align="right">
+    <?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array()); ?>
+    <?php echo CHtml::HiddenField('check',''); ?>
     
 <?php 
-        $this->widget('bootstrap.widgets.BootButton', array(
-            'label'=>'Cancelar',
-            'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size'=>'mini', // '', 'large', 'small' or 'mini'
-            'url'=>'',
-            'htmlOptions'=>array('id' => 'cancelar', 'onclick'=>'return confirm("¿Está seguro que desea cancelar esta(s) orden(es)?");'),
-            'icon' => 'remove white'
-        )); 
-
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Cancelar',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('cancelar'),
+        'icon' => 'remove white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('confirm'=>'¿Está seguro que desea cancelar esta(s) solicitud(es)?', 'id'=>'cancelar'),
+    ));
     ?>
     
-    <?php 
-        $this->widget('bootstrap.widgets.BootButton', array(
-            'label'=>'Cerrar',
-            'type'=>'inverse', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size'=>'mini', // '', 'large', 'small' or 'mini'
-            'url'=>'',
-            'htmlOptions'=>array('id' => 'cerrar'),
-            'icon' => 'ban-circle white'
-        )); 
-
+<?php 
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Cerrar',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'inverse', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('cerrar'),
+        'icon' => 'ban-circle white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('id'=>'cerrar'),
+    ));
     ?>
     
         <?php 
-        $this->widget('bootstrap.widgets.BootButton', array(
-            'label'=>'Autorizar',
-            'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size'=>'mini', // '', 'large', 'small' or 'mini'
-            'url'=>'',
-            'htmlOptions'=>array('id' => 'autorizar'),
-            'icon' => 'ok white'
-        )); 
-
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Autorizar',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('autorizar'),
+        'icon' => 'ok white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('id'=>'autorizar'),
+    ));
     ?>
     
-            <?php 
-        $this->widget('bootstrap.widgets.BootButton', array(
-            'label'=>'Rev Autorización',
-            'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size'=>'mini', // '', 'large', 'small' or 'mini'
-            'url'=>'',
-            'htmlOptions'=>array('id' => 'rever'),
-            'icon' => 'arrow-left white'
-        )); 
-
+   <?php 
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Rev Autorización',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('reversar'),
+        'icon' => 'arrow-left white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('id'=>'rever'),
+    ));
     ?>
     
 <?php 
@@ -258,4 +181,4 @@ $this->widget('bootstrap.widgets.BootButton', array(
 		),
 	),
 )); ?>
-<?php echo CHtml::HiddenField('check',''); ?>
+ <?php $this->endWidget(); ?>

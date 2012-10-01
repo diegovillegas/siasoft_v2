@@ -1,75 +1,17 @@
 <script>
 function completado(){
-    $.fn.yiiGridView.update('ingreso-compra-grid');
+    $.fn.yiiGridView.update('solicitud-oc-grid');
 }
 
 function obtenerSeleccion(){
-
     var idcategoria = $.fn.yiiGridView.getSelection('solicitud-oc-grid');
     $('#check').val(idcategoria);
-}
-
-function ocultarMensajes(){
-    $("#fade").fadeOut(1500, function(){
-        //$("#success").removeClass("alert alert-success");
-    $("#success").text("");
-    //$("#info").removeClass("alert alert-info");
-    $("#info").text("");
-    //$("#warning").removeClass("alert alert-info");
-    $("#warning").text("");
-    //$("#error").removeClass("alert alert-error");
-    $("#error").text("");
-    });
 }
 
 $(document).ready(inicio)
 
 function inicio(){
-    var accion;
-       
-    accion = $("#autorizar");
-    accion.click(autorizar);
-    
-    accion = $("#rever");
-    accion.click(reversar);
-}
 
-function autorizar(){
-    var id = $('#check').get(0).value;
-    
-    $.getJSON(
-        '<?php echo $this->createUrl('solicitudOc/Autorizar'); ?>&buscar='+id,
-        function (data){
-                $("#fade").fadeIn(1500);
-                $.fn.yiiGridView.update('solicitud-oc-grid');
-                $("#success").addClass("alert alert-success");
-                $("#success").text(data.exito + " solicitudes se autorizaron con exito.");
-                $("#info").addClass("alert alert-info");
-                $("#info").text(data.info + " solicitudes se encontraban con estado autorizar.");
-                $("#warning").addClass("alert alert-warning");
-                $("#warning").text(data.advertencia + " solicitudes se encontraban con estado cancelar por tanto no se pueden autorizar.");
-                $("#error").addClass("alert alert-error");
-                $("#error").text(data.error + " solicitudes no pudieron ser autorizadas.");
-        }
-    );
-}
-
-function reversar(){
-    var id = $('#check').get(0).value;
-    $.getJSON(
-        '<?php echo $this->createUrl('solicitudOc/Reversar'); ?>&buscar='+id,
-        function (data){
-                $("#fade").fadeIn(1500);
-                $.fn.yiiGridView.update('solicitud-oc-grid');
-                $("#success").addClass("alert alert-success");
-                $("#success").text(data.exito + " solicitudes se reversaron con exito.");
-                $("#info").addClass("alert alert-info");
-                $("#info").text(data.info + " solicitudes se encontraban con estado planeada.");
-                $("#warning").addClass("alert alert-warning");
-                $("#warning").text(data.advertencia + " solicitudes se encontraban con estado cancelar o asignado por tanto no se pueden reversar.");
-                $("#error").addClass("alert alert-error");
-                $("#error").text(data.error + " solicitudes no pudieron ser reversadas.");
-        });
 }
 </script>
 <?php
@@ -100,12 +42,6 @@ $('.search-form form').submit(function(){
 <h1>Administrar Solicitudes</h1>
 <br />
 <div id="mensaje"></div>
-<div id="fade">
-    <div id="success"></div>
-    <div id="info"></div>
-    <div id="warning"></div>
-    <div id="error"></div>
-</div>
 <div align="right">
     <?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array()); ?>
     <?php echo CHtml::HiddenField('check',''); ?>
@@ -133,40 +69,33 @@ $('.search-form form').submit(function(){
         'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'size'=>'mini', // '', 'large', 'small' or 'mini'
         'url' => array('autorizar'),
-        'icon' => 'remove white',
+        'icon' => 'ok white',
         'ajaxOptions'=>array(
             'type'=>'POST',
             'update'=>'#mensaje',
             'complete'=>'completado()',
         ),
-        'htmlOptions'=>array('confirm'=>'¿Está seguro que desea cancelar esta(s) solicitud(es)?', 'id'=>'cancelar'),
+        'htmlOptions'=>array('id'=>'autorizar'),
     ));
     ?>
-             
-        <?php 
-        /*$this->widget('bootstrap.widgets.BootButton', array(
-            'label'=>'Autorizar',
-            'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size'=>'mini', // '', 'large', 'small' or 'mini'
-            'url'=>'',
-            'htmlOptions'=>array('id' => 'autorizar'),
-            'icon' => 'ok white'
-        )); */
-
-    ?>
     
-            <?php 
-        $this->widget('bootstrap.widgets.BootButton', array(
-            'label'=>'Rev Autorización',
-            'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size'=>'mini', // '', 'large', 'small' or 'mini'
-            'url'=>'',
-            'htmlOptions'=>array('id' => 'rever'),
-            'icon' => 'arrow-left white'
-        )); 
-
+    <?php 
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Rev Autorización',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('reversar'),
+        'icon' => 'arrow-left white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('id'=>'rever'),
+    ));
     ?>
-    
+                
 <?php 
 
 $this->widget('bootstrap.widgets.BootButton', array(
@@ -188,14 +117,19 @@ $this->widget('bootstrap.widgets.BootButton', array(
 	'filter'=>$model,
         
 	'columns'=>array(
-                array('class'=>'CCheckBoxColumn',
-                    'htmlOptions'=>array('onclick'=>'ocultarMensajes()')),
+                array('class'=>'CCheckBoxColumn'),
 		'SOLICITUD_OC',
 		'FECHA_SOLICITUD',
 		'FECHA_REQUERIDA',
 		'AUTORIZADA_POR',
                 'FECHA_AUTORIZADA',
-		'ESTADO',
+                array(
+                    'name'=>'ESTADO',
+                    'header'=>'Estado',
+                    'value'=>'SolicitudOc::estado($data->ESTADO)',
+                    'filter'=>array('P'=>'Planeado','A'=>'Asignado','N'=>'No Asignado', 'C'=>'Cancelado'),
+                ),
+                //'ESTADO',
 		/*
                 'FECHA_AUTORIZADA',
 		'PRIORIDAD',
