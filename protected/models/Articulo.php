@@ -338,5 +338,31 @@ class Articulo extends CActiveRecord
                     
             }
         }
+        
+        public static function actualizarCosto($id){
+            $articulo = Articulo::model()->findByPk($id);
+            
+            switch ($articulo->COSTO_FISCAL){
+                case 'Promedio':
+                    $transacciones = TransaccionInvDetalle::model()->findAllByAttributes(array('ARTICULO'=>$id));
+                    $costoTotal = 0;
+                    $cantTotal = 0;
+                    
+                    foreach($transaccion as $datos){
+                        $costoTotal += ($datos->CANTIDAD * $datos->COSTO_UNITARIO);
+                        $cantTotal += $datos->CANTIDAD;
+                    }
+                    $costoFinal = $costoTotal/$cantTotal;
+                    $articulo->COSTO_PROMEDIO = $costoFinal;
+                    
+               break;     
+                case 'Último':
+                    $transacciones = TransaccionInvDetalle::model()->findByAttributes(array('ARTICULO'=>$id),array('order'=>'TRANSACCION_INV_DETALLE DESC'));
+                    $articulo->COSTO_PROMEDIO = $transacciones->COSTO_UNITARIO;
+               break;     
+                    
+            }
+            $articulo->save();
+        }
             
 }
