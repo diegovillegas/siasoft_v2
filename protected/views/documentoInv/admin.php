@@ -10,7 +10,7 @@
      setTimeout(function(){
          $(".alert").slideUp('slow');
          $('#seleccion').val('');
-     }, 10000);
+     }, 15000);
      $.fn.yiiGridView.update('documento-inv-grid');
      
  }
