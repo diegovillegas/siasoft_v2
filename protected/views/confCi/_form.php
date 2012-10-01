@@ -1,3 +1,52 @@
+<script>
+$(document).ready(inicio);
+
+function inicio(){
+    $('#ConfCi_USA_CODIGO_BARRAS').click(function (){
+        if(ConfCi_ASISTENCIA_AUTOMAT.disabled == true){
+		ConfCi_ASISTENCIA_AUTOMAT.disabled = false;
+		ConfCi_USA_CODIGO_EAN13.disabled = false;
+		ConfCi_EAN13_REGLA_LOCAL.disabled = false;
+                PRODUCTO_EAN13.disabled = false;
+		ConfCi_USA_CODIGO_EAN8.disabled = false;
+		ConfCi_EAN8_REGLA_LOCAL.disabled = false;
+		ConfCi_USA_CODIGO_UCC12.disabled = false;
+		ConfCi_UCC12_REGLA_LOCAL.disabled = false;
+                PRODUCTO_UCC12.disabled = false;
+		ConfCi_USA_CODIGO_UCC8.disabled = false;
+	}else{
+		ConfCi_ASISTENCIA_AUTOMAT.disabled = true;
+		ConfCi_USA_CODIGO_EAN13.disabled = true;
+		ConfCi_EAN13_REGLA_LOCAL.disabled = true;
+                PRODUCTO_EAN13.disabled = true;
+		ConfCi_USA_CODIGO_EAN8.disabled = true;
+		ConfCi_EAN8_REGLA_LOCAL.disabled = true;
+		ConfCi_USA_CODIGO_UCC12.disabled = true;
+                PRODUCTO_UCC12.disabled = true;
+		ConfCi_UCC12_REGLA_LOCAL.disabled = true;
+		ConfCi_USA_CODIGO_UCC8.disabled = true;
+        }
+    });
+    
+    $('#ConfCi_ASISTENCIA_AUTOMAT').click(function (){
+        if(ConfCi_EAN13_REGLA_LOCAL.disabled == true){
+		ConfCi_EAN13_REGLA_LOCAL.disabled = false
+		PRODUCTO_EAN13.disabled = false
+		ConfCi_EAN8_REGLA_LOCAL.disabled = false
+		ConfCi_UCC12_REGLA_LOCAL.disabled = false
+		PRODUCTO_UCC12.disabled = false
+        }else{
+            	ConfCi_EAN13_REGLA_LOCAL.disabled = true
+		PRODUCTO_EAN13.disabled = true
+		ConfCi_EAN8_REGLA_LOCAL.disabled = true
+		ConfCi_UCC12_REGLA_LOCAL.disabled = true
+		PRODUCTO_UCC12.disabled = true													
+        }
+        
+    });
+}
+
+</script>
 <div class="form">
 
 <?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array(
@@ -61,31 +110,7 @@
 					'label'=>'Indicadores',
 					'content'=>
 						$form->checkBoxRow($model, 'INTEGRACION_CONTA',array('disabled'=>true))
-						.$form->checkBoxRow($model, 'USA_CODIGO_BARRAS',
-											array(
-												'onclick'=>
-													'
-													if(ConfCi_USA_UNIDADES_DIST.disabled == true){
-														ConfCi_USA_UNIDADES_DIST.disabled = false
-														ConfCi_ASISTENCIA_AUTOMAT.disabled = false
-														ConfCi_USA_CODIGO_EAN13.disabled = false
-														ConfCi_USA_CODIGO_EAN8.disabled = false
-														ConfCi_USA_CODIGO_UCC12.disabled = false
-														ConfCi_USA_CODIGO_UCC8.disabled = false
-													}else{
-														ConfCi_USA_UNIDADES_DIST.disabled = true
-														ConfCi_ASISTENCIA_AUTOMAT.disabled = true
-														ConfCi_USA_CODIGO_EAN13.disabled = true
-														ConfCi_EAN13_REGLA_LOCAL.disabled = true
-														ConfCi_USA_CODIGO_EAN8.disabled = true
-														ConfCi_EAN8_REGLA_LOCAL.disabled = true
-														ConfCi_USA_CODIGO_UCC12.disabled = true
-														ConfCi_UCC12_REGLA_LOCAL.disabled = true
-														ConfCi_USA_CODIGO_UCC8.disabled = true
-													}
-													'
-											)
-								)
+						.$form->checkBoxRow($model, 'USA_CODIGO_BARRAS')
 						.'<fieldset>
 							<legend ><font face="arial" size=3 >Transacciones de Inventario</font></legend>'
 							.$form->textFieldRow($model,'LINEAS_MAX_TRANS',array('size'=>'5',))
@@ -95,28 +120,7 @@
 					'label'=>'Codigo de Barras',
 					'content'=>
 						//$form->checkBoxRow($model, 'USA_UNIDADES_DIST',array('disabled'=>true))
-						$form->checkBoxRow($model, 'ASISTENCIA_AUTOMAT',
-												array(
-													'disabled'=>true, 
-													'onclick'=>
-														'
-														if(ConfCi_EAN13_REGLA_LOCAL.disabled == true){
-															ConfCi_EAN13_REGLA_LOCAL.disabled = false
-															PRODUCTO_EAN13.disabled = false
-															ConfCi_EAN8_REGLA_LOCAL.disabled = false
-															ConfCi_UCC12_REGLA_LOCAL.disabled = false
-															PRODUCTO_UCC12.disabled = false
-														}else{
-															ConfCi_EAN13_REGLA_LOCAL.disabled = true
-															PRODUCTO_EAN13.disabled = true
-															ConfCi_EAN8_REGLA_LOCAL.disabled = true
-															ConfCi_UCC12_REGLA_LOCAL.disabled = true
-															PRODUCTO_UCC12.disabled = true
-															
-														}
-														'
-												)
-											)
+						$form->checkBoxRow($model, 'ASISTENCIA_AUTOMAT',array('disabled'=>true))
 						.'<fieldset style="width: 430px; float: left;">
 							<legend ><font face="arial" size=3 >Tipos a utilizar</font></legend>
 							<table>
