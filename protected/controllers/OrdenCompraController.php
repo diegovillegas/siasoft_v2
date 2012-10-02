@@ -188,7 +188,13 @@ class OrdenCompraController extends SBaseController
                         $cancelar->ESTADO = 'C';
                         $cancelar->USUARIO_CANCELA = Yii::app()->user->name;
                         $cancelar->FECHA_CANCELA = date("Y-m-d H:i:s");
-                        $cancelar->save();
+                        if($cancelar->save()){
+                            $actLinea = OrdenCompraLinea::model()->findAll('ORDEN_COMPRA = "'.$cancela.'"');
+                            foreach ($actLinea as $datos){
+                                $datos->ESTADO = 'C';
+                                $datos->save();
+                            }
+                        }
                         $contSucces+=1;
                         $succes .= $cancela.',';
                         break;
@@ -360,38 +366,16 @@ class OrdenCompraController extends SBaseController
             $mensajeWarning = MensajeSistema::model()->findByPk('A001');
             }
             if($contSucces !=0)
-                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Orden(es) Cancelada(s)<br>('.$succes.')</h3>');
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Orden(es) Cerrada(s)<br>('.$succes.')</h3>');
             
             if($contError !=0)
-                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Orden(es) no Cancelada(s)<br>('.$error.')</h3>');
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Orden(es) no Cerrada(s)<br>('.$error.')</h3>');
             
             if($contWarning !=0)
-                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Orden(es) ya Cancelada(s) o Cerrada(s)<br>('.$warning.')</h3>');
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Orden(es) pendientes de proceso antes de ser cerrada(s)<br>('.$warning.')</h3>');
             
            $this->widget('bootstrap.widgets.BootAlert');   
-            /*
-            $error = 0;
-            $exito = 0;
-            $info = 0;
-            $id = explode(",", $_GET['buscar']);
-            foreach($id as $cierra){
-                $cerrar = OrdenCompra::model()->findByPk($cierra);
-                if ($cerrar->ESTADO == 'E'){
-                    $info++; // ya estaba en estado cerrado
-                }
-                else{
-                    if ($cerrar->ESTADO == 'B' || $cerrar->ESTADO == 'R'){
-                        $cerrar->ESTADO = 'E';
-                        $cerrar->save();
-                        $exito++; // se cerraron correctamente
-                    }
-                    else{
-                        $error++; // no pudieron ser cerradas                    
-                    }
-                }
-            }
-            $variable = array('error'=>$error, 'info'=>$info, 'exito'=>$exito);
-            echo CJSON::encode($variable);*/
+           
         }
         
          /**
@@ -453,9 +437,13 @@ class OrdenCompraController extends SBaseController
                                         $relacion->save();
                                         $solicitud = SolicitudOcLinea::model()->find('SOLICITUD_OC_LINEA = "'.$datos['ID_SOLICITUD_LINEA'].'"');
                                         $solicitud->SALDO = $datos['RESTA_CANT'] - $datos['CANTIDAD_ORDENADA'];
+                                        if($solicitud->SALDO == 0){
+                                            SolicitudOcLinea::model()->cambiaAsignar($datos['SOLICITUD']);  
+                                            $solicitud->ESTADO = 'A';
+                                        }
                                         $solicitud->save();
-                                    }
-                                       
+                                        
+                                    }                                       
                                 }
                             }
 				$this->redirect(array('admin'));
