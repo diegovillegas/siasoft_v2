@@ -149,6 +149,10 @@ class OrdenCompra extends CActiveRecord
 			'CREADO_EL' => 'Creado El',
 			'ACTUALIZADO_POR' => 'Actualizado Por',
 			'ACTUALIZADO_EL' => 'Actualizado El',
+			'USUARIO_CIERRA' => 'Cerrado Por',
+			'FECHA_CIERRA' => 'Cerrado El',
+			'AUTORIZADA_POR' => 'Autorizado Por',
+			'FECHA_AUTORIZADA' => 'Autorizado El',
 		);
 	}
 
@@ -197,6 +201,10 @@ class OrdenCompra extends CActiveRecord
 		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
 		$criteria->compare('ACTUALIZADO_POR',$this->ACTUALIZADO_POR,true);
 		$criteria->compare('ACTUALIZADO_EL',$this->ACTUALIZADO_EL,true);
+		$criteria->compare('USUARIO_CIERRA',$this->CREADO_POR,true);
+		$criteria->compare('FECHA_CIERRA',$this->CREADO_EL,true);
+		$criteria->compare('AUTORIZADA_POR',$this->ACTUALIZADO_POR,true);
+		$criteria->compare('FECHA_AUTORIZADA',$this->ACTUALIZADO_EL,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

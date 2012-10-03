@@ -130,12 +130,13 @@ class OrdenCompraController extends SBaseController
            if($bus2->IMPUESTO_COMPRA != NULL){
                $bus2 = Impuesto::model()->find('ID = "'.$bus2->IMPUESTO_COMPRA.'"');
                $unidad = UnidadMedida::model()->find('ID = "'.$bus->UNIDAD.'"');
+               $cantidad = $bus->CANTIDAD - $bus->SALDO;
                $res = array(
                    'ARTICULO' => $bus->ARTICULO,
                    'DESCRIPCION' => $bus->DESCRIPCION,
                    'UNIDAD' => $unidad,
                    'FECHA_REQUERIDA' => $bus->FECHA_REQUERIDA,
-                   'CANTIDAD' => $bus->CANTIDAD,
+                   'CANTIDAD' => $cantidad,
                    'COMENTARIO' => $bus->COMENTARIO,
                    'SOLICITUD' => $bus->SOLICITUD_OC,
                    'IMPUESTO' => $bus2->PROCENTAJE,   
@@ -144,12 +145,13 @@ class OrdenCompraController extends SBaseController
            }
            else{
                $unidad = UnidadMedida::model()->find('ID = "'.$bus->UNIDAD.'"');
+               $cantidad = $bus->CANTIDAD - $bus->SALDO;
                $res = array(
                    'ARTICULO' => $bus->ARTICULO,
                    'DESCRIPCION' => $bus->DESCRIPCION,
                    'UNIDAD' => $unidad,
                    'FECHA_REQUERIDA' => $bus->FECHA_REQUERIDA,
-                   'CANTIDAD' => $bus->CANTIDAD,
+                   'CANTIDAD' => $cantidad,
                    'COMENTARIO' => $bus->COMENTARIO,
                    'SOLICITUD' => $bus->SOLICITUD_OC,
                    'IMPUESTO' => '0',  
@@ -234,45 +236,160 @@ class OrdenCompraController extends SBaseController
         }
         
         public function actionAutorizar(){
-            $id = explode(",", $_GET['buscar']);
-            $error = 0;
-            $exito = 0;
-            $info = 0;
-            $advertencia= 0;
+            
+            $id = explode(",", $_POST['check']);
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
+            
             foreach($id as $autoriza){
-                $autorizar = OrdenCompra::model()->findByPk($autoriza);
-                if($autorizar->ESTADO == 'C' || $autorizar->ESTADO == 'E'){
-                    $advertencia++; //esta en cancelar o cerrada
-                }
-                else{
-                    if ($autorizar->ESTADO == 'N' || $autorizar->ESTADO == 'A'){
-                        $info++; //ya esta en autorizar
-                    }
-                    else{
-                        $autorizar->ESTADO = 'N';
-                        //$autorizar->AUTORIZADA_POR = Yii::app()->user->name;
-                        //$autorizar->FECHA_AUTORIZADA = date("Y-m-d H:i:s");
+                 $autorizar = OrdenCompra::model()->findByPk($autoriza);
+                 
+                 switch ($autorizar->ESTADO){
+                     case 'C' :
+                        $contError+=1;
+                        $error.= $autoriza.',';
+                        break;
+                    
+                     case 'E' :
+                        $contError+=1;
+                        $error.= $autoriza.',';
+                        break;
+                 
+                     case 'P' :                      
+                        $autorizar->ESTADO = 'A';
+                        $autorizar->AUTORIZADA_POR = Yii::app()->user->name;
+                        $autorizar->FECHA_AUTORIZADA = date("Y-m-d H:i:s");
                         if($autorizar->save()){
                             $actLinea = OrdenCompraLinea::model()->findAll('ORDEN_COMPRA = "'.$autoriza.'"');
                             foreach ($actLinea as $datos){
-                                $datos->ESTADO = 'N';
+                                $datos->ESTADO = 'A';
                                 $datos->save();
                             }
-                            $exito++; // Se autorizo correctamente
                         }
-                        else{
-                            $error++; // error no se pudo autorizar
-                        }
+                        $contSucces+=1;
+                        $succes .= $autoriza.',';
+                        break;
                 
-                    }
-                }            
-                }
-            $variable = array('error'=>$error, 'info'=>$info, 'exito'=>$exito, 'advertencia'=>$advertencia);
-            echo CJSON::encode($variable);
+                    case 'B' :
+                        $contWarning+=1;
+                        $warning.= $autoriza.',';
+                        break;
+                    
+                    case 'R' :
+                        $contWarning+=1;
+                        $warning.= $autoriza.',';
+                        break;
+                    
+                    case 'A' :
+                        $contWarning+=1;
+                        $warning.= $autoriza.',';
+                        break;
+                 }
+                 
+                       
+            $mensajeSucces = MensajeSistema::model()->findByPk('S001');
+            $mensajeError = MensajeSistema::model()->findByPk('E001');
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
+            }
+            if($contSucces !=0)
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Orden(es) Autorizada(s)<br>('.$succes.')</h3>');
+            
+            if($contError !=0)
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Orden(es) no Autorizada(s)<br>('.$error.')</h3>');
+            
+            if($contWarning !=0)
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Orden(es) ya Autorizada(s)<br>('.$warning.')</h3>');
+            
+           $this->widget('bootstrap.widgets.BootAlert');
         }
         
         public function actionReversar(){
-            $id = explode(",", $_GET['buscar']);
+            
+            $id = explode(",", $_POST['check']);
+            $contSucces = 0;
+            $contError = 0;
+            $contWarning = 0;
+            $succes = '';
+            $error = '';
+            $warning = '';
+            
+            foreach($id as $reversa){
+                $reversar = OrdenCompra::model()->findByPk($reversa);
+                 
+                 switch ($reversar->ESTADO){
+                     case 'C' :
+                        $contError+=1;
+                        $error.= $autoriza.',';
+                        break;
+                    
+                     case 'E' :
+                        $contError+=1;
+                        $error.= $autoriza.',';
+                        break;
+                 
+                     case 'A' :
+                         $contar = OrdenCompraLinea::model()->countByAttributes(array('ORDEN_COMPRA' => $reversa), 'ESTADO <> "A"');   
+                         if($contar == 0){
+                            $reversar->ESTADO = 'P';
+                            $reversar->AUTORIZADA_POR = "";
+                            $reversar->FECHA_AUTORIZADA = "";
+                            if($reversar->save()){
+                                $actLinea = OrdenCompraLinea::model()->findAll('ORDEN_COMPRA = "'.$reversa.'"');
+                                foreach ($actLinea as $datos){
+                                    $datos->ESTADO = 'P';
+                                    $datos->save();
+                                }
+                            }
+                            else{
+                                $contError+=1;
+                                $error.= $reversa.',';
+                                break;
+                            }
+                            $contSucces+=1;
+                            $succes .= $reversa.',';
+                        }
+                        else{
+                            $contError+=1;
+                            $error.= $reversa.',';
+                        }
+                        break;
+                
+                    case 'P' :
+                        $contWarning+=1;
+                        $warning.= $reversar.',';
+                        break;
+                    
+                    case 'B' :
+                        $contWarning+=1;
+                        $warning.= $reversar.',';
+                        break;
+                    
+                    case 'R' :
+                        $contWarning+=1;
+                        $warning.= $reversar.',';
+                        break;
+                 }
+                 
+                       
+            $mensajeSucces = MensajeSistema::model()->findByPk('S001');
+            $mensajeError = MensajeSistema::model()->findByPk('E001');
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
+            }
+            if($contSucces !=0)
+                Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Orden(es) Reversada(s)<br>('.$succes.')</h3>');
+            
+            if($contError !=0)
+                Yii::app()->user->setFlash($mensajeError->TIPO, '<h3 align="center">'.$mensajeError->MENSAJE.': '.$contError.' Orden(es) no Reversada(s)<br>('.$error.')</h3>');
+            
+            if($contWarning !=0)
+                Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Orden(es) ya Reversada(s)<br>('.$warning.')</h3>');
+            
+           $this->widget('bootstrap.widgets.BootAlert');
+            /*$id = explode(",", $_GET['buscar']);
             $error = 0;
             $exito = 0;
             $info = 0;
@@ -292,8 +409,8 @@ class OrdenCompraController extends SBaseController
                         }
                         else{
                             $reversar->ESTADO = 'P';
-                            //$reversar->AUTORIZADA_POR = "";
-                            //$reversar->FECHA_AUTORIZADA = "";
+                            $reversar->AUTORIZADA_POR = "";
+                            $reversar->FECHA_AUTORIZADA = "";
                             if($reversar->save()){
                                 $actLinea = OrdenCompraLinea::model()->findAll('ORDEN_COMPRA = "'.$reversa.'"');
                                 foreach ($actLinea as $datos){
@@ -310,7 +427,7 @@ class OrdenCompraController extends SBaseController
                  }
             }
             $variable = array('error'=>$error, 'info'=>$info, 'exito'=>$exito, 'advertencia'=>$advertencia);
-            echo CJSON::encode($variable);
+            echo CJSON::encode($variable);*/
         }
         
         public function actionCerrar(){
@@ -339,6 +456,8 @@ class OrdenCompraController extends SBaseController
                  
                      case 'R' :
                         $cerrar->ESTADO = 'E';
+                        $cerrar->USUARIO_CIERRA = Yii::app()->user->name;
+                        $cerrar->FECHA_CIERRA = date("Y-m-d H:i:s");
                         $cerrar->save();
                         $contSucces+=1;
                         $succes .= $cierra.',';
@@ -437,12 +556,11 @@ class OrdenCompraController extends SBaseController
                                         $relacion->save();
                                         $solicitud = SolicitudOcLinea::model()->find('SOLICITUD_OC_LINEA = "'.$datos['ID_SOLICITUD_LINEA'].'"');
                                         $solicitud->SALDO = $datos['RESTA_CANT'] - $datos['CANTIDAD_ORDENADA'];
-                                        if($solicitud->SALDO == 0){
-                                            SolicitudOcLinea::model()->cambiaAsignar($datos['SOLICITUD']);  
+                                        if($solicitud->SALDO == 0){                                            
                                             $solicitud->ESTADO = 'A';
                                         }
                                         $solicitud->save();
-                                        
+                                        SolicitudOcLinea::model()->cambiaAsignar($datos['SOLICITUD']);
                                     }                                       
                                 }
                             }

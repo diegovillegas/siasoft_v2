@@ -106,7 +106,7 @@ class IngresoCompraController extends Controller
                 }
         }
 
-        public function actionCargarProveedor() {
+        public function actionCargarProveedor(){
             
             $item_id = $_GET['buscar'];
             $bus = Proveedor::model()->findByPk($item_id);
@@ -186,7 +186,7 @@ class IngresoCompraController extends Controller
                         $dataProviderOrdenes->criteria = array(
                             'select'=>'o.PROVEEDOR, t.ORDEN_COMPRA_LINEA, t.ARTICULO, t.FECHA_REQUERIDA',
                             'join'=>'inner join orden_compra o ON t.ORDEN_COMPRA = o.ORDEN_COMPRA',
-                            'condition'=>'o.PROVEEDOR="'.$busqueda.'" AND t.ESTADO = "N"',
+                            'condition'=>'o.PROVEEDOR="'.$busqueda.'" AND t.ESTADO = "A"',
                         );
                         // para responderle al request ajax debes hacer un ECHO con el JSON del dataprovider
                         echo CJSON::encode($dataProviderOrdenes);
@@ -221,7 +221,7 @@ class IngresoCompraController extends Controller
 		if(isset($_POST['IngresoCompra']))
 		{
 			$model->attributes=$_POST['IngresoCompra'];
-                            $_POST['IngresoCompra']['TIENE_FACTURA'] == 1 ? $model->TIENE_FACTURA = 'S' : $model->TIENE_FACTURA = 'N';
+                        $_POST['IngresoCompra']['TIENE_FACTURA'] == 1 ? $model->TIENE_FACTURA = 'S' : $model->TIENE_FACTURA = 'N';
 			if($model->save())
                             if(isset($_POST['LineaNuevo'])){
                                 foreach ($_POST['LineaNuevo'] as $datos){
@@ -406,7 +406,6 @@ class IngresoCompraController extends Controller
                         $error.= $id.',';
                         break;
                 }
-                
             }
             
             echo '<div id="alert" class="alert alert-success" data-dismiss="modal">
@@ -450,12 +449,11 @@ class IngresoCompraController extends Controller
                 $detalle->TIPO_TRANSACCION_CANTIDAD = 'D';
                 $detalle->save();
             }
-            
         }
         
         public function actionListar(){
             
-            $check = explode(',',$_POST['check']);            
+            $check = explode(',',$_POST['check']);
             $contSucces = 0;
             $contError = 0;
             $contWarning = 0;
@@ -473,10 +471,12 @@ class IngresoCompraController extends Controller
                         $contSucces+=1;
                         $succes .= $id.',';
                         break;
+                    
                     case 'A' :
                         $contWarning+=1;
                         $warning.= $id.',';
                         break;
+                    
                     case 'C' :
                         $contError+=1;
                         $error.= $id.',';
@@ -485,9 +485,9 @@ class IngresoCompraController extends Controller
             }
             $mensajeSucces = MensajeSistema::model()->findByPk('S002');
             $mensajeError = MensajeSistema::model()->findByPk('E001');
-            $mensajeWarning = MensajeSistema::model()->findByPk('A001');            
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
             
-           if($contSucces !=0)
+            if($contSucces !=0)
                 Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h4 align="center">'.$mensajeSucces->MENSAJE.': <br>'.$contSucces.' Ingreso(s)<br>('.$succes.')</h4>');
             
             if($contError !=0)
@@ -514,7 +514,6 @@ class IngresoCompraController extends Controller
                     echo ' - El articulo <b>'.Articulo::darNombre($datos->ARTICULO).'</b> no pertenece a esta bodega => añadirlo<br /><br />';
                 }
             }
-            
         }
         
         public function actionCancelar(){

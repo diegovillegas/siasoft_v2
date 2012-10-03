@@ -88,7 +88,7 @@ $('.search-form form').submit(function(){
     
 <?php 
     $this->widget('bootstrap.widgets.BootButton', array(
-        'label'=>'Aplicar',
+        'label'=>'Recibir',
         'buttonType'=>'ajaxSubmit',
         'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
         'size'=>'mini', // '', 'large', 'small' or 'mini'
@@ -97,7 +97,7 @@ $('.search-form form').submit(function(){
         'ajaxOptions'=>array(
             'type'=>'POST',
             'update'=>'#respuesta',
-            //'complete'=>'completado()',
+            'complete'=>'completado()',
         ),
         'htmlOptions'=>array('onclick'=>'$("#advertencia").modal();')
     ));

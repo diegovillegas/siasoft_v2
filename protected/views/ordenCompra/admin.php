@@ -1,6 +1,5 @@
 <script>
 function obtenerSeleccion(){
-
     var idcategoria = $.fn.yiiGridView.getSelection('orden-compra-grid');
     $('#check').val(idcategoria);
 }
@@ -43,7 +42,6 @@ $('.search-form form').submit(function(){
 <h1>Administrar Ordenes de Compras</h1>
 <br />
 <div id="mensaje"></div>
-
 <div align="right">
     <?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array()); ?>
     <?php echo CHtml::HiddenField('check',''); ?>

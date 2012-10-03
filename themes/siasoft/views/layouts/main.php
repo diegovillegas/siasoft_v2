@@ -35,6 +35,7 @@
 		<?php if (!Yii::app()->user->isGuest){
 		
 		$com=ConfCo::model()->find();
+                $fac=  ConfFa::model()->find();
 		$compa=Compania::model()->find();
 		$admin=ConfAs::model()->find();
 		
@@ -43,6 +44,11 @@
 			'stacked'=>false, // whether this is a stacked menu
 			'items'=>array(
 				array('label'=>'Inicio', 'url'=>array('/site/index')),
+				array('label'=>'Facturación', 'url'=>'#',	
+						'items'=>array(
+							array('label'=>'Configuracion de Facturación', 'url'=>$fac ? array('/confFa/update','id'=>$fac->ID): array('/confFa/create')),							
+						)
+				),
 				array('label'=>'Compras', 'url'=>'#',	
 						'items'=>array(
 							array('label'=>'Configuracion de Compras', 'url'=>$com ? array('/confCo/update','id'=>$com->ID): array('/confCo/create')),
