@@ -22,11 +22,11 @@ function reescribir(){
 
 $(document).ready(function(){
     $("#continuar").click(function (e) {
-    $.ajax({        
+    $.ajax({
         'beforeSend':cargando(),
         'url':'/siasoft_v2/index.php?r=ingresoCompra/aplicar&pasar='+$('#check').val(),
         'cache':false,
-        'success':function(html){jQuery("#cargando").html(html)}});    
+        'success':function(html){jQuery("#cargando").html(html)}});
     });
 });
 
@@ -125,13 +125,20 @@ $('.search-form form').submit(function(){
 	'columns'=>array(
                 array('class'=>'CCheckBoxColumn'),
 		'INGRESO_COMPRA',
-		'PROVEEDOR',
+                array(
+                    'name'=>'PROVEEDOR',
+                    'type'=>'text',
+                    'filter' => CHtml::listData(Proveedor::model()->findAll(), 'PROVEEDOR', 'NOMBRE'),
+                    'value'=>'$data->pROVEEDOR->NOMBRE'
+                ),
+		//'PROVEEDOR',
 		'FECHA_INGRESO',
 		//'TIENE_FACTURA',
                 array(
                     'name'=>'ESTADO',
                     'header'=>'Estado',
-                    'filter'=>array('P'=>'Planeado','A'=>'Aplicado','C'=>'Cancelado'),
+                    'filter'=>array('P'=>'Planeado','R'=>'Recibido','C'=>'Cancelado'),
+                    'value'=>'IngresoCompra::estado($data->ESTADO)',
                 ),
                 //'ESTADO',
                 'APLICADO_POR',

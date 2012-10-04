@@ -25,7 +25,8 @@
                 $form->textFieldRow($model,'COND_PAGO_CONTADO',array('size'=>4,'maxlength'=>4))
                 .$form->textFieldRow($model,'BODEGA_DEFECTO',array('size'=>4,'maxlength'=>4))
                 .$form->textFieldRow($model,'CATEGORIA_CLIENTE')
-                .$form->textFieldRow($model,'NIVEL_PRECIO',array('size'=>12,'maxlength'=>12)), 'active'=>true),
+                .$form->textFieldRow($model,'NIVEL_PRECIO',array('size'=>12,'maxlength'=>12))
+                .$form->textField($model,'DECIMALES_PRECIO'), 'active'=>true),
 
             array('label'=>'Otros', 'content'=>
                 'contenido'),
@@ -42,12 +43,6 @@
                 'contenido'),
         ),
     )); ?>
-    
-	<div class="row">
-		<?php echo $form->labelEx($model,'DECIMALES_PRECIO'); ?>
-		<?php echo $form->textField($model,'DECIMALES_PRECIO'); ?>
-		<?php echo $form->error($model,'DECIMALES_PRECIO'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'DESCUENTO_PRECIO'); ?>

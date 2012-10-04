@@ -51,6 +51,7 @@ class IngresoCompraController extends Controller
             $bus2 = Articulo::model()->find('ARTICULO = "'.$bus->ARTICULO.'"');
             $unidad = UnidadMedida::model()->find('ID = "'.$bus->UNIDAD_COMPRA.'"');
             $bodega = Bodega::model()->find('ID = "'.$bus->BODEGA.'"');
+            $ordenada = $bus->CANTIDAD_ORDENADA - $bus->SALDO;
             $res = array(
                    'ARTICULO' => $bus->ARTICULO,
                    'DESCRIPCION' => $bus2->NOMBRE,
@@ -58,8 +59,9 @@ class IngresoCompraController extends Controller
                    'UNIDAD_ORDENADA_NOMBRE' => $unidad->NOMBRE,
                    'BODEGA' => $bus->BODEGA,
                    'BODEGA_NOMBRE' => $bodega->DESCRIPCION,
-                   'CANTIDAD_ORDENADA' => $bus->CANTIDAD_ORDENADA,   
+                   'CANTIDAD_ORDENADA' => $ordenada,
                    'PRECIO_UNITARIO' => $bus->PRECIO_UNITARIO,
+                   'CANTIDAD_REAL' => $bus->CANTIDAD_ORDENADA,
                    'COSTO_FISCAL_UNITARIO' => Articulo::darCosto($bus->ARTICULO),
                    'ID' => $item_id,
             );
@@ -79,7 +81,7 @@ class IngresoCompraController extends Controller
                           $this->renderPartial('_form_lineas', 
                             array(
                                 'linea'=>$linea,
-                                'ruta'=>$ruta,  
+                                'ruta'=>$ruta,
                                 'Pactualiza'=>isset($_POST['ACTUALIZA']) ? $_POST['ACTUALIZA'] : 0,
                             )
                         );
@@ -123,19 +125,17 @@ class IngresoCompraController extends Controller
             $item_id = $_GET['buscar'];
             $bus = Articulo::model()->findByPk($item_id);
             if($bus){
-            $bus2 = UnidadMedida::model()->find('ID = "'.$bus->UNIDAD_ALMACEN.'"');
-            $bus3 = UnidadMedida::model()->findAll('TIPO = "'.$bus2->TIPO.'"');
-            
-            $res = array(
-                 'DESCRIPCION'=>$bus->NOMBRE,
-                 'UNIDAD'=>$bus3,
-                 'ID'=>$bus->ARTICULO,
-                  
-            );
-           
-             $bus2= '';
-             $bus3= '';
-            
+                $bus2 = UnidadMedida::model()->find('ID = "'.$bus->UNIDAD_ALMACEN.'"');
+                $bus3 = UnidadMedida::model()->findAll('TIPO = "'.$bus2->TIPO.'"');
+
+                $res = array(
+                     'DESCRIPCION'=>$bus->NOMBRE,
+                     'UNIDAD'=>$bus3,
+                     'ID'=>$bus->ARTICULO,
+
+                );
+                $bus2= '';
+                $bus3= '';
             }
             else{
                 $res = array(
@@ -235,6 +235,13 @@ class IngresoCompraController extends Controller
                                     $salvar->UNIDAD_ORDENADA = $datos['UNIDAD_ORDENADA'];
                                     $salvar->CANTIDAD_ACEPTADA = $datos['CANTIDAD_ACEPTADA'];
                                     $salvar->CANTIDAD_RECHAZADA = $datos['CANTIDAD_RECHAZADA'];
+                                    $saldo = $datos['CANTIDAD_ORDENADA'] - $datos['CANTIDAD_ACEPTADA'];
+                                    if($saldo != 0){
+                                        OrdenCompraLinea::model()->updateByPk($datos['ORDEN_COMPRA_LINEA'], array('SALDO' => $saldo));                                        
+                                    }
+                                    else{
+                                        OrdenCompraLinea::model()->updateByPk($datos['ORDEN_COMPRA_LINEA'], array('SALDO' => $datos['CANTIDAD_REAL']));
+                                    }
                                     $salvar->PRECIO_UNITARIO = $datos['PRECIO_UNITARIO'];
                                     $salvar->COSTO_FISCAL_UNITARIO = $datos['COSTO_FISCAL_UNITARIO'];
                                     $salvar->ACTIVO = 'S';
@@ -361,14 +368,13 @@ class IngresoCompraController extends Controller
             $succes = '';
             $error = '';
             $warning = '';
-            foreach($check as $id){
-                
+            foreach($check as $id){                
                 $ingreso = IngresoCompra::model()->findByPk($id);
                 switch ($ingreso->ESTADO){
                     case 'P' :                        
                         $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$ingreso->INGRESO_COMPRA.'"');
-                        $this->transacciones($lineas, $ingreso);
-                        $ingreso->ESTADO = 'A';
+                        $this->transacciones($lineas, $ingreso);                        
+                        $ingreso->ESTADO = 'R';
                         $ingreso->APLICADO_POR = Yii::app()->user->name;
                         $ingreso->APLICADO_EL = date("Y-m-d H:i:s");                        
                         $ingreso->save();
@@ -391,13 +397,13 @@ class IngresoCompraController extends Controller
                                 $existenciaBodega->CANT_REMITIDA = 0;
                                 $existenciaBodega->CANT_CUARENTENA = 0;
                                 $existenciaBodega->CANT_VENCIDA = 0;
-                                $existenciaBodega->ACTIVO = 'S';                        
-                                $existenciaBodega->CANT_DISPONIBLE = $datos->CANTIDAD_ACEPTADA;    
+                                $existenciaBodega->ACTIVO = 'S';
+                                $existenciaBodega->CANT_DISPONIBLE = $datos->CANTIDAD_ACEPTADA;
                                 $existenciaBodega->insert(); // - El articulo no pertenece a esta bodega
                             }
                         }
                         break;
-                    case 'A' :
+                    case 'R' :
                         $contWarning+=1;
                         $warning.= $id.',';
                         break;
@@ -406,8 +412,7 @@ class IngresoCompraController extends Controller
                         $error.= $id.',';
                         break;
                 }
-            }
-            
+            }            
             echo '<div id="alert" class="alert alert-success" data-dismiss="modal">
                             <h2 align="center">Operacion Satisfactoria</h2>
                             </div>
@@ -427,6 +432,8 @@ class IngresoCompraController extends Controller
         }
         
         public function transacciones($lineas, $ingreso){
+            
+            //Transaccion Inv
             $transaccion = new TransaccionInv;            
             $transaccion->CONSECUTIVO_CO = $ingreso->INGRESO_COMPRA;
             $transaccion->MODULO_ORIGEN = 'CO';
@@ -434,7 +441,8 @@ class IngresoCompraController extends Controller
             $transaccion->ACTIVO = 'S';
             $transaccion->save();
             
-            foreach($lineas as $datos){
+            foreach($lineas as $datos){  
+                //Transaccion Inv Detalle
                 $detalle = new TransaccionInvDetalle;
                 $detalle->TRANSACCION_INV = $transaccion->TRANSACCION_INV;
                 $detalle->LINEA = $datos->LINEA_NUM;
@@ -448,6 +456,17 @@ class IngresoCompraController extends Controller
                 $detalle->ACTIVO = 'S';
                 $detalle->TIPO_TRANSACCION_CANTIDAD = 'D';
                 $detalle->save();
+                
+                //Backorder - recibido
+                $back = OrdenCompraLinea::model()->findByPk($datos->ORDEN_COMPRA_LINEA);
+                if($back->SALDO == $back->CANTIDAD_ORDENADA){
+                    $back->ESTADO = 'R';
+                    OrdenCompraLinea::model()->cambiaRecibir($datos->ORDEN_COMPRA_LINEA);
+                }
+                else{
+                    $back->ESTADO = 'B';
+                    OrdenCompra::model()->updateByPk($back->ORDEN_COMPRA, array('ESTADO'=>'B'));                    
+                }                
             }
         }
         
@@ -466,13 +485,13 @@ class IngresoCompraController extends Controller
                 
                 switch ($ingreso->ESTADO){
                     case 'P' :
-                        $documento->ESTADO = 'A';
+                        //$documento->ESTADO = 'A';
                         $this->modificarExistencias($ingreso);
                         $contSucces+=1;
                         $succes .= $id.',';
                         break;
                     
-                    case 'A' :
+                    case 'R' :
                         $contWarning+=1;
                         $warning.= $id.',';
                         break;
@@ -502,10 +521,8 @@ class IngresoCompraController extends Controller
         protected function modificarExistencias($documento){
             
             $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$documento->INGRESO_COMPRA.'"');            
-            foreach($lineas as $datos){
-                $articulo = Articulo::model()->findByPk($datos->ARTICULO);
-                $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));
-               
+            foreach($lineas as $datos){                
+                $existenciaBodega = ExistenciaBodega::model()->findByAttributes(array('ARTICULO'=>$datos->ARTICULO,'BODEGA'=>$datos->BODEGA));               
                 if($existenciaBodega){                                        
                     if($datos->CANTIDAD_ACEPTADA > $existenciaBodega->EXISTENCIA_MAXIMA){
                         echo " - La cantidad aceptada para el articulo <b>".Articulo::darNombre($datos->ARTICULO)."</b> exede a la maxima permitida => Agregar<br /><br />";                        
@@ -538,18 +555,16 @@ class IngresoCompraController extends Controller
                      $documento->CANCELADO_EL = date("Y-m-d H:i:s");
                      $contSucces+=1;
                      $succes .= $id.',';
-                 }elseif($documento->ESTADO == 'A'){
+                 }elseif($documento->ESTADO == 'R'){
                      $contWarning+=1;
                      $warning.= $id.',';
-                     
                  }                    
                  $documento->save();
             }
                        
             $mensajeSucces = MensajeSistema::model()->findByPk('S001');
             $mensajeError = MensajeSistema::model()->findByPk('E001');
-            $mensajeWarning = MensajeSistema::model()->findByPk('A001');
-            
+            $mensajeWarning = MensajeSistema::model()->findByPk('A001');            
             
            if($contSucces !=0)
                 Yii::app()->user->setFlash($mensajeSucces->TIPO, '<h3 align="center">'.$mensajeSucces->MENSAJE.': '.$contSucces.' Documento(s) Cancelados<br>('.$succes.')</h3>');

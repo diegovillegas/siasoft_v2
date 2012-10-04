@@ -17,8 +17,8 @@
  * @property string $ACTUALIZADO_EL
  *
  * The followings are the available model relations:
- * @property IngresoCompra $cONSECUTIVOCO
  * @property DocumentoInv $cONSECUTIVOCI
+ * @property IngresoCompra $cONSECUTIVOCO
  * @property TransaccionInvDetalle[] $transaccionInvDetalles
  */
 class TransaccionInv extends CActiveRecord
@@ -60,7 +60,6 @@ class TransaccionInv extends CActiveRecord
 			array('TRANSACCION_INV, CONSECUTIVO_CI, CONSECUTIVO_CO, CONSECUTIVO_FA, MODULO_ORIGEN, REFERENCIA, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
 		);
 	}
-        
         public function behaviors()
 	{
 		return array(
@@ -77,7 +76,6 @@ class TransaccionInv extends CActiveRecord
 			),
 		);
 	}
-        
 	/**
 	 * @return array relational rules.
 	 */
@@ -86,8 +84,8 @@ class TransaccionInv extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'cONSECUTIVOCO' => array(self::BELONGS_TO, 'IngresoCompra', 'CONSECUTIVO_CO'),
 			'cONSECUTIVOCI' => array(self::BELONGS_TO, 'DocumentoInv', 'CONSECUTIVO_CI'),
+			'cONSECUTIVOCO' => array(self::BELONGS_TO, 'IngresoCompra', 'CONSECUTIVO_CO'),
 			'transaccionInvDetalles' => array(self::HAS_MANY, 'TransaccionInvDetalle', 'TRANSACCION_INV'),
 		);
 	}
@@ -138,5 +136,5 @@ class TransaccionInv extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}        
+	}
 }

@@ -34,7 +34,7 @@
                     $('#precio_unitario_' + a).text(data.PRECIO_UNITARIO);   
                     $('#costo_fiscal_unitario_' + a).text(data.COSTO_FISCAL_UNITARIO); 
                     $('#linea_num_' + a).text(parseInt(i));
-                    $('#orden_compra_linea_' + a).text(data.ID); 
+                    $('#orden_compra_linea_' + a).text(data.ID);                    
                     
                     //input
                     $('#LineaNuevo_' + a + '_ARTICULO').val(data.ARTICULO);
@@ -45,7 +45,8 @@
                     $('#LineaNuevo_' + a + '_PRECIO_UNITARIO').val(data.PRECIO_UNITARIO);   
                     $('#LineaNuevo_' + a + '_COSTO_FISCAL_UNITARIO').val(data.COSTO_FISCAL_UNITARIO);                
                     $('#LineaNuevo_' + a + '_LINEA_NUM').val(parseInt(i));                
-                    $('#LineaNuevo_' + a + '_ORDEN_COMPRA_LINEA').val(data.ID);                
+                    $('#LineaNuevo_' + a + '_ORDEN_COMPRA_LINEA').val(data.ID);
+                    $('#LineaNuevo_' + a + '_CANTIDAD_REAL').val(data.CANTIDAD_REAL);
                     a++;
                     $('#contador').val(a);
                 }
@@ -153,6 +154,7 @@
                                     <td>
                                         <span id='orden_compra_linea_<?php echo '{0}';?>'></span>
                                         <?php echo CHtml::hiddenField('LineaNuevo[{0}][ORDEN_COMPRA_LINEA]',''); ?>
+                                        <?php echo CHtml::hiddenField('LineaNuevo[{0}][CANTIDAD_REAL]',''); ?>
                                         <?php echo CHtml::hiddenField('LineaNuevo[{0}][ACTIVO]','S'); ?>
                                     </td>
                                     <td>

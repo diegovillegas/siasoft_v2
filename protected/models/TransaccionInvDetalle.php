@@ -9,7 +9,7 @@
  * @property integer $LINEA
  * @property string $TIPO_TRANSACCION
  * @property integer $SUBTIPO
- * @property integer $TIPO_TRANSACCION_CANTIDAD
+ * @property string $TIPO_TRANSACCION_CANTIDAD
  * @property string $ARTICULO
  * @property integer $UNIDAD
  * @property string $BODEGA
@@ -29,8 +29,8 @@
  * @property SubtipoTransaccion $sUBTIPO
  * @property TipoTransaccion $tIPOTRANSACCION
  * @property UnidadMedida $uNIDAD
- * @property TipoTransaccionCantidad $tIPOTRANSACCIONCANTIDAD
  * @property Articulo $aRTICULO
+ * @property TipoCantidadArticulo $tIPOTRANSACCIONCANTIDAD
  */
 class TransaccionInvDetalle extends CActiveRecord
 {
@@ -61,17 +61,16 @@ class TransaccionInvDetalle extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('TRANSACCION_INV, LINEA, ARTICULO, UNIDAD, BODEGA, NATURALEZA, CANTIDAD, COSTO_UNITARIO, PRECIO_UNITARIO, ACTIVO', 'required'),
-			array('TRANSACCION_INV, LINEA, SUBTIPO, TIPO_TRANSACCION_CANTIDAD, UNIDAD', 'numerical', 'integerOnly'=>true),
+			array('TRANSACCION_INV, LINEA, SUBTIPO, UNIDAD', 'numerical', 'integerOnly'=>true),
 			array('TIPO_TRANSACCION, BODEGA', 'length', 'max'=>4),
+			array('TIPO_TRANSACCION_CANTIDAD, NATURALEZA, ACTIVO', 'length', 'max'=>1),
 			array('ARTICULO, CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),
-			array('NATURALEZA, ACTIVO', 'length', 'max'=>1),
 			array('CANTIDAD, COSTO_UNITARIO, PRECIO_UNITARIO', 'length', 'max'=>28),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('TRANSACCION_INV_DETALLE, TRANSACCION_INV, LINEA, TIPO_TRANSACCION, SUBTIPO, TIPO_TRANSACCION_CANTIDAD, ARTICULO, UNIDAD, BODEGA, NATURALEZA, CANTIDAD, COSTO_UNITARIO, PRECIO_UNITARIO, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
 		);
 	}
-        
         public function behaviors()
 	{
 		return array(
@@ -88,7 +87,6 @@ class TransaccionInvDetalle extends CActiveRecord
 			),
 		);
 	}
-        
 	/**
 	 * @return array relational rules.
 	 */
@@ -102,8 +100,8 @@ class TransaccionInvDetalle extends CActiveRecord
 			'sUBTIPO' => array(self::BELONGS_TO, 'SubtipoTransaccion', 'SUBTIPO'),
 			'tIPOTRANSACCION' => array(self::BELONGS_TO, 'TipoTransaccion', 'TIPO_TRANSACCION'),
 			'uNIDAD' => array(self::BELONGS_TO, 'UnidadMedida', 'UNIDAD'),
-			'tIPOTRANSACCIONCANTIDAD' => array(self::BELONGS_TO, 'TipoTransaccionCantidad', 'TIPO_TRANSACCION_CANTIDAD'),
 			'aRTICULO' => array(self::BELONGS_TO, 'Articulo', 'ARTICULO'),
+			'tIPOTRANSACCIONCANTIDAD' => array(self::BELONGS_TO, 'TipoCantidadArticulo', 'TIPO_TRANSACCION_CANTIDAD'),
 		);
 	}
 
@@ -150,7 +148,7 @@ class TransaccionInvDetalle extends CActiveRecord
 		$criteria->compare('LINEA',$this->LINEA);
 		$criteria->compare('TIPO_TRANSACCION',$this->TIPO_TRANSACCION,true);
 		$criteria->compare('SUBTIPO',$this->SUBTIPO);
-		$criteria->compare('TIPO_TRANSACCION_CANTIDAD',$this->TIPO_TRANSACCION_CANTIDAD);
+		$criteria->compare('TIPO_TRANSACCION_CANTIDAD',$this->TIPO_TRANSACCION_CANTIDAD,true);
 		$criteria->compare('ARTICULO',$this->ARTICULO,true);
 		$criteria->compare('UNIDAD',$this->UNIDAD);
 		$criteria->compare('BODEGA',$this->BODEGA,true);
@@ -167,5 +165,5 @@ class TransaccionInvDetalle extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}        
+	}
 }
