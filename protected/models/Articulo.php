@@ -348,7 +348,7 @@ class Articulo extends CActiveRecord
                     $costoTotal = 0;
                     $cantTotal = 0;
                     
-                    foreach($transaccion as $datos){
+                    foreach($transacciones as $datos){
                         $costoTotal += ($datos->CANTIDAD * $datos->COSTO_UNITARIO);
                         $cantTotal += $datos->CANTIDAD;
                     }

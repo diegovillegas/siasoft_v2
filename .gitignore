@@ -1,4 +1,5 @@
 assets/
 protected/runtime/
 themes/classic/views/
-/nbproject/private/
+nbproject/private/
+nbproject

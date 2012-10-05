@@ -620,7 +620,8 @@ class DocumentoInvController extends SBaseController
                         $transaction->commit();
                      }catch(Exception $e) // se arroja una excepción si una consulta falla
                      {
-                        Yii::app()->user->setFlash('error', $e);
+                        $contError+=1;
+                        $error.= $id.',';
                         $transaction->rollBack();
                      }
                  }elseif($documento->ESTADO == 'L'){
