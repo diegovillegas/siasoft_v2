@@ -186,7 +186,7 @@ class IngresoCompraController extends Controller
                         $dataProviderOrdenes->criteria = array(
                             'select'=>'o.PROVEEDOR, t.ORDEN_COMPRA_LINEA, t.ARTICULO, t.FECHA_REQUERIDA',
                             'join'=>'inner join orden_compra o ON t.ORDEN_COMPRA = o.ORDEN_COMPRA',
-                            'condition'=>'o.PROVEEDOR="'.$busqueda.'" AND t.ESTADO = "A"',
+                            'condition'=>'o.PROVEEDOR="'.$busqueda.'" AND t.ESTADO = "A" OR t.ESTADO = "B"',
                         );
                         // para responderle al request ajax debes hacer un ECHO con el JSON del dataprovider
                         echo CJSON::encode($dataProviderOrdenes);
@@ -461,12 +461,15 @@ class IngresoCompraController extends Controller
                 $back = OrdenCompraLinea::model()->findByPk($datos->ORDEN_COMPRA_LINEA);
                 if($back->SALDO == $back->CANTIDAD_ORDENADA){
                     $back->ESTADO = 'R';
+                    $back->save();
                     OrdenCompraLinea::model()->cambiaRecibir($datos->ORDEN_COMPRA_LINEA);
                 }
                 else{
                     $back->ESTADO = 'B';
+                    $back->save();
                     OrdenCompra::model()->updateByPk($back->ORDEN_COMPRA, array('ESTADO'=>'B'));                    
-                }                
+                }
+                
             }
         }
         
