@@ -220,6 +220,11 @@ class ConfCo extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public static function darConf(){
+            $conf = ConfCo::model()->find();            
+            return $conf ? true : false;
+        }
 	
 		public function behaviors()
 	{

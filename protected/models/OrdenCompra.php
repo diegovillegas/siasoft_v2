@@ -210,6 +210,23 @@ class OrdenCompra extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public static function estado($codigo){
+            switch ($codigo){
+                case 'P' : return 'Planeado';
+                break;
+                case 'B' : return 'Backorder';
+                break;
+                case 'R' : return 'Recibido';
+                break;
+                case 'C' : return 'Cancelado';
+                break;
+                case 'A' : return 'Autorizado';
+                break;
+                case 'E' : return 'Cerrada';
+                break;
+            }
+        }
 
         public function behaviors()
 	{

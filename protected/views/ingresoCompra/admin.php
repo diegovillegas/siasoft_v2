@@ -24,7 +24,7 @@ $(document).ready(function(){
     $("#continuar").click(function (e) {
     $.ajax({
         'beforeSend':cargando(),
-        'url':'/siasoft_v2/index.php?r=ingresoCompra/aplicar&pasar='+$('#check').val(),
+        'url':'<?php echo $this->createUrl('/IngresoCompra/aplicar') ?>&pasar='+$('#check').val(),
         'cache':false,
         'success':function(html){jQuery("#cargando").html(html)}});
     });
@@ -35,7 +35,8 @@ function buscar(){}
 <?php
 /* @var $this IngresoCompraController */
 /* @var $model IngresoCompra */
-
+if(!ConfCo::darConf())
+     $this->redirect(array('/confCo/create'));
 $this->breadcrumbs=array(
 	'Ingreso Compras'=>array('admin'),
 	'Administrar',

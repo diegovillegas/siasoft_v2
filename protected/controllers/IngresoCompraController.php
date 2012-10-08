@@ -399,6 +399,10 @@ class IngresoCompraController extends Controller
                                 $existenciaBodega->CANT_VENCIDA = 0;
                                 $existenciaBodega->ACTIVO = 'S';
                                 $existenciaBodega->CANT_DISPONIBLE = $datos->CANTIDAD_ACEPTADA;
+                                $existenciaBodega->CREADO_POR = Yii::app()->user->name;
+                                $existenciaBodega->CREADO_EL = date("Y-m-d H:i:s");
+                                $existenciaBodega->ACTUALIZADO_POR = Yii::app()->user->name;
+                                $existenciaBodega->ACTUALIZADO_EL = date("Y-m-d H:i:s");
                                 $existenciaBodega->insert(); // - El articulo no pertenece a esta bodega
                             }
                         }

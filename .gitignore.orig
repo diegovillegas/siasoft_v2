@@ -1,0 +1,10 @@
+assets/
+protected/runtime/
+themes/classic/views/
+<<<<<<< HEAD
+/nbproject/private/
+/nbproject/
+=======
+nbproject/private/
+nbproject
+>>>>>>> 40780479ee58751eea8390672f44276cda3d8315

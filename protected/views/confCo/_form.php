@@ -178,7 +178,7 @@
 		.$form->textFieldRow($model,'RUBRO5_ORDNOM',array('size'=>15,'maxlength'=>15, 'disabled'=>true))
 		.'</fieldset>'),
 		
-		array('label'=>'Embarques', 'content'=>
+		array('label'=>'Ingresos', 'content'=>
 		'<fieldset>'
 		.'<legend>Embarques</legend>'
 		.$form->textFieldRow($model,'RUBRO1_EMBNOM',array('size'=>15,'maxlength'=>15, 'disabled'=>true))

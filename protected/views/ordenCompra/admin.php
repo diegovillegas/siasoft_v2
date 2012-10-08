@@ -15,6 +15,8 @@ function inicio(){
 }
 </script>
 <?php
+if(!ConfCo::darConf())
+     $this->redirect(array('/confCo/create'));
 $this->breadcrumbs=array(
 	'Orden Compras'=>array('admin'),
 	'Administrar',
@@ -138,9 +140,19 @@ $this->widget('bootstrap.widgets.BootButton', array(
                 array('class'=>'CCheckBoxColumn',
                       'htmlOptions'=>array('onclick'=>'ocultarMensajes()')),
 		'ORDEN_COMPRA',
-		'PROVEEDOR',
+		array(
+                    'name'=>'PROVEEDOR',
+                    'type'=>'text',
+                    'filter' => CHtml::listData(Proveedor::model()->findAll(), 'PROVEEDOR', 'NOMBRE'),
+                    'value'=>'$data->pROVEEDOR->NOMBRE'
+                ),
 		'FECHA',
-                'ESTADO',		
+                array(
+                    'name'=>'ESTADO',
+                    'header'=>'Estado',
+                    'filter'=>array('P'=>'Planeado','R'=>'Recibido','C'=>'Cancelado'),
+                    'value'=>'OrdenCompra::estado($data->ESTADO)',
+                ),		
 		'DEPARTAMENTO',
 		'FECHA_COTIZACION',
 		/*

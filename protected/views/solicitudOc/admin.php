@@ -15,6 +15,8 @@ function inicio(){
 }
 </script>
 <?php
+if(!ConfCo::darConf())
+     $this->redirect(array('/confCo/create'));
 $this->breadcrumbs=array(
 	'Solicitudes'=>array('admin'),
 	'Administrar',
