@@ -51,7 +51,7 @@ class IngresoCompraController extends Controller
             $bus2 = Articulo::model()->find('ARTICULO = "'.$bus->ARTICULO.'"');
             $unidad = UnidadMedida::model()->find('ID = "'.$bus->UNIDAD_COMPRA.'"');
             $bodega = Bodega::model()->find('ID = "'.$bus->BODEGA.'"');
-            $ordenada = $bus->CANTIDAD_ORDENADA - $bus->SALDO;
+            $ordenada = $bus->CANTIDAD_ORDENADA - $bus->CANTIDAD_RECIBIDA;
             $res = array(
                    'ARTICULO' => $bus->ARTICULO,
                    'DESCRIPCION' => $bus2->NOMBRE,
@@ -235,18 +235,17 @@ class IngresoCompraController extends Controller
                                     $salvar->UNIDAD_ORDENADA = $datos['UNIDAD_ORDENADA'];
                                     $salvar->CANTIDAD_ACEPTADA = $datos['CANTIDAD_ACEPTADA'];
                                     $salvar->CANTIDAD_RECHAZADA = $datos['CANTIDAD_RECHAZADA'];
-                                    $saldo = $datos['CANTIDAD_ORDENADA'] - $datos['CANTIDAD_ACEPTADA'];
-                                    if($saldo != 0){
-                                        OrdenCompraLinea::model()->updateByPk($datos['ORDEN_COMPRA_LINEA'], array('SALDO' => $saldo));                                        
-                                    }
-                                    else{
-                                        OrdenCompraLinea::model()->updateByPk($datos['ORDEN_COMPRA_LINEA'], array('SALDO' => $datos['CANTIDAD_REAL']));
-                                    }
+                                    $recibida = OrdenCompraLinea::model()->findByPk($datos['ORDEN_COMPRA_LINEA']);
+                                    $recibir = $recibida->CANTIDAD_RECIBIDA + $datos['CANTIDAD_ACEPTADA'];
+                                    $rechaza = $recibida->CANTIDAD_RECHAZADA + $datos['CANTIDAD_RECHAZADA'];
+                                    OrdenCompraLinea::model()->updateByPk($datos['ORDEN_COMPRA_LINEA'], array('CANTIDAD_RECIBIDA' => $recibir, 'CANTIDAD_RECHAZADA' => $rechaza));
                                     $salvar->PRECIO_UNITARIO = $datos['PRECIO_UNITARIO'];
                                     $salvar->COSTO_FISCAL_UNITARIO = $datos['COSTO_FISCAL_UNITARIO'];
                                     $salvar->ACTIVO = 'S';
                                     $salvar->save();
                                     Articulo::model()->actualizarCosto($datos['ARTICULO']);
+                                    $config->ULT_EMBARQUE = $_POST['IngresoCompra']['INGRESO_COMPRA'];
+                                    $config->save();
                                     $i++;
                                 }
                             }
@@ -371,7 +370,7 @@ class IngresoCompraController extends Controller
             foreach($check as $id){                
                 $ingreso = IngresoCompra::model()->findByPk($id);
                 switch ($ingreso->ESTADO){
-                    case 'P' :                        
+                    case 'P' :
                         $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$ingreso->INGRESO_COMPRA.'"');
                         $this->transacciones($lineas, $ingreso);                        
                         $ingreso->ESTADO = 'R';
@@ -463,7 +462,7 @@ class IngresoCompraController extends Controller
                 
                 //Backorder - recibido
                 $back = OrdenCompraLinea::model()->findByPk($datos->ORDEN_COMPRA_LINEA);
-                if($back->SALDO == $back->CANTIDAD_ORDENADA){
+                if($back->CANTIDAD_RECIBIDA == $back->CANTIDAD_ORDENADA){
                     $back->ESTADO = 'R';
                     $back->save();
                     OrdenCompraLinea::model()->cambiaRecibir($datos->ORDEN_COMPRA_LINEA);

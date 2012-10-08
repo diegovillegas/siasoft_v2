@@ -127,7 +127,7 @@
 		.$form->textAreaRow($model,'ORDEN_OBSERVACION',array('rows'=>6, 'cols'=>50))
 		.'</fieldset>'),
 		
-        array('label'=>'Embarques', 'content'=>
+        array('label'=>'Ingresos', 'content'=>
 		'<fieldset>'
 		.'<legend>Varios</legend>'
 		.$form->textFieldRow($model,'POR_VARIAC_COSTO',array('size'=>28,'maxlength'=>28, 'prepend'=>'%'))
@@ -143,13 +143,13 @@
 		.$form->textFieldRow($model,'PRECIO_DEC')
 		.$form->textFieldRow($model,'CANTIDAD_DEC').'</fieldset>'),
 		
-		array('label'=>'Pedidos', 'content'=>
+		/*array('label'=>'Pedidos', 'content'=>
 		'<fieldset>'
 		.'<legend>Columnas de pedidos</legend>'
 		.$form->checkBoxRow($model,'PEDIDOS_SOLICITUD')
 		.$form->checkBoxRow($model,'PEDIDOS_ORDEN')
 		.$form->checkBoxRow($model,'PEDIDOS_EMBARQUE')
-		.'</fieldset>'),
+		.'</fieldset>'),*/ //oculta generar columnas
 		
 		array('label'=>'Direcciones', 'content'=>
 		'<fieldset>'
@@ -180,7 +180,7 @@
 		
 		array('label'=>'Ingresos', 'content'=>
 		'<fieldset>'
-		.'<legend>Embarques</legend>'
+		.'<legend>Ingresos</legend>'
 		.$form->textFieldRow($model,'RUBRO1_EMBNOM',array('size'=>15,'maxlength'=>15, 'disabled'=>true))
 		.$form->textFieldRow($model,'RUBRO2_EMBNOM',array('size'=>15,'maxlength'=>15, 'disabled'=>true))
 		.$form->textFieldRow($model,'RUBRO3_EMBNOM',array('size'=>15,'maxlength'=>15, 'disabled'=>true))

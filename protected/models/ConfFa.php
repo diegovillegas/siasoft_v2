@@ -16,6 +16,7 @@
  * @property integer $FORMATO_FACTURA
  * @property integer $FORMATO_REMISION
  * @property string $USAR_RUBROS
+ * @property string $OBSERVACIONES
  * @property string $RUBRO1_NOMBRE
  * @property string $RUBRO2_NOMBRE
  * @property string $RUBRO3_NOMBRE
@@ -27,13 +28,13 @@
  * @property string $ACTUALIZADO_EL
  *
  * The followings are the available model relations:
- * @property NivelPrecio $nIVELPRECIO
  * @property Bodega $bODEGADEFECTO
  * @property Categoria $cATEGORIACLIENTE
  * @property CodicionPago $cONDPAGOCONTADO
  * @property FormatoImpresion $fORMATOFACTURA
  * @property FormatoImpresion $fORMATOPEDIDO
  * @property FormatoImpresion $fORMATOREMISION
+ * @property NivelPrecio $nIVELPRECIO
  */
 class ConfFa extends CActiveRecord
 {
@@ -63,16 +64,17 @@ class ConfFa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ID, DECIMALES_PRECIO, DESCUENTO_PRECIO, DESCUENTO_AFECTA_IMP, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'required'),
-			array('ID, CATEGORIA_CLIENTE, DECIMALES_PRECIO, FORMATO_PEDIDO, FORMATO_FACTURA, FORMATO_REMISION', 'numerical', 'integerOnly'=>true),
+			array('DECIMALES_PRECIO, DESCUENTO_PRECIO, DESCUENTO_AFECTA_IMP, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'required'),
+			array('CATEGORIA_CLIENTE, DECIMALES_PRECIO, FORMATO_PEDIDO, FORMATO_FACTURA, FORMATO_REMISION', 'numerical', 'integerOnly'=>true),
 			array('COND_PAGO_CONTADO, BODEGA_DEFECTO', 'length', 'max'=>4),
 			array('NIVEL_PRECIO', 'length', 'max'=>12),
 			array('DESCUENTO_PRECIO, DESCUENTO_AFECTA_IMP, USAR_RUBROS', 'length', 'max'=>1),
 			array('RUBRO1_NOMBRE, RUBRO2_NOMBRE, RUBRO3_NOMBRE, RUBRO4_NOMBRE, RUBRO5_NOMBRE', 'length', 'max'=>15),
 			array('CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),
+			array('OBSERVACIONES', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('ID, COND_PAGO_CONTADO, BODEGA_DEFECTO, CATEGORIA_CLIENTE, NIVEL_PRECIO, DECIMALES_PRECIO, DESCUENTO_PRECIO, DESCUENTO_AFECTA_IMP, FORMATO_PEDIDO, FORMATO_FACTURA, FORMATO_REMISION, USAR_RUBROS, RUBRO1_NOMBRE, RUBRO2_NOMBRE, RUBRO3_NOMBRE, RUBRO4_NOMBRE, RUBRO5_NOMBRE, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
+			array('ID, COND_PAGO_CONTADO, BODEGA_DEFECTO, CATEGORIA_CLIENTE, NIVEL_PRECIO, DECIMALES_PRECIO, DESCUENTO_PRECIO, DESCUENTO_AFECTA_IMP, FORMATO_PEDIDO, FORMATO_FACTURA, FORMATO_REMISION, USAR_RUBROS, OBSERVACIONES, RUBRO1_NOMBRE, RUBRO2_NOMBRE, RUBRO3_NOMBRE, RUBRO4_NOMBRE, RUBRO5_NOMBRE, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -84,13 +86,13 @@ class ConfFa extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'nIVELPRECIO' => array(self::BELONGS_TO, 'NivelPrecio', 'NIVEL_PRECIO'),
 			'bODEGADEFECTO' => array(self::BELONGS_TO, 'Bodega', 'BODEGA_DEFECTO'),
 			'cATEGORIACLIENTE' => array(self::BELONGS_TO, 'Categoria', 'CATEGORIA_CLIENTE'),
 			'cONDPAGOCONTADO' => array(self::BELONGS_TO, 'CodicionPago', 'COND_PAGO_CONTADO'),
 			'fORMATOFACTURA' => array(self::BELONGS_TO, 'FormatoImpresion', 'FORMATO_FACTURA'),
 			'fORMATOPEDIDO' => array(self::BELONGS_TO, 'FormatoImpresion', 'FORMATO_PEDIDO'),
 			'fORMATOREMISION' => array(self::BELONGS_TO, 'FormatoImpresion', 'FORMATO_REMISION'),
+			'nIVELPRECIO' => array(self::BELONGS_TO, 'NivelPrecio', 'NIVEL_PRECIO'),
 		);
 	}
 
@@ -112,6 +114,7 @@ class ConfFa extends CActiveRecord
 			'FORMATO_FACTURA' => 'Formato Factura',
 			'FORMATO_REMISION' => 'Formato Remision',
 			'USAR_RUBROS' => 'Usar Rubros',
+			'OBSERVACIONES' => 'Observaciones',
 			'RUBRO1_NOMBRE' => 'Rubro1 Nombre',
 			'RUBRO2_NOMBRE' => 'Rubro2 Nombre',
 			'RUBRO3_NOMBRE' => 'Rubro3 Nombre',
@@ -147,6 +150,7 @@ class ConfFa extends CActiveRecord
 		$criteria->compare('FORMATO_FACTURA',$this->FORMATO_FACTURA);
 		$criteria->compare('FORMATO_REMISION',$this->FORMATO_REMISION);
 		$criteria->compare('USAR_RUBROS',$this->USAR_RUBROS,true);
+		$criteria->compare('OBSERVACIONES',$this->OBSERVACIONES,true);
 		$criteria->compare('RUBRO1_NOMBRE',$this->RUBRO1_NOMBRE,true);
 		$criteria->compare('RUBRO2_NOMBRE',$this->RUBRO2_NOMBRE,true);
 		$criteria->compare('RUBRO3_NOMBRE',$this->RUBRO3_NOMBRE,true);

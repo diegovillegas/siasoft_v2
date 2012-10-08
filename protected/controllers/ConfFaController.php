@@ -32,7 +32,7 @@ class ConfFaController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update', 'autocompletar', 'CargarCond', 'CargarBod', 'CargarCat'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -65,7 +65,7 @@ class ConfFaController extends Controller
 		$model=new ConfFa;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['ConfFa']))
 		{
@@ -78,6 +78,65 @@ class ConfFaController extends Controller
 			'model'=>$model,
 		));
 	}
+        
+        public function actionCargarCond(){
+            
+            $item_id = $_GET['buscar'];
+            $bus = CodicionPago::model()->findByPk($item_id);
+            $res = array(
+                'ID' => $bus->ID,
+                'NOMBRE' => $bus->DESCRIPCION,
+            );
+            
+            echo CJSON::encode($res);
+        }
+        
+        public function actionCargarBod(){
+            
+            $item_id = $_GET['buscar'];
+            $bus = Bodega::model()->findByPk($item_id);
+            $res = array(
+                'ID' => $bus->ID,
+                'NOMBRE' => $bus->DESCRIPCION,
+            );
+            
+            echo CJSON::encode($res);
+        }
+        
+        public function actionCargarCat(){
+            
+            $item_id = $_GET['buscar'];
+            $bus = Categoria::model()->findByPk($item_id);
+            $res = array(
+                'ID' => $bus->ID,
+                'NOMBRE' => $bus->DESCRIPCION,
+            );
+            
+            echo CJSON::encode($res);
+        }
+        
+        public function actionAutocompletar(){
+            if (isset($_GET['term'])) {		
+                switch ($_GET['parametro']){
+                    case "CON" :
+                        $qtxt ="SELECT ID FROM codicion_pago WHERE ID LIKE :ID AND ACTIVO = 'S'";
+                        break;
+                    
+                    case "BOD" :
+                        $qtxt ="SELECT ID FROM bodega WHERE ID LIKE :ID AND ACTIVO = 'S'";
+                        break;
+                    
+                    case "CAT" :
+                        $qtxt ="SELECT ID FROM nivel_precio WHERE ID LIKE :ID AND ACTIVO = 'S'";
+                        break;
+                }                    
+                    $command =Yii::app()->db->createCommand($qtxt);
+                    $command->bindValue(":ID", '%'.$_GET['term'].'%', PDO::PARAM_STR);
+                    $res =$command->queryColumn();
+            }
+            echo CJSON::encode($res);
+	    Yii::app()->end();
+        }
 
 	/**
 	 * Updates a particular model.
@@ -89,7 +148,7 @@ class ConfFaController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['ConfFa']))
 		{
