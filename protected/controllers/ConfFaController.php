@@ -32,7 +32,7 @@ class ConfFaController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'autocompletar', 'CargarCond', 'CargarBod', 'CargarCat'),
+				'actions'=>array('create','update', 'autocompletar', 'CargarCond', 'CargarBod', 'CargarCat', 'Agregarlinea'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -63,6 +63,9 @@ class ConfFaController extends Controller
 	public function actionCreate()
 	{
 		$model=new ConfFa;
+                $condicion = new CodicionPago;
+                $bodega = new Bodega;
+                $categoria = new Categoria;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
@@ -76,8 +79,43 @@ class ConfFaController extends Controller
 
 		$this->render('create',array(
 			'model'=>$model,
+                        'condicion'=>$condicion,
+                        'categoria'=>$categoria,
+                        'bodega'=>$bodega,
 		));
 	}
+        
+        public function actionAgregarlinea(){
+             if(isset($_GET['idBodega']))
+                $this->cargarBodega($_GET['idBodega']);
+             
+             if(isset($_GET['idCategoria']))
+                $this->cargarCategoria($_GET['idCategoria']);
+             
+             if(isset($_GET['idCondicion']))
+                $this->cargarCondicion($_GET['idCondicion']);
+        }
+        
+        protected function cargarBodega($idBodega){
+            $bus = Bodega::model()->findByPk($idBodega);
+            $res = array('NOMBRE' => $bus->DESCRIPCION);
+            echo CJSON::encode($res);
+            Yii::app()->end();
+        }
+        
+        protected function cargarCategoria($idCategoria){
+            $bus = Categoria::model()->findByPk($idCategoria);
+            $res = array('NOMBRE' => $bus->DESCRIPCION);
+            echo CJSON::encode($res);
+            Yii::app()->end();
+        }
+        
+        protected function cargarCondicion($idCondicion){
+            $bus = CodicionPago::model()->findByPk($idCondicion);
+            $res = array('NOMBRE' => $bus->DESCRIPCION);
+            echo CJSON::encode($res);
+            Yii::app()->end();
+        }
         
         public function actionCargarCond(){
             

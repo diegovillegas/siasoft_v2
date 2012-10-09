@@ -3,6 +3,62 @@
         inicio();
     });
     
+    function rubros(){
+        if($("#ConfFa_USAR_RUBROS").is(':checked')){
+            $('#ConfFa_RUBRO1_NOMBRE').attr('disabled', true);
+            $('#ConfFa_RUBRO2_NOMBRE').attr('disabled', true);
+            $('#ConfFa_RUBRO3_NOMBRE').attr('disabled', true);
+            $('#ConfFa_RUBRO4_NOMBRE').attr('disabled', true);
+            $('#ConfFa_RUBRO5_NOMBRE').attr('disabled', true);
+            
+            $('#ConfFa_RUBRO1_NOMBRE').val('');
+            $('#ConfFa_RUBRO2_NOMBRE').val('');
+            $('#ConfFa_RUBRO3_NOMBRE').val('');
+            $('#ConfFa_RUBRO4_NOMBRE').val('');
+            $('#ConfFa_RUBRO5_NOMBRE').val('');
+        } else {
+            $('#ConfFa_RUBRO1_NOMBRE').attr('disabled', false);
+            $('#ConfFa_RUBRO2_NOMBRE').attr('disabled', false);
+            $('#ConfFa_RUBRO3_NOMBRE').attr('disabled', false);
+            $('#ConfFa_RUBRO4_NOMBRE').attr('disabled', false);
+            $('#ConfFa_RUBRO5_NOMBRE').attr('disabled', false);
+        }
+    }
+    
+    //DAR VALORES A CAMPOS CON SELECCION DE GRILLA
+    function updateCampos(id_grilla){
+        var id = $.fn.yiiGridView.getSelection(id_grilla);
+        var url;
+        var campo;
+        var campo_nombre;
+        
+        if(id_grilla == 'bodega-grid'){
+            
+            url = '<?php echo $this->createUrl('agregarlinea');?>&idBodega='+id;
+            campo = '#ConfFa_BODEGA_DEFECTO';
+            campo_nombre = '#Bodega2';
+            
+        }else if(id_grilla == 'categoria-grid'){
+            
+            url = '<?php echo $this->createUrl('agregarlinea');?>&idCategoria='+id;
+            campo = '#ConfFa_CATEGORIA_CLIENTE';
+            campo_nombre = '#Categoria2';
+            
+        }else if(id_grilla == 'condicion-grid'){
+            
+            url = '<?php echo $this->createUrl('agregarlinea');?>&idCondicion='+id;
+            campo = '#ConfFa_COND_PAGO_CONTADO';
+            campo_nombre = '#Condicion2';
+            
+        }
+        
+        $.getJSON(url,function(data){
+                $(campo).val(id);
+                $(campo_nombre).val(data.NOMBRE);
+            });
+        
+    }
+    
     function inicio(){
         $( ".escritoCond" ).autocomplete({
         change: function(e) { 
@@ -91,13 +147,32 @@
     ), true);
     ?>
     
-    <?php $modal = $this->widget('bootstrap.widgets.BootButton', array(
+    <?php $modalCond = $this->widget('bootstrap.widgets.BootButton', array(
                           'type'=>'info',
                           'size'=>'mini',
-                          'url'=>'#nit',
+                          'url'=>'#condicion',
                           'icon'=>'search',
                           'htmlOptions'=>array('data-toggle'=>'modal'),
                     ), true); ?>
+    
+    <?php $modalBod = $this->widget('bootstrap.widgets.BootButton', array(
+                          'type'=>'info',
+                          'size'=>'mini',
+                          'url'=>'#bodega',
+                          'icon'=>'search',
+                          'htmlOptions'=>array('data-toggle'=>'modal'),
+                    ), true); ?>
+    
+	<?php echo $form->errorSummary($model); ?>
+    
+    <?php $modalCat = $this->widget('bootstrap.widgets.BootButton', array(
+                          'type'=>'info',
+                          'size'=>'mini',
+                          'url'=>'#categoria',
+                          'icon'=>'search',
+                          'htmlOptions'=>array('data-toggle'=>'modal'),
+                    ), true); ?>
+    
 	<?php echo $form->errorSummary($model); ?>
     
         <?php $this->widget('bootstrap.widgets.BootTabbable', array(
@@ -107,21 +182,21 @@
             array('label'=>'General', 'content'=>'<table><tr><td width="30%">
                 <div class="control-group "><label for="ConfFa_COND_PAGO_CONTADO" class="control-label">Condicion de pago por defecto</label><div class="controls">'.$autocompletarCond.'</div></div>'      
                 .'</td><td width="10px;">'
-                .$modal
+                .$modalCond
                 .'</td><td>'
                 .CHtml::textField('Condicion2','', array('readonly' => true, 'size'=>40))
                 .'</td></tr>
                 <tr><td width="30%">
                 <div class="control-group "><label for="ConfFa_BODEGA_DEFECTO" class="control-label">Bodega por defecto</label><div class="controls">'.$autocompletarBod.'</div></div>'      
                 .'</td><td width="10px;">'
-                .$modal
+                .$modalBod
                 .'</td><td>'
                 .CHtml::textField('Bodega2','', array('readonly' => true, 'size'=>40))
                 .'</td></tr>
                 <tr><td width="30%">
                 <div class="control-group "><label for="ConfFa_CATEGORIA_CLIENTE" class="control-label">Categoria cliente proveedor por defecto</label><div class="controls">'.$autocompletarCat.'</div></div>'      
                 .'</td><td width="10px;">'
-                .$modal
+                .$modalCat
                 .'</td><td>'
                 .CHtml::textField('Categoria2','', array('readonly' => true, 'size'=>40))
                 .'</td></tr></table>'
@@ -131,13 +206,13 @@
                 .$form->radioButtonListInlineRow($model,'DESCUENTO_AFECTA_IMP',array('Lineas', 'Ambos', 'Total', 'Ninguno')), 'active'=>true),
 
             array('label'=>'Impresión', 'content'=>
-                $form->textFieldRow($model,'FORMATO_PEDIDO')
-                .$form->textFieldRow($model,'FORMATO_FACTURA')
-                .$form->textFieldRow($model,'FORMATO_REMISION')),
+                 $form->dropDownListRow($model,'FORMATO_PEDIDO', CHtml::listData(FormatoImpresion::model()->findAll('ACTIVO = "S" AND SUBMODULO = "PEDI"'), 'ID', 'NOMBRE'),array('empty'=>'Seleccione...'))
+                .$form->dropDownListRow($model,'FORMATO_FACTURA', CHtml::listData(FormatoImpresion::model()->findAll('ACTIVO = "S" AND SUBMODULO = "FACT"'), 'ID', 'NOMBRE'),array('empty'=>'Seleccione...'))
+                .$form->dropDownListRow($model,'FORMATO_REMISION', CHtml::listData(FormatoImpresion::model()->findAll('ACTIVO = "S" AND SUBMODULO = "REMI"'), 'ID', 'NOMBRE'),array('empty'=>'Seleccione...'))),
 
 
             array('label'=>'Textos', 'content'=>
-                 $form->textFieldRow($model,'USAR_RUBROS',array('size'=>1,'maxlength'=>1))
+                 $form->checkboxRow($model,'USAR_RUBROS', array('onclick'=>'rubros()'))
                 .$form->textFieldRow($model,'RUBRO1_NOMBRE',array('size'=>15,'maxlength'=>15))
                 .$form->textFieldRow($model,'RUBRO2_NOMBRE',array('size'=>15,'maxlength'=>15))
                 .$form->textFieldRow($model,'RUBRO3_NOMBRE',array('size'=>15,'maxlength'=>15))
@@ -153,6 +228,134 @@
             <?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => array('confCo/admin'), 'icon' => 'remove'));  ?>
 	</div>
 
-<?php $this->endWidget(); ?>
+<?php $this->endWidget(); 
 
+    
+$this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'condicion')); ?>
+ 
+	<div class="modal-body">
+                <a class="close" data-dismiss="modal">&times;</a>
+                <br>
+		<?php 
+                    
+                    $funcion = 'updateCondicion';
+                    $id = 'condicion-grid';
+                    $this->widget('bootstrap.widgets.BootGridView', array(
+                        'type'=>'striped bordered condensed',
+                        'id'=>'condicion-grid',
+                        'template'=>'{items}{pager}',
+                        'dataProvider'=>$condicion->searchMod(),
+                        'selectionChanged'=>'updateCampos',
+                        'filter'=>$condicion,
+                        'columns'=>array(
+                                array(
+                                    'name'=>'ID',
+                                    'header'=>'Codigo',
+                                    'htmlOptions'=>array('data-dismiss'=>'modal'),
+                                    'type'=>'raw',
+                                    'value'=>'CHtml::link($data->ID,"#")'
+                                ),
+                                'DESCRIPCION',
+                                'DIAS_NETO',                                
+                        ),
+                ));
+                ?>
+	</div>
+        <div class="modal-footer">
+
+            <?php $this->widget('bootstrap.widgets.BootButton', array(
+                'label'=>'Cerrar',
+                'url'=>'#',
+                'htmlOptions'=>array('data-dismiss'=>'modal'),
+            )); ?>
+        </div>
+ 
+<?php
+    $this->endWidget();
+    
+    $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'bodega')); ?>
+ 
+	<div class="modal-body">
+                <a class="close" data-dismiss="modal">&times;</a>
+                <br>
+		<?php 
+                    
+                    $funcion = 'updateBodega';
+                    $id = 'bodega-grid';
+                    $this->widget('bootstrap.widgets.BootGridView', array(
+                    'type'=>'striped bordered condensed',
+                    'id'=>'bodega-grid',                    
+                    'template'=>'{items}{pager}',
+                    'dataProvider'=>$bodega->searchModal(),
+                    'selectionChanged'=>'updateCampos',
+                    'filter'=>$bodega,
+                    'columns'=>array(
+                            array(
+                                'name'=>'ID',
+                                'header'=>'Codigo',
+                                'htmlOptions'=>array('data-dismiss'=>'modal'),
+                                'type'=>'raw',
+                                'value'=>'CHtml::link($data->ID,"#")'
+                            ),
+                            'DESCRIPCION',
+                            'TELEFONO',                            
+                            'DIRECCION',
+                    ),
+            ));
+                ?>
+	</div>
+        <div class="modal-footer">
+
+            <?php $this->widget('bootstrap.widgets.BootButton', array(
+                'label'=>'Cerrar',
+                'url'=>'#',
+                'htmlOptions'=>array('data-dismiss'=>'modal'),
+            )); ?>
+        </div>
+ 
+<?php
+    $this->endWidget();
+    
+    $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'categoria')); ?>
+ 
+	<div class="modal-body">
+                <a class="close" data-dismiss="modal">&times;</a>
+                <br>
+		<?php 
+                    
+                    $funcion = 'updateCategoria';
+                    $id = 'categoria-grid';
+                    $this->widget('bootstrap.widgets.BootGridView', array(
+                    'type'=>'striped bordered condensed',
+                    'id'=>'categoria-grid',
+                    'template'=>'{items}{pager}',
+                    'dataProvider'=>$categoria->searchModal(),
+                    'selectionChanged'=>'updateCampos',
+                    'filter'=>$categoria,
+                    'columns'=>array(
+                            array(
+                                'name'=>'ID',
+                                'header'=>'Codigo',
+                                'htmlOptions'=>array('data-dismiss'=>'modal'),
+                                'type'=>'raw',
+                                'value'=>'CHtml::link($data->ID,"#")'
+                            ),
+                            'DESCRIPCION',
+                            'TIPO',
+                    ),
+            ));
+                ?>
+	</div>
+        <div class="modal-footer">
+
+            <?php $this->widget('bootstrap.widgets.BootButton', array(
+                'label'=>'Cerrar',
+                'url'=>'#',
+                'htmlOptions'=>array('data-dismiss'=>'modal'),
+            )); ?>
+        </div>
+ 
+<?php
+    $this->endWidget(); ?>
+    
 </div><!-- form -->
