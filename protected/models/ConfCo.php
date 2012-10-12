@@ -226,7 +226,7 @@ class ConfCo extends CActiveRecord
             return $conf ? true : false;
         }
 	
-		public function behaviors()
+	public function behaviors()
 	{
 		return array(
 			'CTimestampBehavior' => array(

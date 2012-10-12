@@ -73,11 +73,44 @@ class ConfFaController extends Controller
 		if(isset($_POST['ConfFa']))
 		{
 			$model->attributes=$_POST['ConfFa'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
+                        if($_POST['ConfFa']['NIVEL_PRECIO'] == '')
+                            $model->NIVEL_PRECIO = NULL;    
+                        
+                        if($model->save())
+				$this->redirect(Yii::app()->user->returnUrl);
 		}
 
 		$this->render('create',array(
+			'model'=>$model,
+                        'condicion'=>$condicion,
+                        'categoria'=>$categoria,
+                        'bodega'=>$bodega,
+		));
+	}
+        
+        /**
+	 * Updates a particular model.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id the ID of the model to be updated
+	 */
+	public function actionUpdate($id)
+	{
+		$model=$this->loadModel($id);
+                $condicion = new CodicionPago;
+                $bodega = new Bodega;
+                $categoria = new Categoria;
+
+		// Uncomment the following line if AJAX validation is needed
+		$this->performAjaxValidation($model);
+
+		if(isset($_POST['ConfFa']))
+		{
+			$model->attributes=$_POST['ConfFa'];
+			if($model->save())
+				$this->redirect(Yii::app()->user->returnUrl);
+		}
+
+		$this->render('update',array(
 			'model'=>$model,
                         'condicion'=>$condicion,
                         'categoria'=>$categoria,
@@ -175,30 +208,6 @@ class ConfFaController extends Controller
             echo CJSON::encode($res);
 	    Yii::app()->end();
         }
-
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['ConfFa']))
-		{
-			$model->attributes=$_POST['ConfFa'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
 
 	/**
 	 * Deletes a particular model.

@@ -1,10 +1,19 @@
 <script>
     $(document).ready(function(){
         inicio();
+        rubros();
     });
     
     function rubros(){
         if($("#ConfFa_USAR_RUBROS").is(':checked')){
+            $('#ConfFa_RUBRO1_NOMBRE').attr('disabled', false);
+            $('#ConfFa_RUBRO2_NOMBRE').attr('disabled', false);
+            $('#ConfFa_RUBRO3_NOMBRE').attr('disabled', false);
+            $('#ConfFa_RUBRO4_NOMBRE').attr('disabled', false);
+            $('#ConfFa_RUBRO5_NOMBRE').attr('disabled', false);
+            
+        } else {
+
             $('#ConfFa_RUBRO1_NOMBRE').attr('disabled', true);
             $('#ConfFa_RUBRO2_NOMBRE').attr('disabled', true);
             $('#ConfFa_RUBRO3_NOMBRE').attr('disabled', true);
@@ -16,12 +25,6 @@
             $('#ConfFa_RUBRO3_NOMBRE').val('');
             $('#ConfFa_RUBRO4_NOMBRE').val('');
             $('#ConfFa_RUBRO5_NOMBRE').val('');
-        } else {
-            $('#ConfFa_RUBRO1_NOMBRE').attr('disabled', false);
-            $('#ConfFa_RUBRO2_NOMBRE').attr('disabled', false);
-            $('#ConfFa_RUBRO3_NOMBRE').attr('disabled', false);
-            $('#ConfFa_RUBRO4_NOMBRE').attr('disabled', false);
-            $('#ConfFa_RUBRO5_NOMBRE').attr('disabled', false);
         }
     }
     
@@ -60,6 +63,7 @@
     }
     
     function inicio(){
+                
         $( ".escritoCond" ).autocomplete({
         change: function(e) { 
             $.getJSON(
@@ -202,8 +206,8 @@
                 .'</td></tr></table>'
                 .$form->dropDownListRow($model,'NIVEL_PRECIO', CHtml::listData(NivelPrecio::model()->findAll('ACTIVO = "S"'),'ID','DESCRIPCION'),array('empty'=>'Seleccione...'))
                 .$form->textFieldRow($model,'DECIMALES_PRECIO')
-                .$form->radioButtonListInlineRow($model, 'DESCUENTO_PRECIO', array('Precio unitario', 'Total de la linea'))
-                .$form->radioButtonListInlineRow($model,'DESCUENTO_AFECTA_IMP',array('Lineas', 'Ambos', 'Total', 'Ninguno')), 'active'=>true),
+                .$form->radioButtonListInlineRow($model, 'DESCUENTO_PRECIO', array('U' =>'Precio unitario', 'L' => 'Total de la linea'))
+                .$form->radioButtonListInlineRow($model,'DESCUENTO_AFECTA_IMP',array('L' => 'Lineas', 'A' => 'Ambos', 'T' => 'Total', 'N' => 'Ninguno')), 'active'=>true),
 
             array('label'=>'Impresión', 'content'=>
                  $form->dropDownListRow($model,'FORMATO_PEDIDO', CHtml::listData(FormatoImpresion::model()->findAll('ACTIVO = "S" AND SUBMODULO = "PEDI"'), 'ID', 'NOMBRE'),array('empty'=>'Seleccione...'))

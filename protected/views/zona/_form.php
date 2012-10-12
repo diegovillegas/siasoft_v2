@@ -11,7 +11,7 @@
  
 	<?php echo $form->errorSummary($model2); ?>
 
-		<?php echo $form->dropDownListRow($model2,'PAIS', CHtml::listData(Pais::model()->findAll(),'ID','NOMBRE'),array('empty'=>'Seleccione...')); ?>
+		<?php echo $form->dropDownListRow($model2,'PAIS', CHtml::listData(Pais::model()->findAll('ACTIVO = "S"'),'ID','NOMBRE'),array('empty'=>'Seleccione...')); ?>
 		<?php echo $form->textFieldRow($model2,'NOMBRE',array('maxlength'=>64)); ?>
 
 	<div class="row">

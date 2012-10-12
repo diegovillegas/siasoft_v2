@@ -64,7 +64,7 @@ class ConfFa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('DECIMALES_PRECIO, DESCUENTO_PRECIO, DESCUENTO_AFECTA_IMP, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'required'),
+			array('DECIMALES_PRECIO, DESCUENTO_PRECIO, DESCUENTO_AFECTA_IMP', 'required'),
 			array('CATEGORIA_CLIENTE, DECIMALES_PRECIO, FORMATO_PEDIDO, FORMATO_FACTURA, FORMATO_REMISION', 'numerical', 'integerOnly'=>true),
 			array('COND_PAGO_CONTADO, BODEGA_DEFECTO', 'length', 'max'=>4),
 			array('NIVEL_PRECIO', 'length', 'max'=>12),
@@ -124,6 +124,24 @@ class ConfFa extends CActiveRecord
 			'CREADO_EL' => 'Creado El',
 			'ACTUALIZADO_POR' => 'Actualizado Por',
 			'ACTUALIZADO_EL' => 'Actualizado El',
+		);
+	}
+        
+        public function behaviors()
+	{
+		return array(
+			'CTimestampBehavior' => array(
+				'class' => 'zii.behaviors.CTimestampBehavior',
+				'createAttribute' => 'CREADO_EL',
+				'updateAttribute' => 'ACTUALIZADO_EL',
+				'setUpdateOnCreate' => true,
+			),
+			
+			'BlameableBehavior' => array(
+				'class' => 'application.components.BlameableBehavior',
+				'createdByColumn' => 'CREADO_POR',
+				'updatedByColumn' => 'ACTUALIZADO_POR',
+			),
 		);
 	}
 

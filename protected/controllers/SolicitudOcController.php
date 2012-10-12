@@ -106,6 +106,14 @@ class SolicitudOcController extends SBaseController
                         
 		));
 	}
+        
+        public function actionPdf(){
+            $id = $_GET['id'];
+            $mPDF1 = Yii::app()->ePdf->mpdf();
+            $mPDF1->WriteHTML('Archivo PDF');
+            $mPDF1->Output();
+            Yii::app()->end();
+        }
                 
         public function actionCargarArticulo(){
             

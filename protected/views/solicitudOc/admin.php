@@ -153,6 +153,15 @@ $this->widget('bootstrap.widgets.BootButton', array(
                     'class'=>'bootstrap.widgets.BootButtonColumn',
                     'template'=>'{update}',
 		),
+                array(
+                         'class'=>'CLinkColumn',
+			 //'header'=>'Bodegas',
+			 'imageUrl'=>Yii::app()->baseUrl.'/images/pdf.png',
+			 //'labelExpression'=>'$data->ID',
+			 'urlExpression'=>'CController::createUrl("/SolicitudOc/pdf", array("id"=>$data->SOLICITUD_OC))',
+			 'htmlOptions'=>array('style'=>'text-align:center;'),
+			 'linkHtmlOptions'=>array('style'=>'text-align:center','rel'=>'tooltip', 'data-original-title'=>'PDF', 'target'=>'_blank'),
+                ),
 	),
 )); 
  ?>
