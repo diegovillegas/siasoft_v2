@@ -1712,7 +1712,8 @@ CREATE TABLE `codicion_pago` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='El propósito de la tabla de Condiciones de Pago, es definir ';
 
 INSERT INTO `codicion_pago` (`ID`, `DESCRIPCION`, `DIAS_NETO`, `ACTIVO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
-('1',	'asdad',	21321,	'S',	'admin',	'2012-05-11 16:03:43',	'admin',	'2012-05-11 16:03:43');
+('1',	'asdad',	21321,	'S',	'admin',	'2012-05-11 16:03:43',	'admin',	'2012-05-11 16:03:43'),
+('10',	'cero',	0,	'S',	'admin',	'2012-10-11 08:08:25',	'admin',	'2012-10-11 08:08:25');
 
 DROP TABLE IF EXISTS `compania`;
 CREATE TABLE `compania` (
@@ -1742,7 +1743,7 @@ CREATE TABLE `compania` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Almacena los datos de la empresa o compañia';
 
 INSERT INTO `compania` (`ID`, `NOMBRE`, `NOMBRE_ABREV`, `NIT`, `UBICACION_GEOGRAFICA1`, `UBICACION_GEOGRAFICA2`, `PAIS`, `DIRECCION`, `TELEFONO1`, `TELEFONO2`, `LOGO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`, `VERSION`) VALUES
-(30,	'ALERENS',	'ALERENS',	'38361706-8',	'73',	'73001',	'COL',	'CLL 39 N 12 - 50',	'2665027',	'3138439289',	'',	'admin',	'2012-05-22 00:00:00',	'admin',	'2012-09-22 09:02:20',	'0.10');
+(30,	'ALERENS',	'ALERENS',	'38361706-8',	'73',	'73001',	'COL',	'CLL 39 N 12 - 50',	'2665027',	'3138439289',	'camara_ibague.png',	'admin',	'2012-05-22 00:00:00',	'admin',	'2012-10-13 10:51:11',	'0.10');
 
 DROP TABLE IF EXISTS `conf_as`;
 CREATE TABLE `conf_as` (
@@ -1897,6 +1898,8 @@ CREATE TABLE `conf_fa` (
   CONSTRAINT `FK_NIVEL_PRECIO_DEFECTO` FOREIGN KEY (`NIVEL_PRECIO`) REFERENCES `nivel_precio` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabla que almacena la configuración para el modulo de factur';
 
+INSERT INTO `conf_fa` (`ID`, `COND_PAGO_CONTADO`, `BODEGA_DEFECTO`, `CATEGORIA_CLIENTE`, `NIVEL_PRECIO`, `DECIMALES_PRECIO`, `DESCUENTO_PRECIO`, `DESCUENTO_AFECTA_IMP`, `FORMATO_PEDIDO`, `FORMATO_FACTURA`, `FORMATO_REMISION`, `USAR_RUBROS`, `OBSERVACIONES`, `RUBRO1_NOMBRE`, `RUBRO2_NOMBRE`, `RUBRO3_NOMBRE`, `RUBRO4_NOMBRE`, `RUBRO5_NOMBRE`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
+(9,	'1',	'1',	1,	'1',	50,	'L',	'T',	1,	NULL,	NULL,	'1',	'sd',	'asd',	'asd',	'asd',	'asd',	'fdfgdg',	'admin',	'2012-10-10 10:05:37',	'admin',	'2012-10-10 10:18:13');
 
 DROP TABLE IF EXISTS `consec_ci_tipo_trans`;
 CREATE TABLE `consec_ci_tipo_trans` (
@@ -2117,13 +2120,13 @@ INSERT INTO `existencia_bodega` (`ID`, `ARTICULO`, `BODEGA`, `EXISTENCIA_MINIMA`
 
 DROP TABLE IF EXISTS `formato_impresion`;
 CREATE TABLE `formato_impresion` (
-  `ID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NOMBRE` varchar(64) NOT NULL,
   `OBSERVACION` text,
-  `MODULO` varchar(4) NOT NULL COMMENT 'Modulo al cual pertenece este formato de impresiòn por ejemplo\r\n            Compras COMP\r\n            Control de Inventarios COIN',
-  `SUBMODULO` varchar(4) NOT NULL COMMENT 'Submodulo para el cual aplica este formato de impresión, por ejemplo el modulo de compras tiene\r\n            Solicitudes SOLI\r\n            Ordenes de Compra ORCO\r\n            etc.',
+  `MODULO` varchar(4) NOT NULL COMMENT 'Modulo al cual pertenece este formato de impresiòn por ejemplo            Compras COMP            Control de Inventarios COIN',
+  `SUBMODULO` varchar(4) NOT NULL COMMENT 'Submodulo para el cual aplica este formato de impresión, por ejemplo el modulo de compras tiene            Solicitudes SOLI            Ordenes de Compra ORCO            etc.',
   `RUTA` varchar(128) NOT NULL COMMENT 'ruta donde esta ubicado el archivo que genera el formato',
-  `TIPO` varchar(4) NOT NULL COMMENT 'Tipo de archivo en que se genera el formato\r\n            xls\r\n            pdf\r\n            doc\r\n            etc',
+  `TIPO` varchar(4) NOT NULL COMMENT 'Tipo de archivo en que se genera el formato            xls            pdf            doc            etc',
   `ACTIVO` varchar(1) NOT NULL,
   `CREADO_POR` varchar(20) NOT NULL,
   `CREADO_EL` datetime NOT NULL,
@@ -2132,6 +2135,10 @@ CREATE TABLE `formato_impresion` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabla que almacena los diferentes formatos de impresion que ';
 
+INSERT INTO `formato_impresion` (`ID`, `NOMBRE`, `OBSERVACION`, `MODULO`, `SUBMODULO`, `RUTA`, `TIPO`, `ACTIVO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
+(1,	'PDF',	'archivos en pdf',	'FACT',	'PEDI',	'',	'pdf',	'S',	'',	'0000-00-00 00:00:00',	'',	'0000-00-00 00:00:00'),
+(2,	'XLS',	'archivos en xls',	'FACT',	'FACT',	'',	'xls',	'S',	'',	'0000-00-00 00:00:00',	'',	'0000-00-00 00:00:00'),
+(3,	'DOC',	'archivos en doc',	'FACT',	'REMI',	'',	'doc',	'S',	'',	'0000-00-00 00:00:00',	'',	'0000-00-00 00:00:00');
 
 DROP TABLE IF EXISTS `impuesto`;
 CREATE TABLE `impuesto` (
@@ -4364,5 +4371,7 @@ CREATE TABLE `zona` (
   CONSTRAINT `FK_PAIS_DE_LA_ZONA` FOREIGN KEY (`PAIS`) REFERENCES `pais` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='El propósito de la tabla de datos de Zonas, es segmentar o d';
 
+INSERT INTO `zona` (`ID`, `PAIS`, `NOMBRE`, `ACTIVO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
+(1,	'COL',	'zona',	'N',	'admin',	'2012-10-10 11:48:49',	'admin',	'2012-10-10 11:55:32');
 
--- 2012-10-08 16:50:11
+-- 2012-10-16 09:18:10

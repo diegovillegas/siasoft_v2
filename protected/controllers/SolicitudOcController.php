@@ -109,8 +109,12 @@ class SolicitudOcController extends SBaseController
         
         public function actionPdf(){
             $id = $_GET['id'];
+            $conf = ConfCo::model()->find();
+            $compania = Compania::model()->find(); 
+            $solicitud = SolicitudOc::model()->findByPk($id);
+            $lineas = SolicitudOcLinea::model()->findAll('SOLICITUD_OC = "'.$id.'"');
             $mPDF1 = Yii::app()->ePdf->mpdf();
-            $mPDF1->WriteHTML('Archivo PDF');
+            $mPDF1->WriteHTML($this->renderPartial('pdf', array('solicitud' => $solicitud, 'lineas' => $lineas, 'compania' => $compania, 'conf'=>$conf), true));
             $mPDF1->Output();
             Yii::app()->end();
         }
