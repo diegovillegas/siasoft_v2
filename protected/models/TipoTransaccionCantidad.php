@@ -125,9 +125,4 @@ class TipoTransaccionCantidad extends CActiveRecord
 			),
 		);
 	}
-        public static function darTransacciones($id_transacion){
-            
-            return $bus = TipoTransaccionCantidad::model()->findAll('TIPO_TRANSACCION = "'.$id_transacion.'"');
-            
-        }
 }

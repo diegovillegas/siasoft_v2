@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 <br />
 <?php 
     
-    Yii::app()->user->setFlash('warning', '<h3 align="center">Realize su configuración antes de continuar...</h3>');
+    Yii::app()->user->setFlash('warning', '<h3 align="center">Realice su configuración antes de continuar...</h3>');
             
     $this->widget('bootstrap.widgets.BootAlert');
     
