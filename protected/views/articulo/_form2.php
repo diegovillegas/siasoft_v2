@@ -1,4 +1,24 @@
 <script>
+    $(document).ready(inicio);
+    
+    function inicio(){
+        
+        if($('#Articulo_COSTO_FISCAL').val() != 'Estándar')
+            $('#estandar').slideUp('slow');
+        else
+            $('#estandar').slideDown('slow');
+        
+        $('#Articulo_COSTO_FISCAL').change(function(){
+            if($(this).val() != 'Estándar'){
+                $('#estandar').slideUp('slow');
+                $('#Articulo_COSTO_ESTANDAR').attr('disabled',true);
+             }else{
+                $('#Articulo_COSTO_ESTANDAR').attr('disabled',false);
+                $('#estandar').slideDown('slow');
+            }
+        });
+    }
+    
     function updateBodega(grid_id){
         var id=$.fn.yiiGridView.getSelection(grid_id);
         
@@ -179,7 +199,8 @@
                                         <fieldset style="width: 380px;">
                                             <legend ><font face="arial" size=3 >Costos</font></legend>'
                                              .$form->dropDownListRow($model,'COSTO_FISCAL',MetodoValuacionInv::getMetodo(),array('disabled'=>true,'empty'=>'Seleccione'))
-                                       .'</fieldset>
+                                                .$model->darCampocosto($model->COSTO_FISCAL,$form,$model,$conf)
+                                            .'</fieldset>
                                     </td>
                                 </tr>
                             </table>',

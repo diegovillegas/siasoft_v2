@@ -10,7 +10,7 @@
      setTimeout(function(){
          $(".alert").slideUp('slow');
          $('#seleccion').val('');
-     }, 10000);
+     }, 15000);
      $.fn.yiiGridView.update('documento-inv-grid');
      
  }
@@ -56,17 +56,35 @@ $this->breadcrumbs=array(
 
             $this->widget('bootstrap.widgets.BootButton', array(
                     'buttonType'=>'ajaxSubmit',
-                    'label'=>'Rev. Aprovación',
-                    'type'=>'danger', 
+                    'label'=>'Rev. Aprobación',
+                    'type'=>'inverse', 
                     'size'=>'mini', 
                     'icon' => 'arrow-left white',
+                    'url'=>array('reversar'),
+                    'ajaxOptions'=>array(
+                        'type'=>'POST',
+                        'update'=>'#repuesta',
+                        'complete'=>'completado()',
+                    ),
+                    'htmlOptions'=>array('id'=>'reversar','confirm'=>'¿Desea Reversar Documento(s) Seleccionado(s)?'),
+            )); 
+
+    ?>
+    <?php 
+
+            $this->widget('bootstrap.widgets.BootButton', array(
+                    'buttonType'=>'ajaxSubmit',
+                    'label'=>'Cancelar',
+                    'type'=>'danger', 
+                    'size'=>'mini', 
+                    'icon' => 'remove white',
                     'url'=>array('cancelar'),
                     'ajaxOptions'=>array(
                         'type'=>'POST',
                         'update'=>'#repuesta',
                         'complete'=>'completado()',
                     ),
-                    'htmlOptions'=>array('id'=>'cancelar'),
+                    'htmlOptions'=>array('id'=>'cancelar','confirm'=>'¿Desea Cancelar Documento(s) Seleccionado(s)?'),
             )); 
 
     ?>

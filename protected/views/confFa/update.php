@@ -1,0 +1,13 @@
+<?php
+/* @var $this ConfFaController */
+/* @var $model ConfFa */
+
+$this->breadcrumbs=array(
+	'Facturación'=>array('update'),	
+	'Configuración',
+);
+?>
+
+<h1>Configuracion de Facturación</h1>
+
+<?php echo $this->renderPartial('_form', array('model'=>$model, 'condicion'=>$condicion, 'categoria'=>$categoria, 'bodega'=>$bodega)); ?>
