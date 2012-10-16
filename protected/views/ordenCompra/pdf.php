@@ -17,7 +17,7 @@
                         <?php echo $compania->NOMBRE_ABREV.'<br /><b>Nit:</b> '.$compania->NIT; ?>
                     </td>
                     <td width="33%" align="right">
-                        <b>Solicitud de compra:</b> <?php echo $solicitud->SOLICITUD_OC; ?>
+                        <b>Orden de compra:</b> <?php echo $orden->ORDEN_COMPRA; ?>
                     </td>
                 </tr>
             </table>
@@ -25,13 +25,14 @@
     </tr>
     <tr>
         <td width="50%">
-            <b>Fecha Solicitud:</b> <?php echo $solicitud->FECHA_SOLICITUD; ?><br />
-            <b>Fecha Requerida:</b> <?php echo $solicitud->FECHA_REQUERIDA; ?><br /> 
-            <b>Estado:</b> <?php echo SolicitudOc::model()->estado($solicitud->ESTADO); ?><br />
+            <b>Fecha:</b> <?php echo $orden->FECHA; ?><br />
+            <b>Proveedor:</b> <?php echo $orden->pROVEEDOR->NOMBRE; ?><br /> 
+            <b>Prioridad:</b> <?php echo OrdenCompra::model()->prioridad($orden->PRIORIDAD); ?>            
         </td>
         <td align="right">
-            <b>Departamento:</b> <?php echo $solicitud->dEPARTAMENTO->DESCRIPCION; ?><br />
-            <b>Prioridad:</b> <?php echo SolicitudOc::model()->prioridad($solicitud->PRIORIDAD); ?><br />            
+            <b>Fecha Requerida:</b> <?php echo $orden->FECHA_REQUERIDA; ?><br />
+            <b>Condición de pago:</b> <?php echo $orden->cONDICIONPAGO->DESCRIPCION; ?><br />
+            <b>Estado:</b> <?php echo OrdenCompra::model()->estado($orden->ESTADO); ?><br />
         </td>        
     </tr>
     <tr>
@@ -39,27 +40,37 @@
             <table cellpadding="10" border="1" bordercolor="#000000" style="border-collapse:collapse;" align="center">
                 <tr>
                     <th>Articulo</th>
-                    <th>Descripción</th>
-                    <th>Cantidad</th>
+                    <th>Nombre Articulo</th>
                     <th>Unidad</th>
+                    <th>Cantidad Ordenada</th>
+                    <th>Precio Unitario</th>
+                    <th>Bodega</th>
                 </tr>
                 <?php foreach($lineas as $ln){ ?>
                     <tr>
-                        <td><?php echo $ln->aRTICULO->NOMBRE; ?></td>
+                        <td><?php echo $ln->ARTICULO; ?></td>
                         <td><?php echo $ln->DESCRIPCION; ?></td>
-                        <td><?php echo $ln->CANTIDAD; ?></td>
-                        <td><?php echo $ln->uNIDAD->NOMBRE; ?></td>
+                        <td><?php echo $ln->uNIDADCOMPRA->NOMBRE; ?></td>
+                        <td><?php echo $ln->CANTIDAD_ORDENADA; ?></td>
+                        <td><?php echo $ln->PRECIO_UNITARIO; ?></td>
+                        <td><?php echo $ln->bODEGA->DESCRIPCION; ?></td>
                     </tr>
                 <?php } ?>
             </table>
         </td>
     </tr>
     <tr>
-        <td colspan="2"><b>Observaciones:</b> Ninguna</td>             
+        <td colspan="2"><b>Observaciones:</b> <?php $orden->OBSERVACIONES; ?></td>             
     </tr>
     <tr>
-        <td width="50%"><b>Elaborado por:</b> <?php echo Yii::app()->user->name; ?></td>
-        <td align="right"><b>Fecha de Elaboración:</b> <?php echo date('Y/m/d'); ?></td>        
+        <td width="50%">
+            <b>Elaborado por:</b> <?php echo Yii::app()->user->name; ?><br />
+            <b>Autorizado por:</b> <?php echo $orden->AUTORIZADA_POR; ?>
+        </td>
+        <td align="right">
+            <b>Fecha de Elaboración:</b> <?php echo date('Y/m/d'); ?><br />
+            <b>Autorizado el:</b> <?php echo $orden->FECHA_AUTORIZADA; ?>
+        </td>        
     </tr>
     <tr>
         <td colspan="2" align="center">Desarrollado por Tramasoft Soluciones TIC - www.tramasoft.com</td>     

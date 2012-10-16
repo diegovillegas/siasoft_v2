@@ -152,8 +152,13 @@ $this->widget('bootstrap.widgets.BootButton', array(
                     'header'=>'Estado',
                     'filter'=>array('P'=>'Planeado','R'=>'Recibido','C'=>'Cancelado'),
                     'value'=>'OrdenCompra::estado($data->ESTADO)',
-                ),		
-		'DEPARTAMENTO',
+                ),	
+                array(
+                    'name'=>'DEPARTAMENTO',
+                    'header'=>'Departamento',
+                    'value'=>'$data->dEPARTAMENTO->DESCRIPCION'
+                ),
+		//'DEPARTAMENTO',
 		'FECHA_COTIZACION',
 		/*
 		'FECHA_OFRECIDA',
@@ -189,6 +194,15 @@ $this->widget('bootstrap.widgets.BootButton', array(
                     'class'=>'bootstrap.widgets.BootButtonColumn',
                     'template'=>'{update}',
 		),
+                array(
+                         'class'=>'CLinkColumn',
+			 //'header'=>'Bodegas',
+			 'imageUrl'=>Yii::app()->baseUrl.'/images/pdf.png',
+			 //'labelExpression'=>'$data->ID',
+			 'urlExpression'=>'CController::createUrl("/OrdenCompra/pdf", array("id"=>$data->ORDEN_COMPRA))',
+			 'htmlOptions'=>array('style'=>'text-align:center;'),
+			 'linkHtmlOptions'=>array('style'=>'text-align:center','rel'=>'tooltip', 'data-original-title'=>'PDF', 'target'=>'_blank'),
+                ),
 	),
 )); ?>
  <?php $this->endWidget(); ?>

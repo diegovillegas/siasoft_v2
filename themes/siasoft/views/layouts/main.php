@@ -27,7 +27,7 @@
     <td id="cabecera_sup" height="57">&nbsp;</td>
   </tr>
   <tr>
-    <td id="cabecera" height="65">&nbsp;</td>
+    <td id="cabecera" height="56">&nbsp;</td>
   </tr>
 </table><!-- header -->
 <div id="menu">

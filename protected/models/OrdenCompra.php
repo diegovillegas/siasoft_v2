@@ -227,6 +227,18 @@ class OrdenCompra extends CActiveRecord
                 break;
             }
         }
+        
+        public static function prioridad($codigo){
+            
+            switch($codigo){
+                case 'A' : return 'Alta';
+                    break;
+                case 'M' : return 'Media';
+                    break;
+                case 'B' : return 'Baja';
+                    break;
+            }
+        }
 
         public function behaviors()
 	{

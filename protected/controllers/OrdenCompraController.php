@@ -71,6 +71,18 @@ class OrdenCompraController extends SBaseController
             
             echo CJSON::encode($res);
         }
+        
+        public function actionPdf(){
+            $id = $_GET['id'];
+            $conf = ConfCo::model()->find();
+            $compania = Compania::model()->find();
+            $orden = OrdenCompra::model()->findByPk($id);
+            $lineas = OrdenCompraLinea::model()->findAll('ORDEN_COMPRA = "'.$id.'"');
+            $mPDF1 = Yii::app()->ePdf->mpdf();
+            $mPDF1->WriteHTML($this->renderPartial('pdf', array('orden' => $orden, 'lineas' => $lineas, 'compania' => $compania, 'conf'=>$conf), true));
+            $mPDF1->Output();
+            Yii::app()->end();
+        }
 
         public function actionActualizaImpuesto(){
             $item_id = $_GET['buscar'];
@@ -388,46 +400,7 @@ class OrdenCompraController extends SBaseController
             if($contWarning !=0)
                 Yii::app()->user->setFlash($mensajeWarning->TIPO, '<h3 align="center">'.$mensajeWarning->MENSAJE.': '.$contWarning.' Orden(es) ya Reversada(s)<br>('.$warning.')</h3>');
             
-           $this->widget('bootstrap.widgets.BootAlert');
-            /*$id = explode(",", $_GET['buscar']);
-            $error = 0;
-            $exito = 0;
-            $info = 0;
-            $advertencia = 0;
-            foreach($id as $reversa){
-                $reversar = OrdenCompra::model()->findByPk($reversa);
-                if($reversar->ESTADO == 'C' || $reversar->ESTADO == 'E'){
-                    $advertencia++; //advertencia esta en cancelar
-                }
-                 else{
-                     if ($reversar->ESTADO == 'A'){
-                        $advertencia++; //advertencia ya esta en autorizar
-                    }
-                    else{
-                        if($reversar->ESTADO == 'P'){
-                            $info++; // esta aun en planeada
-                        }
-                        else{
-                            $reversar->ESTADO = 'P';
-                            $reversar->AUTORIZADA_POR = "";
-                            $reversar->FECHA_AUTORIZADA = "";
-                            if($reversar->save()){
-                                $actLinea = OrdenCompraLinea::model()->findAll('ORDEN_COMPRA = "'.$reversa.'"');
-                                foreach ($actLinea as $datos){
-                                    $datos->ESTADO = 'P';
-                                    $datos->save();
-                                }
-                            $exito++; // Se reverso correctamente
-                            }
-                            else{
-                                $error++; // error 5 no se pudo reversar
-                            }
-                        }
-                    }
-                 }
-            }
-            $variable = array('error'=>$error, 'info'=>$info, 'exito'=>$exito, 'advertencia'=>$advertencia);
-            echo CJSON::encode($variable);*/
+           $this->widget('bootstrap.widgets.BootAlert');            
         }
         
         public function actionCerrar(){
