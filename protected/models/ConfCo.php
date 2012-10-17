@@ -129,7 +129,7 @@ class ConfCo extends CActiveRecord
 			'ORDEN_OBSERVACION' => 'Observaciones',
 			'MAXIMO_LINORDEN' => 'N&uacute;mero m&aacute;ximo de l&iacute;neas en las &oacute;rdenes',
 			'POR_VARIAC_COSTO' => 'Porcentaje variaci&oacute;n de costo',
-			'CP_EN_LINEA' => 'Generar factura en l&iacute;nea al aplicar embarque',
+			'CP_EN_LINEA' => 'Generar factura en l&iacute;nea al aplicar ingreso',
 			'IMP1_AFECTA_DESCTO' => 'Impuesto 1 se afecta por',
 			'FACTOR_REDONDEO' => 'Factor de Redondeo',
 			'PRECIO_DEC' => 'Precio Decimales',
@@ -220,8 +220,13 @@ class ConfCo extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public static function darConf(){
+            $conf = ConfCo::model()->find();            
+            return $conf ? true : false;
+        }
 	
-		public function behaviors()
+	public function behaviors()
 	{
 		return array(
 			'CTimestampBehavior' => array(

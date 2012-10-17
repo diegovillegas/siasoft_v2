@@ -55,8 +55,11 @@ $this->widget('bootstrap.widgets.BootButton', array(
 		'ACTUALIZADO_POR',
 		'ACTUALIZADO_EL',
 		*/
-
+        array(
+            'class'=>'bootstrap.widgets.BootButtonColumn',
+            'htmlOptions'=>array('style'=>'width: 50px'),
 	),
+    ),
 )); ?>
 
 <?php $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'myModal')); ?>

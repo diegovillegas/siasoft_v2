@@ -34,6 +34,8 @@ function cargaProveedorGrilla (grid_id){
 }
 
 $(document).ready(function(){
+    $('#OrdenCompra_DIRECCION_EMBARQUE').val('<?php echo $config->DIRECCION_EMBARQUE; ?>');
+    $('#OrdenCompra_DIRECCION_COBRO').val('<?php echo $config->DIRECCION_COBRO; ?>');
     $(".escritoProv").live("change", function (e) {
        $.getJSON(
             '<?php echo $this->createUrl('ordenCompra/CargarProveedor'); ?>&buscar='+$(this).attr('value'),
@@ -308,7 +310,7 @@ $(document).ready(function(){
             $form->textAreaRow($model,'DIRECCION_EMBARQUE',array('cols' => '50', 'rows' => '5')).
             $form->textAreaRow($model,'DIRECCION_COBRO',array('cols' => '50', 'rows' => '5')).
             '</fliedset>'),
-        
+             
         array('label'=>'Rubros', 'content'=>$rubros),
         
         array('label'=>'Textos', 'content'=>

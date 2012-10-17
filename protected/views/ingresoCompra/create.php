@@ -15,4 +15,4 @@ $this->menu=array(
 
 <h1>Ingreso de Compra</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model, 'proveedor'=>$proveedor, 'config'=>$config, 'linea'=>$linea, 'articulo'=>$articulo, 'ordenLinea'=>$ordenLinea, 'ruta'=>$ruta)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model, 'proveedor'=>$proveedor, 'config'=>$config, 'linea'=>$linea, 'articulo'=>$articulo, 'ordenLinea'=>$ordenLinea, 'ruta'=>$ruta, 'dataProviderOrdenes' => $dataProviderOrdenes)); ?>

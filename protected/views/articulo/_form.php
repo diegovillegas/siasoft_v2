@@ -1,4 +1,24 @@
 <script>
+    $(document).ready(inicio);
+    
+    function inicio(){
+        
+        if($('#Articulo_COSTO_FISCAL').val() != 'Estándar')
+            $('#estandar').slideUp('slow');
+        else
+            $('#estandar').slideDown('slow');
+        
+        $('#Articulo_COSTO_FISCAL').change(function(){
+            if($(this).val() != 'Estándar'){
+                $('#estandar').slideUp('slow');
+                $('#Articulo_COSTO_ESTANDAR').attr('disabled',true);
+             }else{
+                $('#Articulo_COSTO_ESTANDAR').attr('disabled',false);
+                $('#estandar').slideDown('slow');
+            }
+        });
+    }
+    
     function updateBodega(grid_id){
         var id=$.fn.yiiGridView.getSelection(grid_id);
         
@@ -171,6 +191,7 @@
                                         <fieldset style="width: 380px; height: 163px;">
                                             <legend ><font face="arial" size=3 >Costos</font></legend>'
                                              .$form->dropDownListRow($model,'COSTO_FISCAL',MetodoValuacionInv::getMetodo(),array('empty'=>'Seleccione','options'=>array($conf->COSTO_FISCAL=>array('selected'=>'selected'))))
+                                             .'<span id="estandar" style="display: block">'.$form->textFieldRow($model,'COSTO_ESTANDAR',array('prepend'=>'$','size'=>9,'disabled'=>$conf->COSTO_FISCAL == 'Estándar' ? false :true)).'</span>'     
                                         .'</fieldset>
                                     </td>
                                 </tr>

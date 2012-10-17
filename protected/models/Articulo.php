@@ -289,6 +289,7 @@ class Articulo extends CActiveRecord
 		$criteria->compare('EXISTENCIA_MAXIMA',$this->EXISTENCIA_MAXIMA,true);
 		$criteria->compare('PUNTO_REORDEN',$this->PUNTO_REORDEN,true);
 		$criteria->compare('BODEGA',$this->BODEGA,true);
+		$criteria->compare('ACTIVO','S');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -302,6 +303,66 @@ class Articulo extends CActiveRecord
             $bus = Articulo::model()->findByPk($id);
             
             return $bus->NOMBRE;
+        }
+        
+        public function darCampocosto($costo,$form,$model,$conf){
+            
+            switch ($costo){
+                case 'Estándar':
+                    return '<span id="estandar" style="display: block">'.$form->textFieldRow($model,'COSTO_ESTANDAR',array('prepend'=>'$','size'=>9,'disabled'=>$conf->COSTO_FISCAL == 'Estándar' ? false :true)).'</span>';
+               break;     
+                case 'Promedio':
+                    return $form->textFieldRow($model,'COSTO_PROMEDIO',array('prepend'=>'$','size'=>9,'disabled'=>true));
+               break;     
+                case 'Último':
+                    return  $form->textFieldRow($model,'COSTO_ULTIMO',array('prepend'=>'$','size'=>9,'disabled'=>true));
+               break;     
+                    
+            }
+            
+        }
+        public static function darCosto($id){
+            
+            $articulo = Articulo::model()->findByPk($id);
+            
+            switch ($articulo->COSTO_FISCAL){
+                case 'Estándar':
+                    return $articulo->COSTO_ESTANDAR;
+               break;     
+                case 'Promedio':
+                    return $articulo->COSTO_PROMEDIO;
+               break;     
+                case 'Último':
+                    return $articulo->COSTO_ULTIMO;
+               break;     
+                    
+            }
+        }
+        
+        public static function actualizarCosto($id){
+            $articulo = Articulo::model()->findByPk($id);
+            
+            switch ($articulo->COSTO_FISCAL){
+                case 'Promedio':
+                    $transacciones = TransaccionInvDetalle::model()->findAllByAttributes(array('ARTICULO'=>$id));
+                    $costoTotal = 0;
+                    $cantTotal = 0;
+                    
+                    foreach($transacciones as $datos){
+                        $costoTotal += ($datos->CANTIDAD * $datos->COSTO_UNITARIO);
+                        $cantTotal += $datos->CANTIDAD;
+                    }
+                    $costoFinal = $costoTotal/$cantTotal;
+                    $articulo->COSTO_PROMEDIO = $costoFinal;
+                    
+               break;     
+                case 'Último':
+                    $transacciones = TransaccionInvDetalle::model()->findByAttributes(array('ARTICULO'=>$id),array('order'=>'TRANSACCION_INV_DETALLE DESC'));
+                    $articulo->COSTO_PROMEDIO = $transacciones->COSTO_UNITARIO;
+               break;     
+                    
+            }
+            $articulo->save();
         }
             
 }

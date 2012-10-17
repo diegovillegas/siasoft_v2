@@ -21,7 +21,7 @@
                                         'type'=>'success',
                                         'label'=>'Nuevo',
                                          'icon'=>'plus white',
-                                        'htmlOptions'=>array('id'=>'btn-nuevo','name'=>'','onclick'=>'$("#nuevo").modal(); limpiarForm();')
+                                        'htmlOptions'=>array('id'=>'btn-nuevo','name'=>'','onclick'=>'$("#nuevo").modal(); limpiarForm();','disabled'=>$model->ESTADO == 'P' ? false : true)
                              ));
                              
                              echo CHtml::hiddenField('maxLineas',$config->LINEAS_MAX_TRANS);
@@ -129,7 +129,7 @@
                                                              'type'=>'normal',
                                                              'size'=>'mini',
                                                              'icon'=>'pencil',
-                                                             'htmlOptions'=>array('class'=>'editUpdate','name'=>$i)
+                                                             'htmlOptions'=>array('class'=>'editUpdate','name'=>$i,'disabled'=>$model->ESTADO == 'P' ? false : true)
                                                           ));
                                                        ?>
                                         </span>
@@ -139,7 +139,7 @@
                                                                  'type'=>'danger',
                                                                  'size'=>'mini',
                                                                  'icon'=>'minus white',
-                                                                 'htmlOptions'=>array('id'=>'btn-remover','class'=>'eliminaRegistro','name'=>$i)
+                                                                 'htmlOptions'=>array('id'=>'btn-remover','class'=>'eliminaRegistro','name'=>$i,'disabled'=>$model->ESTADO == 'P' ? false : true)
 
                                                          ));
                                                  ?>

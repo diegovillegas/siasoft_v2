@@ -27,7 +27,7 @@
     <td id="cabecera_sup" height="57">&nbsp;</td>
   </tr>
   <tr>
-    <td id="cabecera" height="65">&nbsp;</td>
+    <td id="cabecera" height="56">&nbsp;</td>
   </tr>
 </table><!-- header -->
 <div id="menu">
@@ -35,6 +35,7 @@
 		<?php if (!Yii::app()->user->isGuest){
 		
 		$com=ConfCo::model()->find();
+                $fac=  ConfFa::model()->find();
 		$compa=Compania::model()->find();
 		$admin=ConfAs::model()->find();
 		
@@ -43,13 +44,18 @@
 			'stacked'=>false, // whether this is a stacked menu
 			'items'=>array(
 				array('label'=>'Inicio', 'url'=>array('/site/index')),
+				array('label'=>'Facturación', 'url'=>'#',	
+						'items'=>array(
+							array('label'=>'Configuracion de Facturación', 'url'=>$fac ? array('/confFa/update','id'=>$fac->ID): array('/confFa/create')),							
+						)
+				),
 				array('label'=>'Compras', 'url'=>'#',	
 						'items'=>array(
 							array('label'=>'Configuracion de Compras', 'url'=>$com ? array('/confCo/update','id'=>$com->ID): array('/confCo/create')),
 							array('label'=>'Proveedor', 'url'=>array('/proveedor/admin')),
-                                                        array('label'=>'Solicitud', 'url'=>array('/solicitudOc/admin')),
-                                                        array('label'=>'Ordenes', 'url'=>array('/ordenCompra/admin')),
-                                                        array('label'=>'IngresoCompra', 'url'=>array('/ingresoCompra/admin')),
+                                                        array('label'=>'Solicitud de compra', 'url'=>array('/solicitudOc/admin')),
+                                                        array('label'=>'Ordenes de compra', 'url'=>array('/ordenCompra/admin')),
+                                                        array('label'=>'Ingreso de compra', 'url'=>array('/ingresoCompra/admin')),
 						)
 				),
 				array('label'=>'Inventario', 'url'=>'#',	
