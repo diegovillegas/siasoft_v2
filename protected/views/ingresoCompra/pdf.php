@@ -20,19 +20,16 @@
         </div>
         <div style="width: 80px; float: left; height: 90px; border-bottom: 1px solid;"></div>
 	<div style="border-bottom: 1px solid; border-left: 1px solid; width: 107px; float: right; height: 90px; font-family: Tahoma;" align="center">
-            <br />Orden de<br /> compra<br /> <b><?php echo $orden->ORDEN_COMPRA; ?></b>
+            <br />Ingreso de<br /> compra<br /> <b><?php echo $ingreso->INGRESO_COMPRA; ?></b>
         </div>	<p>&nbsp;</p>			
             <table width="80%" border="0" align="center">
                 <tr>
                     <td width="60%" height="100" valign="top">
-                        <b>Fecha:</b> <?php echo $orden->FECHA; ?><br />
-                        <b>Proveedor:</b> <?php echo $orden->pROVEEDOR->NOMBRE; ?><br /> 
-                        <b>Prioridad:</b> <?php echo OrdenCompra::model()->prioridad($orden->PRIORIDAD); ?><br /> 
+                        <b>Fecha Ingreso:</b> <?php echo $ingreso->FECHA_INGRESO; ?><br />
+                        <b>Proveedor:</b> <?php echo $ingreso->pROVEEDOR->NOMBRE; ?><br />
                     </td>
                     <td valign="top" width="30%">
-                        <b>Fecha Requerida:</b> <?php echo $orden->FECHA_REQUERIDA; ?><br />
-                        <b>Condición de pago:</b> <?php echo $orden->cONDICIONPAGO->DESCRIPCION; ?><br />
-                        <b>Estado:</b> <?php echo OrdenCompra::model()->estado($orden->ESTADO); ?><br />
+                        <b>Estado:</b> <?php echo IngresoCompra::model()->estado($ingreso->ESTADO); ?><br />
                     </td>
 		</tr>
 		<tr>
@@ -49,8 +46,8 @@
                             <?php foreach($lineas as $ln){ ?>
                                 <tr>
                                     <td><?php echo $ln->ARTICULO; ?></td>
-                                    <td><?php echo $ln->DESCRIPCION; ?></td>
-                                    <td><?php echo $ln->uNIDADCOMPRA->NOMBRE; ?></td>
+                                    <td><?php echo $ln->aRTICULO->NOMBRE; ?></td>
+                                    <td><?php echo $ln->uNIDADORDENADA->NOMBRE; ?></td>
                                     <td><?php echo $ln->CANTIDAD_ORDENADA; ?></td>
                                     <td><?php echo $ln->PRECIO_UNITARIO; ?></td>
                                     <td><?php echo $ln->bODEGA->DESCRIPCION; ?></td>
@@ -61,17 +58,17 @@
 		</tr>
 		<tr>
                     <td colspan="2" height="100" valign="top">
-                        <b>Observaciones:</b> <?php echo $orden->OBSERVACIONES; ?>
+                        <b>Notas:</b> <?php echo $ingreso->NOTAS; ?>
                     </td>						
 		</tr>
 		<tr>
                     <td height="100" valign="top" width="15%">
                         <b>Elaborado por:</b> <?php echo Yii::app()->user->name; ?><br />
-                        <b>Autorizada por:</b> <?php echo $orden->AUTORIZADA_POR; ?> <br />
+                        <b>Aplicado por:</b> <?php echo $ingreso->APLICADO_POR; ?> <br />
                     </td>
                     <td valign="top" width="50%">
                         <b>Fecha de Elaboración:</b> <?php echo date('Y-m-d'); ?><br />
-                        <b>Fecha de Autorización:</b> <?php echo Yii::app()->dateFormatter->format('yyyy-MM-dd',$orden->FECHA_AUTORIZADA); ?> <br />
+                        <b>Fecha de Aplicación:</b> <?php echo Yii::app()->dateFormatter->format('yyyy-MM-dd',$ingreso->APLICADO_EL); ?> <br />
                     </td>
 		</tr>
             </table>				

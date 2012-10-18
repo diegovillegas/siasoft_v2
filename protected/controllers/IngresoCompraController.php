@@ -32,7 +32,7 @@ class IngresoCompraController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea', 'Listar', 'Aplicar', 'Cancelar'),
+				'actions'=>array('create','update', 'Pdf', 'CargarProveedor', 'CargarArticulo', 'CargarLineas', 'Actlinea', 'Listar', 'Aplicar', 'Cancelar'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -301,6 +301,18 @@ class IngresoCompraController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
+        
+        public function actionPdf(){
+            $id = $_GET['id'];
+            $conf = ConfCo::model()->find();
+            $compania = Compania::model()->find(); 
+            $ingreso = IngresoCompra::model()->findByPk($id);
+            $lineas = IngresoCompraLinea::model()->findAll('INGRESO_COMPRA = "'.$id.'"');        
+            $mPDF1 = Yii::app()->ePdf->mpdf();
+            $mPDF1->WriteHTML($this->renderPartial('pdf', array('ingreso' => $ingreso, 'lineas' => $lineas, 'compania' => $compania, 'conf'=>$conf), true));
+            $mPDF1->Output();
+            Yii::app()->end();
+        }
 
 	/**
 	 * Lists all models.
