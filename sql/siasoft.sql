@@ -1611,7 +1611,8 @@ CREATE TABLE `categoria` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Permite almacenar las categorias para los clientes y proveed';
 
 INSERT INTO `categoria` (`ID`, `DESCRIPCION`, `TIPO`, `ACTIVO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
-(1,	'categoria 1',	'C',	'S',	'admin',	'2012-05-11 15:22:59',	'admin',	'2012-09-14 18:11:28');
+(1,	'categoria 1',	'C',	'S',	'admin',	'2012-05-11 15:22:59',	'admin',	'2012-09-14 18:11:28'),
+(2,	'Bolsas',	'P',	'S',	'admin',	'2012-10-17 08:49:24',	'admin',	'2012-10-17 08:49:24');
 
 DROP TABLE IF EXISTS `centro_costos`;
 CREATE TABLE `centro_costos` (
@@ -1743,7 +1744,7 @@ CREATE TABLE `compania` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Almacena los datos de la empresa o compañia';
 
 INSERT INTO `compania` (`ID`, `NOMBRE`, `NOMBRE_ABREV`, `NIT`, `UBICACION_GEOGRAFICA1`, `UBICACION_GEOGRAFICA2`, `PAIS`, `DIRECCION`, `TELEFONO1`, `TELEFONO2`, `LOGO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`, `VERSION`) VALUES
-(30,	'ALERENS',	'ALERENS',	'38361706-8',	'73',	'73001',	'COL',	'CLL 39 N 12 - 50',	'2665027',	'3138439289',	'camara_ibague.png',	'admin',	'2012-05-22 00:00:00',	'admin',	'2012-10-13 10:51:11',	'0.10');
+(30,	'ALERENS',	'ALERENS',	'38361706-8',	'18',	'18753',	'COL',	'CLL 39 N 12 - 50',	'2665027',	'3138439289',	'camara_ibague.png',	'admin',	'2012-05-22 00:00:00',	'admin',	'2012-10-17 08:46:44',	'0.10');
 
 DROP TABLE IF EXISTS `conf_as`;
 CREATE TABLE `conf_as` (
@@ -1760,7 +1761,7 @@ CREATE TABLE `conf_as` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Tabla que almacena la configuración para el modulo administr';
 
 INSERT INTO `conf_as` (`ID`, `IMPUESTO1_DESC`, `IMPUESTO2_DESC`, `PATRON_CCOSTO`, `SIMBOLO_MONEDA`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
-(1,	'Iva',	'',	'1',	'$',	'admin',	'2012-05-11 11:32:22',	'admin',	'2012-05-11 11:32:22');
+(1,	'Iva',	'',	'999?99',	'$',	'admin',	'2012-05-11 11:32:22',	'admin',	'2012-10-17 08:53:35');
 
 DROP TABLE IF EXISTS `conf_ci`;
 CREATE TABLE `conf_ci` (
@@ -4374,4 +4375,4 @@ CREATE TABLE `zona` (
 INSERT INTO `zona` (`ID`, `PAIS`, `NOMBRE`, `ACTIVO`, `CREADO_POR`, `CREADO_EL`, `ACTUALIZADO_POR`, `ACTUALIZADO_EL`) VALUES
 (1,	'COL',	'zona',	'N',	'admin',	'2012-10-10 11:48:49',	'admin',	'2012-10-10 11:55:32');
 
--- 2012-10-16 09:18:10
+-- 2012-10-19 08:33:49

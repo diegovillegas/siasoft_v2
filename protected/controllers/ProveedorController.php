@@ -73,8 +73,16 @@ class ProveedorController extends SBaseController
 		if(isset($_POST['Proveedor']))
 		{
 			$model->attributes=$_POST['Proveedor'];
+                        if($model->PAIS == 'COL'){
+                            $model->CIUDAD = '';
+                            $model->UBICACION_GEOGRAFICA1 = $_POST['Proveedor']['UBICACION_GEOGRAFICA1'];
+                        }
+                        else{
+                            $model->UBICACION_GEOGRAFICA2 = NULL;
+                            $model->UBICACION_GEOGRAFICA1 = NULL;
+                        }
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->PROVEEDOR));
+				$this->redirect(array('admin'));
 		}
                 if(isset($_GET['Nit']))
 			$nit->attributes=$_GET['Nit'];
@@ -104,8 +112,16 @@ class ProveedorController extends SBaseController
 		if(isset($_POST['Proveedor']))
 		{
 			$model->attributes=$_POST['Proveedor'];
+                        if($model->PAIS == 'COL'){
+                            $model->CIUDAD = '';
+                            $model->UBICACION_GEOGRAFICA1 = $_POST['Proveedor']['UBICACION_GEOGRAFICA1'];
+                        }
+                        else{
+                            $model->UBICACION_GEOGRAFICA2 = NULL;
+                            $model->UBICACION_GEOGRAFICA1 = NULL;
+                        }
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->PROVEEDOR));
+				$this->redirect(array('admin'));
 		}
                 
                 if(isset($_GET['Nit']))
@@ -189,6 +205,10 @@ class ProveedorController extends SBaseController
 			Yii::app()->end();
 		}
 	}
+        
+        public function actionCargarubicacion(){            
+            echo CJSON::encode(CHtml::ListData(UbicacionGeografica2::model()->findAll('UBICACION_GEOGRAFICA1 = "'.$_GET['ubicacion'].'" AND ACTIVO = "S"'),'ID','NOMBRE'));            
+        }
         
         public function actionCargarNit() {
             
