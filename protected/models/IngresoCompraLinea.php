@@ -57,7 +57,7 @@ class IngresoCompraLinea extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('INGRESO_COMPRA, LINEA_NUM, ARTICULO, BODEGA, CANTIDAD_ORDENADA, UNIDAD_ORDENADA, CANTIDAD_ACEPTADA, CANTIDAD_RECHAZADA, PRECIO_UNITARIO, COSTO_FISCAL_UNITARIO', 'required'),
+			array('BODEGA, CANTIDAD_ACEPTADA, CANTIDAD_RECHAZADA', 'required'),
 			array('LINEA_NUM, ORDEN_COMPRA_LINEA, UNIDAD_ORDENADA', 'numerical', 'integerOnly'=>true),
 			array('INGRESO_COMPRA', 'length', 'max'=>10),
 			array('ARTICULO, CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),

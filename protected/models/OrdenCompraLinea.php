@@ -166,6 +166,20 @@ class OrdenCompraLinea extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function cambiaRecibir($id){
+            $i = 0;
+            $buscare = $this->model()->findByPk($id);
+            $buscar = $this->model()->findAll('ORDEN_COMPRA = "'.$buscare->ORDEN_COMPRA.'"');
+            foreach ($buscar as $a){
+                if($a->ESTADO == 'B'){
+                    $i++;
+                }
+            }
+            if($i == 0){
+                OrdenCompra::model()->updateByPk($a->ORDEN_COMPRA, array('ESTADO'=>'R'));
+            }
+        }
                 
         public function behaviors()
 	{

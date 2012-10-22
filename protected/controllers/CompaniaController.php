@@ -110,9 +110,10 @@ class CompaniaController extends SBaseController
                                 $model->save();
                             }
                             else{
-                                if($model->save() || $_FIÑES['Compania']['LOGO'] != ''){
+                                if($model->save() || $_FILES['Compania']['LOGO'] != ''){
                                         $model->LOGO->saveAs(Yii::getPathOfAlias('webroot').'/logo/'.$model->LOGO);
                                         $this->redirect(array('index'));
+                                        
                                 }
                             }
                         }

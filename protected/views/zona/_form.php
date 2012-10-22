@@ -11,7 +11,7 @@
  
 	<?php echo $form->errorSummary($model2); ?>
 
-		<?php echo $form->dropDownListRow($model2,'PAIS', CHtml::listData(Pais::model()->findAll(),'ID','NOMBRE'),array('empty'=>'Seleccione...')); ?>
+		<?php echo $form->dropDownListRow($model2,'PAIS', CHtml::listData(Pais::model()->findAll('ACTIVO = "S"'),'ID','NOMBRE'),array('empty'=>'Seleccione...')); ?>
 		<?php echo $form->textFieldRow($model2,'NOMBRE',array('maxlength'=>64)); ?>
 
 	<div class="row">
@@ -23,7 +23,7 @@
     </div>
 	<div class="modal-footer" align="center">
     	<?php $this->widget('bootstrap.widgets.BootButton', array('buttonType'=>'submit', 'type'=>'primary', 'icon'=>'ok-circle white', 'size' =>'small', 'label'=>$model2->isNewRecord ? 'Crear' : 'Guardar')); ?>
-	<?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => '#', 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	
+	<?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => array('/zona/admin'), 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	
         </div>
 
 

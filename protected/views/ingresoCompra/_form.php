@@ -5,20 +5,31 @@ $.validator.setDefaults({
 });
 $(document).ready(function(){
     $('#ingreso-compra-form').validate();
-    $(".escritoProv").live("change", function (e) {
+    $("#ingreso-compra-form").submit(function() {
+    var x = $("#contador").val();
+      if (x==0) {
+        alert("Debe ingresar minimo una linea");
+        return false;
+      } else
+          return true;
+    });
+    $(".escritoProv").live("change", function (e) {      
+       $.fn.yiiGridView.update('lineas-grid', {data : '0=' + $(this).val()});
        $.getJSON(
-            '<?php echo $this->createUrl('ordenCompra/CargarProveedor'); ?>&buscar='+$(this).attr('value'),
+            '<?php echo $this->createUrl('ingresoCompra/CargarProveedor'); ?>&buscar='+$(this).attr('value'),
             function(data)
             {
                 $('#ProvNombre2').val(data.NOMBRE);
             }
        )
+        $('#advertenciaLineas').css('display','none');
+        $('#cargarLineasBoton').css('display','block');
     });
 });
 
-function cargaProveedorGrilla (grid_id){
+function cargaProveedorGrilla (grid_id){    
     var buscar = $.fn.yiiGridView.getSelection(grid_id);
-    
+    $.fn.yiiGridView.update('lineas-grid', {data:buscar});
     $.getJSON(
         '<?php echo $this->createUrl('ingresoCompra/CargarProveedor'); ?>&buscar='+buscar,
         function(data)
@@ -27,6 +38,8 @@ function cargaProveedorGrilla (grid_id){
             $('#ProvNombre2').val(data.NOMBRE);
         }
     )
+    $('#advertenciaLineas').css('display','none');
+    $('#cargarLineasBoton').css('display','block');
 }
 </script>
 
@@ -130,7 +143,10 @@ function cargaProveedorGrilla (grid_id){
     'tabs'=>array(
         array('label'=>'General', 'content'=>'<table><tr>
             <td width=30%>'.$form->textFieldRow($model,'PROVEEDOR',array('size'=>20,'maxlength'=>20, 'class'=>'escritoProv'))."</td><td>".CHtml::textField('ProvNombre2','', array('readonly' => true))." ".$prov_boton."</td></tr></table>"
-            .'<div class="control-group "><label for="IngresoCompra_FECHA_INGRESO" class="control-label required">Fecha Ingreso <span class="required">*</span></label><div class="controls">'.$fecha.'</div></div>'
+            .'<table><tr><td width= "50%"><div class="control-group "><label for="IngresoCompra_FECHA_INGRESO" class="control-label required">Fecha Ingreso <span class="required">*</span></label><div class="controls">'.$fecha.'</div></div></td>
+                <td>
+                    '.$form->checkBoxRow($model, 'TIENE_FACTURA').'
+                </td></tr></table>'
 	, 'active'=>true),
         
         array('label'=>'Líneas', 'content'=>$pestana),
@@ -140,7 +156,7 @@ function cargaProveedorGrilla (grid_id){
              $rubros
             ),
         array('label'=>'Notas', 'content'=>
-            $form->textAreaRow($model,'NOTAS',array('rows'=>6, 'cols'=>50, 'class'=>'required'))
+            $form->textAreaRow($model,'NOTAS',array('rows'=>6, 'cols'=>50))
             ),
         array('label'=>'Auditoria', 'content'=>
             '<table>
@@ -168,43 +184,13 @@ function cargaProveedorGrilla (grid_id){
             ));
         ?>
     
-	<div align="center">
-            <?php $this->widget('bootstrap.widgets.BootButton', array(
-                         'buttonType'=>'ajaxSubmit',
-                         'type'=>'primary',
-                         'size' =>'small',
-                         'label'=>$model->isNewRecord ? 'Crear' : 'Guardar',
-                         'icon'=>'ok-circle white',
-                         'url'=>array('ingresoCompra/advertencias'),
-                         'ajaxOptions'=>array(
-                             //'type'=>'POST',
-                             'update'=>'#ver-advertencia',
-                             //'beforeSend' => 'cargando()' ,
-                          ),
-                          'htmlOptions'=>array('onclick'=>"$('#advertencia').modal();"),
-                      )); ?>
-            
-            <?php //$this->widget('bootstrap.widgets.BootButton', array('buttonType'=>'submit', 'type'=>'primary', 'icon'=>'ok-circle white', 'size' =>'small', 'label'=>$model->isNewRecord ? 'Crear' : 'Guardar')); ?>
+	<div align="center">           
+            <?php $this->widget('bootstrap.widgets.BootButton', array('buttonType'=>'submit', 'type'=>'primary', 'icon'=>'ok-circle white', 'size' =>'small', 'label'=>$model->isNewRecord ? 'Crear' : 'Guardar')); ?>
             <?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small', 'url' => array('ingresoCompra/admin'), 'icon' => 'remove'));  ?>
 	</div>
 
 <?php $this->endWidget(); ?>
-
-        <?php $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'advertencia')); ?>
-    
-    	<div class="modal-header">
-		<a class="close" data-dismiss="modal">&times;</a>
-		<h3>Nueva Linea</h3>
-		<p class="note">Los Campos con <span class="required">*</span> Son requeridos.</p>
-	</div>
-    
-        <div id="ver-advertencia">
-                <?php  $this->renderPartial('_advertencia'); ?>
-	</div>
-
-    <?php $this->endWidget(); ?>
-    
-    
+  
         <?php $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'proveedor')); ?>
     <div class="modal-body">
                 <a class="close" data-dismiss="modal">&times;</a>
@@ -256,7 +242,7 @@ function cargaProveedorGrilla (grid_id){
                 'selectableRows'=>2,
                 'selectionChanged'=>'obtenerSeleccion',
                 'template'=>"{items} {pager}",
-                'dataProvider'=>$ordenLinea->search(),
+                'dataProvider'=>$dataProviderOrdenes,
                 'filter'=>$ordenLinea,
                 'columns'=>array(
                     array('class'=>'CCheckBoxColumn'),

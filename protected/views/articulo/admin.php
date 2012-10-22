@@ -23,18 +23,7 @@ $('.form').submit(function(){
 <h1>Articulos</h1>
 <br>
 <div align="right">
-    <?php 
 
-        /*$this->widget('bootstrap.widgets.BootButton', array(
-            'label'=>'Busqueda Avanzada',
-            'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-            'size'=>'mini', // '', 'large', 'small' or 'mini'
-            'url'=>'#myModal',
-            'htmlOptions'=>array('data-toggle'=>'modal'),
-            'icon' => 'search'
-        )); */
-
-    ?>
     <?php 
 
         $this->widget('bootstrap.widgets.BootButton', array(
@@ -60,8 +49,7 @@ $('.form').submit(function(){
                     /*'CLASIFICACION_1',
                     'CLASIFICACION_2',
                     'CLASIFICACION_3',
-                    'CLASIFICACION_4',
-                    
+                    'CLASIFICACION_4',                    
                     'CLASIFICACION_5',
                     'CLASIFICACION_6',
                     'FACTOR_CONVER_1',
