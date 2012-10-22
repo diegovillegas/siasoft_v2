@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 ?>
 
 <h1>Consecutivos</h1>
-<br>
+<br />
 <div align="right">
 
     <?php 
