@@ -29,18 +29,6 @@ $('.search-form form').submit(function(){
 <?php 
 
 $this->widget('bootstrap.widgets.BootButton', array(
-    'label'=>'Listar',
-    'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-    'size'=>'mini', // '', 'large', 'small' or 'mini'
-	'url' => array('proveedor/index'),
-	'icon' => 'list-alt white'
-)); 
-
-?>
-
-<?php 
-
-$this->widget('bootstrap.widgets.BootButton', array(
     'label'=>'Nuevo',
     'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'mini', // '', 'large', 'small' or 'mini'

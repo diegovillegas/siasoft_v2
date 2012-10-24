@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Nivel Precio'=>array('admin'),
+	'Tipo de Precio'=>array('admin'),
 	$model->ID,
 );
 
@@ -13,7 +13,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Ver Nivel Precio # <?php echo $model->ID; ?></h1>
+<h1>Ver Tipo de Precio # <?php echo $model->ID; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

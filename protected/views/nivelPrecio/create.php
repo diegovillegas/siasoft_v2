@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Nivel Precio'=>array('admin'),
+	'Tipo de Precio'=>array('admin'),
 	'Crear',
 );
 
@@ -10,6 +10,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Crear Nivel Precio</h1>
+<h1>Crear Tipo de Precio</h1>
 
 <?php echo $this->renderPartial('_form', array('model2'=>$model2)); ?>

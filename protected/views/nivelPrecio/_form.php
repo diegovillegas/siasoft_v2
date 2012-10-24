@@ -1,3 +1,12 @@
+<script>
+$(document).ready(function(){
+   $(".espacio").keypress(function(event){
+       if ( event.which == 32 ) {
+            return false;
+       }
+   });
+})
+</script>
 <div class="form">
     <div>
 <?php $form=$this->beginWidget('bootstrap.widgets.BootActiveForm', array(
@@ -11,9 +20,9 @@
         
         <?php echo $form->errorSummary($model2); ?>
 
-	<?php echo $form->textFieldRow($model2,'ID',array('size'=>12,'maxlength'=>12)); ?>
+	<?php echo $form->textFieldRow($model2,'ID',array('size'=>12,'maxlength'=>12, 'class'=>'espacio')); ?>
 	<?php echo $form->textAreaRow($model2,'DESCRIPCION'); ?>
-        <?php echo $form->dropDownListRow($model2, 'ESQUEMA_TRABAJO', array('NORM'=>'Normal','MULT'=>'Multiplicador', 'MARG' => 'Margen', 'MARK' => 'Markup')); ?>
+        <?php echo $form->dropDownListRow($model2, 'ESQUEMA_TRABAJO', array('NORM'=>'Normal','MULT'=>'Multiplicador', 'MARG' => 'Margen')); ?>
 		<?php echo $form->dropDownListRow($model2,'CONDICION_PAGO', CHtml::listData(CodicionPago::model()->findAll(),'ID','DESCRIPCION'),array('empty'=>'Seleccione...')); ?>
 	<div class="row">
 		<?php

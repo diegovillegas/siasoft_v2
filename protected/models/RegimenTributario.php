@@ -1,38 +1,35 @@
 <?php
 
 /**
- * This is the model class for table "bodega".
+ * This is the model class for table "regimen_tributario".
  *
- * The followings are the available columns in table 'bodega':
- * @property string $ID
+ * The followings are the available columns in table 'regimen_tributario':
+ * @property string $REGIMEN
  * @property string $DESCRIPCION
- * @property string $TIPO
- * @property string $TELEFONO
- * @property string $DIRECCION
  * @property string $ACTIVO
  * @property string $CREADO_POR
  * @property string $CREADO_EL
  * @property string $ACTUALIZADO_POR
  * @property string $ACTUALIZADO_EL
  */
-class Bodega extends CActiveRecord
+class RegimenTributario extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Bodega the static model class
+	 * @return RegimenTributario the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
+	
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'bodega';
+		return 'regimen_tributario';
 	}
 
 	/**
@@ -43,16 +40,15 @@ class Bodega extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ID, DESCRIPCION, TIPO', 'required'),
-			array('ID', 'length', 'max'=>4),
+			array('REGIMEN, DESCRIPCION', 'required'),
+			array('REGIMEN', 'length', 'max'=>12),
 			array('DESCRIPCION', 'length', 'max'=>64),
-			array('TIPO, ACTIVO', 'length', 'max'=>1),
-			array('TELEFONO, CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),
-			array('DIRECCION', 'length', 'max'=>128),
-                        array('ID', 'unique', 'attributeName'=>'ID', 'className'=>'Bodega','allowEmpty'=>false),
+			array('ACTIVO', 'length', 'max'=>1),
+			array('CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),
+                        array('REGIMEN', 'unique', 'allowEmpty'=>false),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('ID, DESCRIPCION, TIPO, TELEFONO, DIRECCION, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
+			array('REGIMEN, DESCRIPCION, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,11 +69,8 @@ class Bodega extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'Codigo de bodega',
+			'REGIMEN' => 'Regimen',
 			'DESCRIPCION' => 'Descripcion',
-			'TIPO' => 'Tipo',
-			'TELEFONO' => 'Telefono',
-			'DIRECCION' => 'Direccion',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',
@@ -97,11 +90,8 @@ class Bodega extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('ID',$this->ID,true);
+		$criteria->compare('REGIMEN',$this->REGIMEN,true);
 		$criteria->compare('DESCRIPCION',$this->DESCRIPCION,true);
-		$criteria->compare('TIPO',$this->TIPO,true);
-		$criteria->compare('TELEFONO',$this->TELEFONO,true);
-		$criteria->compare('DIRECCION',$this->DIRECCION,true);
 		$criteria->compare('ACTIVO',$this->ACTIVO,true);
 		$criteria->compare('CREADO_POR',$this->CREADO_POR,true);
 		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
@@ -112,34 +102,8 @@ class Bodega extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-	public function searchModal()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('ID',$this->ID,true);
-		$criteria->compare('DESCRIPCION',$this->DESCRIPCION,true);
-		$criteria->compare('TIPO',$this->TIPO,true);
-		$criteria->compare('TELEFONO',$this->TELEFONO,true);
-		$criteria->compare('DIRECCION',$this->DIRECCION,true);
-		$criteria->compare('ACTIVO','S');
-		$criteria->compare('CREADO_POR',$this->CREADO_POR,true);
-		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
-		$criteria->compare('ACTUALIZADO_POR',$this->ACTUALIZADO_POR,true);
-		$criteria->compare('ACTUALIZADO_EL',$this->ACTUALIZADO_EL,true);
-                $criteria->compare('ACTIVO','S');
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-                        'pagination'=>array(
-                            'pageSize'=>5
-                        ),
-		));
-	}
         
-	public function behaviors()
+        public function behaviors()
 	{
 		return array(
 			'CTimestampBehavior' => array(
@@ -156,21 +120,4 @@ class Bodega extends CActiveRecord
 			),
 		);
 	}
-        
-        public static function tipo($codigo){
-            switch ($codigo){
-                case 'C' : return 'Consumo';
-                break;
-                case 'N' : return'No Disponible';
-                break;
-                case 'V' : return 'Ventas';
-                break;
-            }
-        }
-
-        
-        public static function darDescripcion($id){
-            $bus = Bodega::model()->findByPk($id);            
-            return $bus ? $bus->DESCRIPCION : '';
-        }
 }

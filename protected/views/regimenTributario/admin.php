@@ -1,12 +1,15 @@
 <?php
+/* @var $this RegimenTributarioController */
+/* @var $model RegimenTributario */
+
 $this->breadcrumbs=array(
-	'Tipos de Precio'=>array('admin'),
-	'Administrar',
+	'Regimen Tributarios'=>array('index'),
+	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'List NivelPrecio', 'url'=>array('index')),
-	array('label'=>'Create NivelPrecio', 'url'=>array('create')),
+	array('label'=>'List RegimenTributario', 'url'=>array('index')),
+	array('label'=>'Create RegimenTributario', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -15,15 +18,13 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('nivel-precio-grid', {
+	$.fn.yiiGridView.update('regimen-tributario-grid', {
 		data: $(this).serialize()
 	});
 	return false;
 });
 ");
 ?>
-
-<h1>Tipos de Precio</h1>
 
 <div align="right">
 <?php 
@@ -41,47 +42,33 @@ $this->widget('bootstrap.widgets.BootButton', array(
 </div>
 
 <?php $this->widget('bootstrap.widgets.BootGridView', array(
-    'type'=>'striped bordered condensed',
-	'id'=>'nivel-precio-grid',
+        'type'=>'striped bordered condensed',
+	'id'=>'regimen-tributario-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'ID',
+		'REGIMEN',
 		'DESCRIPCION',
-		
-                array(
-                        'name'=>'ESQUEMA_TRABAJO',
-                        'header'=>'Esquema de trabajo',
-                        'value'=>'NivelPrecio::tipo($data->ESQUEMA_TRABAJO)',
-                        'filter'=>array('NORM'=>'Normal','MULT'=>'Multiplicador', 'MARG' => 'Margen', 'MARK' => 'Markup'),
-                    ),
-                array(
-                        'name'=>'CONDICION_PAGO',
-                        'header'=>'Condicion de pago',
-                        'value'=>'$data->cONDICIONPAGO->DESCRIPCION',
-                        'type'=>'text',
-                        'filter' => CHtml::listData(CodicionPago::model()->findAll(), 'ID', 'DESCRIPCION')
-                    ),
 		/*'ACTIVO',
 		'CREADO_POR',
 		'CREADO_EL',
-		'ACTUALIZADO_POR',
+		'ACTUALIZADO_POR',		
 		'ACTUALIZADO_EL',
 		*/
 		array(
-                    'class'=>'bootstrap.widgets.BootButtonColumn',
-                    'htmlOptions'=>array('style'=>'width: 50px'),
+			'class'=>'bootstrap.widgets.BootButtonColumn',
+                        'htmlOptions'=>array('style'=>'width: 50px'),
 		),
 	),
 )); ?>
 
 <?php $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'myModal')); ?>
- 
+
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h3>Crear Nivel de Precio</h3>
+    <h3>Crear Regimen Tributario</h3>
     <p class="note"><?php echo Yii::t('app','FIELDS_WITH'); ?><span class="required"> * </span><?php echo Yii::t('app','ARE_REQUIRED'); ?>.</p>
 </div>
 
     <?php echo $this->renderPartial('_form', array('model2'=>$model2)); ?>
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>

@@ -233,7 +233,8 @@ function cargaNitGrilla(grid_id){
             .'<div class="control-group "><label for="Proveedor_CARGO" class="control-label required">Fecha de Ingreso<span class="required"> *</span></label><div class="controls">'
             .$tab
             .'</span></div></div>'
-            .'</div></td><td>'
+            .'</div>'
+            .$form->dropDownListRow($model,'REGIMEN',CHtml::listData(RegimenTributario::model()->findAll('ACTIVO = "S"'),'REGIMEN','REGIMEN')).'</td><td>'
             .$form->textFieldRow($model,'TELEFONO1', array('size'=>20,'maxlength'=>20))
             .$form->textFieldRow($model,'TELEFONO2', array('size'=>20,'maxlength'=>20))
             .$form->textFieldRow($model,'FAX',array('size'=>20,'maxlength'=>20))

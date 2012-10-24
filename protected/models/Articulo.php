@@ -299,6 +299,22 @@ class Articulo extends CActiveRecord
 		));
 	}
         
+        public function searchEnsamble()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('ARTICULO',$this->ARTICULO,true);
+		$criteria->compare('NOMBRE',$this->NOMBRE,true);
+		$criteria->compare('TIPO_ARTICULO','16');
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
         public static function darNombre($id){
             $bus = Articulo::model()->findByPk($id);
             
@@ -353,16 +369,15 @@ class Articulo extends CActiveRecord
                         $cantTotal += $datos->CANTIDAD;
                     }
                     $costoFinal = $costoTotal/$cantTotal;
-                    $articulo->COSTO_PROMEDIO = $costoFinal;
+                    Articulo::model()->updateByPk($id, array('COSTO_PROMEDIO'=>$costoFinal));
                     
                break;     
                 case 'Último':
                     $transacciones = TransaccionInvDetalle::model()->findByAttributes(array('ARTICULO'=>$id),array('order'=>'TRANSACCION_INV_DETALLE DESC'));
-                    $articulo->COSTO_PROMEDIO = $transacciones->COSTO_UNITARIO;
+                    Articulo::model()->updateByPk($id, array('COSTO_ULTIMO'=>$transacciones->COSTO_UNITARIO));
                break;     
                     
             }
-            $articulo->save();
         }
             
 }
