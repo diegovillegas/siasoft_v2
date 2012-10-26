@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
-	'Consecutivo Fas'=>array('index'),
-	'Administrar',
+	'Facturación'=>array('admin'),
+	'Consecutivos'
 );
 ?>
 
@@ -17,7 +17,7 @@ $this->breadcrumbs=array(
                     'type'=>'success', 
                     'size'=>'mini', 
                     'icon' => 'plus white',
-                    'htmlOptions'=>array('onclick'=>'$("#myModal").modal()')
+                    'url'=>array('create')
             )); 
 
     ?>
@@ -30,32 +30,24 @@ $this->breadcrumbs=array(
 	'filter'=>$model,
 	'columns'=>array(
 		'CODIGO_CONSECUTIVO',
-		'FORMATO_IMPRESION',
-		'DESCRIPCION',
-		'TIPO',
-		'LONGITUD',
-		'VALOR_CONSECUTIVO',
-		/*
-		'MASCARA',
-		'USA_DESPACHOS',
-		'USA_ESQUEMA_CAJAS',
-		'VALOR_MAXIMO',
-		'NUMERO_COPIAS',
-		'ORIGINAL',
-		'COPIA1',
-		'COPIA2',
-		'COPIA3',
-		'COPIA4',
-		'COPIA5',
-		'RESOLUCION',
-		'ACTIVO',
-		'CREADO_POR',
-		'CREADO_EL',
-		'ACTUALIZADO_POR',
-		'ACTUALIZADO_EL',
-		*/
+                'DESCRIPCION',
 		array(
-			'class'=>'CButtonColumn',
-		),
+                    'name'=>'FORMATO_IMPRESION',
+                    'value'=>'$data->fORMATOIMPRESION->NOMBRE',
+                    'filter'=>CHtml::listData(FormatoImpresion::model()->findAllByAttributes(array('MODULO'=>'FACT')), 'ID', 'NOMBRE')
+                ),
+		'LONGITUD',
+		'MASCARA',
+                array(
+                    'name'=>'TIPO',
+                    'value'=>'$data->TIPO == "N" ? "Numérico" : "Alfanumérico"',
+                    'filter'=>array('N'=>'Numérico','A'=>'Alfanumérico'),
+                ),
+		'VALOR_CONSECUTIVO',
+		'VALOR_MAXIMO',
+		 array(
+                        'class'=>'bootstrap.widgets.BootButtonColumn',
+                        'htmlOptions'=>array('style'=>'width: 50px'),
+                    ),
 	),
 )); ?>

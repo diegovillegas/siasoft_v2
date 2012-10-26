@@ -1,154 +1,144 @@
+<script>
+    $(document).ready(inicio);
+    
+    function inicio(){
+        var mascara,i;
+        $("#consecutivo-fa-form").validate();
+        $('#ConsecutivoFa_TIPO_1').attr('checked',true);
+        
+        $('#ConsecutivoFa_NUMERO_COPIAS').blur(function(){
+            
+            for(i=0;i<=5;i++)
+                $('#ConsecutivoFa_COPIA'+i).attr('disabled',true);
+            
+            for(i=0;i<=$(this).val();i++){
+                $('#ConsecutivoFa_COPIA'+i).attr('disabled',false);
+            }
+        });
+        
+        $('#ConsecutivoFa_MASCARA').blur(function(){
+            mascara = $(this).val();
+            $('#ConsecutivoFa_VALOR_CONSECUTIVO').unmask();
+            $('#ConsecutivoFa_VALOR_CONSECUTIVO').mask(mascara);
+             $('#ConsecutivoFa_VALOR_MAXIMO').unmask();
+            $('#ConsecutivoFa_VALOR_MAXIMO').mask(mascara);
+        });
+        
+        $('#ConsecutivoFa_LONGITUD').blur(function(){
+            $('#ConsecutivoFa_MASCARA').attr('maxlength',$(this).val());
+        });
+        $('#ConsecutivoFa_TIPO_0').click(function(){
+            $('#ConsecutivoFa_MASCARA').addClass('number');
+        });
+        $('#ConsecutivoFa_TIPO_1').click(function(){
+            $('#ConsecutivoFa_MASCARA').removeClass('number')
+        });
+    }
+</script>
+
 <div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'consecutivo-fa-form',
-	'enableAjaxValidation'=>false,
-)); ?>
+<?php
+    $cs=Yii::app()->clientScript;
+    $cs->registerScriptFile(XHtml::jsUrl('jquery.maskedinput.js'), CClientScript::POS_HEAD);
+    $cs->registerScriptFile(XHtml::jsUrl('jquery.validate.js'), CClientScript::POS_HEAD);
+    
+    $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array(
+            'id'=>'consecutivo-fa-form',
+            'enableAjaxValidation'=>true,
+                    'clientOptions'=>array(
+                            'validateOnSubmit'=>true,
+                    ),
+                    'type'=>'horizontal',
+    ));
+?>
 
-	<p class="note">Los Campos con <span class="required">*</span> Son requeridos.</p>
+       <?php echo $form->errorSummary($model); ?>
 
-	<?php echo $form->errorSummary($model); ?>
+        <table>
+                <tr>
+                    <td >
+                        <div align="left" style="width: 120px;">
+                            <?php echo $form->textFieldRow($model,'CODIGO_CONSECUTIVO',array('size'=>6,'maxlength'=>10,'disabled'=>$model->isNewRecord ? false : true));?>
+                        </div>
+                    </td>
+                    <td>
+                        <div align="left" style="width: 228px;">
+                            <?php echo $form->textFieldRow($model,'DESCRIPCION',array('maxlength'=>48)); ?>
+                        </div>
+                    </td>
+                </tr>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'CODIGO_CONSECUTIVO'); ?>
-		<?php echo $form->textField($model,'CODIGO_CONSECUTIVO',array('size'=>10,'maxlength'=>10)); ?>
-		<?php echo $form->error($model,'CODIGO_CONSECUTIVO'); ?>
-	</div>
+       </table>  
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'FORMATO_IMPRESION'); ?>
-		<?php echo $form->textField($model,'FORMATO_IMPRESION'); ?>
-		<?php echo $form->error($model,'FORMATO_IMPRESION'); ?>
-	</div>
+        <?php
+                $this->widget('bootstrap.widgets.BootTabbable', array(
+                            'type'=>'tabs',
+                            'tabs'=>array(
+                                array(
+                                    'label'=>'Consecutivo',
+                                    'content'=>'
+                                            <table>
+                                                <tr>
+                                                    <td>'
+                                                        .$form->textFieldRow($model,'LONGITUD',array('maxlength'=>2,'size'=>4))
+                                                        .$form->radioButtonListRow($model,'TIPO',array('N'=>'Numérico','A'=>'Alfanumérico'))
+                                                        .$form->textFieldRow($model,'MASCARA')
+                                                        .$form->textFieldRow($model,'VALOR_CONSECUTIVO')
+                                                        .$form->textFieldRow($model,'VALOR_MAXIMO')
+                                                        .$form->dropDownListRow($model,'FORMATO_IMPRESION',CHtml::listData(FormatoImpresion::model()->findAllByAttributes(array('MODULO'=>'FACT')), 'ID', 'NOMBRE'),array('empty'=>'Seleccione'))
+                                                    .'</td>
+                                                    <td>
+                                                        <fieldset style="width: 315px; height: 140px; ">
+                                                            <legend ><font face="arial" size=3 >Propiedades</font></legend>'
+                                                            .$form->checkBoxRow($model,'USA_ESQUEMA_CAJAS')
+                                                            .$form->checkBoxRow($model,'USA_DESPACHOS')
+                                                        .'<br><br></fieldset>'
+                                                        .$form->textFieldRow($model,'RESOLUCION')
+                                                    .'</td>
+                                                </tr>
+                                            </table>
+                                        '
+                                    ,   
+                                    'active'=>true
+                                ),
+                                array(
+                                    'label'=>'Impresión',
+                                    'content'=>
+                                        $form->textFieldRow($model,'NUMERO_COPIAS',array('maxlength'=>1,'size'=>4))
+                                        .$form->textFieldRow($model,'ORIGINAL')
+                                        .$form->textFieldRow($model,'COPIA1',array('disabled'=>!$model->isNewRecord && $model->NUMERO_COPIAS >= 1 ? false : true))
+                                        .$form->textFieldRow($model,'COPIA2',array('disabled'=>!$model->isNewRecord && $model->NUMERO_COPIAS >= 2 ? false : true))
+                                        .$form->textFieldRow($model,'COPIA3',array('disabled'=>!$model->isNewRecord && $model->NUMERO_COPIAS >= 3 ? false : true))
+                                        .$form->textFieldRow($model,'COPIA4',array('disabled'=>!$model->isNewRecord && $model->NUMERO_COPIAS >= 4 ? false : true))
+                                        .$form->textFieldRow($model,'COPIA5',array('disabled'=>!$model->isNewRecord && $model->NUMERO_COPIAS >= 5 ? false : true))
+                                    ,
+                               ),
+                            ),
+                ));
+            ?>
+	</div>    
+	<?php echo $form->hiddenField($model,'ACTIVO',array('value'=>'S')); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'DESCRIPCION'); ?>
-		<?php echo $form->textField($model,'DESCRIPCION',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'DESCRIPCION'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'TIPO'); ?>
-		<?php echo $form->textField($model,'TIPO',array('size'=>1,'maxlength'=>1)); ?>
-		<?php echo $form->error($model,'TIPO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'LONGITUD'); ?>
-		<?php echo $form->textField($model,'LONGITUD'); ?>
-		<?php echo $form->error($model,'LONGITUD'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'VALOR_CONSECUTIVO'); ?>
-		<?php echo $form->textField($model,'VALOR_CONSECUTIVO',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'VALOR_CONSECUTIVO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'MASCARA'); ?>
-		<?php echo $form->textField($model,'MASCARA',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'MASCARA'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'USA_DESPACHOS'); ?>
-		<?php echo $form->textField($model,'USA_DESPACHOS',array('size'=>1,'maxlength'=>1)); ?>
-		<?php echo $form->error($model,'USA_DESPACHOS'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'USA_ESQUEMA_CAJAS'); ?>
-		<?php echo $form->textField($model,'USA_ESQUEMA_CAJAS',array('size'=>1,'maxlength'=>1)); ?>
-		<?php echo $form->error($model,'USA_ESQUEMA_CAJAS'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'VALOR_MAXIMO'); ?>
-		<?php echo $form->textField($model,'VALOR_MAXIMO',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'VALOR_MAXIMO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'NUMERO_COPIAS'); ?>
-		<?php echo $form->textField($model,'NUMERO_COPIAS'); ?>
-		<?php echo $form->error($model,'NUMERO_COPIAS'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'ORIGINAL'); ?>
-		<?php echo $form->textField($model,'ORIGINAL',array('size'=>30,'maxlength'=>30)); ?>
-		<?php echo $form->error($model,'ORIGINAL'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'COPIA1'); ?>
-		<?php echo $form->textField($model,'COPIA1',array('size'=>30,'maxlength'=>30)); ?>
-		<?php echo $form->error($model,'COPIA1'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'COPIA2'); ?>
-		<?php echo $form->textField($model,'COPIA2',array('size'=>30,'maxlength'=>30)); ?>
-		<?php echo $form->error($model,'COPIA2'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'COPIA3'); ?>
-		<?php echo $form->textField($model,'COPIA3',array('size'=>30,'maxlength'=>30)); ?>
-		<?php echo $form->error($model,'COPIA3'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'COPIA4'); ?>
-		<?php echo $form->textField($model,'COPIA4',array('size'=>30,'maxlength'=>30)); ?>
-		<?php echo $form->error($model,'COPIA4'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'COPIA5'); ?>
-		<?php echo $form->textField($model,'COPIA5',array('size'=>30,'maxlength'=>30)); ?>
-		<?php echo $form->error($model,'COPIA5'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'RESOLUCION'); ?>
-		<?php echo $form->textField($model,'RESOLUCION',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'RESOLUCION'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'ACTIVO'); ?>
-		<?php echo $form->textField($model,'ACTIVO',array('size'=>1,'maxlength'=>1)); ?>
-		<?php echo $form->error($model,'ACTIVO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CREADO_POR'); ?>
-		<?php echo $form->textField($model,'CREADO_POR',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'CREADO_POR'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CREADO_EL'); ?>
-		<?php echo $form->textField($model,'CREADO_EL'); ?>
-		<?php echo $form->error($model,'CREADO_EL'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'ACTUALIZADO_POR'); ?>
-		<?php echo $form->textField($model,'ACTUALIZADO_POR',array('size'=>20,'maxlength'=>20)); ?>
-		<?php echo $form->error($model,'ACTUALIZADO_POR'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'ACTUALIZADO_EL'); ?>
-		<?php echo $form->textField($model,'ACTUALIZADO_EL'); ?>
-		<?php echo $form->error($model,'ACTUALIZADO_EL'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Crear' : 'Guardar'); ?>
+	<div class="row buttons" align="center">
+		<?php
+                     $this->widget('bootstrap.widgets.BootButton', array(
+                               'label'=>$model->isNewRecord ? 'Crear' : 'Guardar',
+                               'buttonType'=>'submit',
+                               'type'=>'primary',
+                               'icon'=>'ok-circle white', 
+                            )
+                    );
+             ?>
+              <?php
+                    $this->widget('bootstrap.widgets.BootButton', array(
+                                   'label'=>'Cancelar',
+                                   'type'=>'action',
+                                   'icon'=>'remove ', 
+                                   'url'=>array('admin'),
+                                )
+                   );
+             ?>
 	</div>
 
 <?php $this->endWidget(); ?>

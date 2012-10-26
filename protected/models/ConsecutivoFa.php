@@ -59,19 +59,41 @@ class ConsecutivoFa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('CODIGO_CONSECUTIVO, DESCRIPCION, TIPO, LONGITUD, VALOR_CONSECUTIVO, MASCARA, USA_DESPACHOS, USA_ESQUEMA_CAJAS, NUMERO_COPIAS, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'required'),
-			array('FORMATO_IMPRESION, LONGITUD, NUMERO_COPIAS', 'numerical', 'integerOnly'=>true),
+			array('CODIGO_CONSECUTIVO, DESCRIPCION, TIPO, LONGITUD, VALOR_CONSECUTIVO, MASCARA, USA_DESPACHOS, USA_ESQUEMA_CAJAS, NUMERO_COPIAS, ACTIVO', 'required'),
+			array('FORMATO_IMPRESION, NUMERO_COPIAS', 'numerical', 'integerOnly'=>true,),
+			array('LONGITUD,', 'numerical', 'integerOnly'=>true,'max'=>10,'min'=>1),
+			array('NUMERO_COPIAS,', 'numerical', 'integerOnly'=>true,'max'=>5,'min'=>0),
 			array('CODIGO_CONSECUTIVO', 'length', 'max'=>10),
 			array('DESCRIPCION, VALOR_CONSECUTIVO, MASCARA, VALOR_MAXIMO', 'length', 'max'=>64),
 			array('TIPO, USA_DESPACHOS, USA_ESQUEMA_CAJAS, ACTIVO', 'length', 'max'=>1),
 			array('ORIGINAL, COPIA1, COPIA2, COPIA3, COPIA4, COPIA5', 'length', 'max'=>30),
 			array('RESOLUCION, CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),
+                    
+                        array('CODIGO_CONSECUTIVO', 'unique', 'attributeName'=>'CODIGO_CONSECUTIVO', 'className'=>'ConsecutivoFa','allowEmpty'=>false),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('CODIGO_CONSECUTIVO, FORMATO_IMPRESION, DESCRIPCION, TIPO, LONGITUD, VALOR_CONSECUTIVO, MASCARA, USA_DESPACHOS, USA_ESQUEMA_CAJAS, VALOR_MAXIMO, NUMERO_COPIAS, ORIGINAL, COPIA1, COPIA2, COPIA3, COPIA4, COPIA5, RESOLUCION, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
 		);
 	}
 
+         public function behaviors()
+	{
+		return array(
+			'CTimestampBehavior' => array(
+				'class' => 'zii.behaviors.CTimestampBehavior',
+				'createAttribute' => 'CREADO_EL',
+				'updateAttribute' => 'ACTUALIZADO_EL',
+				'setUpdateOnCreate' => true,
+			),
+			
+			'BlameableBehavior' => array(
+				'class' => 'application.components.BlameableBehavior',
+				'createdByColumn' => 'CREADO_POR',
+				'updatedByColumn' => 'ACTUALIZADO_POR',
+			),
+		);
+	}
+        
 	/**
 	 * @return array relational rules.
 	 */
@@ -91,16 +113,16 @@ class ConsecutivoFa extends CActiveRecord
 	{
 		return array(
 			'CODIGO_CONSECUTIVO' => 'Codigo Consecutivo',
-			'FORMATO_IMPRESION' => 'Formato Impresion',
-			'DESCRIPCION' => 'Descripcion',
+			'FORMATO_IMPRESION' => 'Formato Impresión',
+			'DESCRIPCION' => 'Descripción',
 			'TIPO' => 'Tipo',
 			'LONGITUD' => 'Longitud',
-			'VALOR_CONSECUTIVO' => 'Valor Consecutivo',
-			'MASCARA' => 'Mascara',
-			'USA_DESPACHOS' => 'Usa Despachos',
-			'USA_ESQUEMA_CAJAS' => 'Usa Esquema Cajas',
-			'VALOR_MAXIMO' => 'Valor Maximo',
-			'NUMERO_COPIAS' => 'Numero Copias',
+			'VALOR_CONSECUTIVO' => 'Valor',
+			'MASCARA' => 'Máscara',
+			'USA_DESPACHOS' => 'Usar Despachos',
+			'USA_ESQUEMA_CAJAS' => 'Usar Esquema de Cajas',
+			'VALOR_MAXIMO' => 'Valor Máximo',
+			'NUMERO_COPIAS' => 'Número Copias',
 			'ORIGINAL' => 'Original',
 			'COPIA1' => 'Copia1',
 			'COPIA2' => 'Copia2',
@@ -145,11 +167,7 @@ class ConsecutivoFa extends CActiveRecord
 		$criteria->compare('COPIA4',$this->COPIA4,true);
 		$criteria->compare('COPIA5',$this->COPIA5,true);
 		$criteria->compare('RESOLUCION',$this->RESOLUCION,true);
-		$criteria->compare('ACTIVO',$this->ACTIVO,true);
-		$criteria->compare('CREADO_POR',$this->CREADO_POR,true);
-		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
-		$criteria->compare('ACTUALIZADO_POR',$this->ACTUALIZADO_POR,true);
-		$criteria->compare('ACTUALIZADO_EL',$this->ACTUALIZADO_EL,true);
+		$criteria->compare('ACTIVO','S');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

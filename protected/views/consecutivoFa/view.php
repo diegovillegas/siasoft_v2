@@ -1,32 +1,41 @@
 <?php
 $this->breadcrumbs=array(
-	'Consecutivo Fas'=>array('index'),
+        'Facturación'=>array('admin'),
+	'Consecutivos'=>array('admin'),
 	$model->CODIGO_CONSECUTIVO,
 );
 ?>
 
-<h1>Ver ConsecutivoFa #<?php echo $model->CODIGO_CONSECUTIVO; ?></h1>
+<h1>Ver Consecutivo "<?php echo $model->CODIGO_CONSECUTIVO; ?>"</h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'CODIGO_CONSECUTIVO',
-		'FORMATO_IMPRESION',
+                array(
+                    'name'=>'FORMATO_IMPRESION',
+                    'label'=>'Formato de Impresión',
+                    'value'=>$model->fORMATOIMPRESION->NOMBRE
+                ),
 		'DESCRIPCION',
-		'TIPO',
+                array(
+                    'name'=>'TIPO',
+                    'value'=>$model->TIPO == 'N' ? 'Numérico' : 'Alfanumérico'
+                ),
 		'LONGITUD',
 		'VALOR_CONSECUTIVO',
 		'MASCARA',
-		'USA_DESPACHOS',
-		'USA_ESQUEMA_CAJAS',
+                array(
+                    'name'=>'USA_DESPACHOS',
+                    'value'=>$model->USA_DESPACHOS == '1' ? 'Si' : 'No'
+                ),
+                array(
+                    'name'=>'USA_ESQUEMA_CAJAS',
+                    'value'=>$model->USA_ESQUEMA_CAJAS == '1' ? 'Si' : 'No'
+                ),
 		'VALOR_MAXIMO',
 		'NUMERO_COPIAS',
 		'ORIGINAL',
-		'COPIA1',
-		'COPIA2',
-		'COPIA3',
-		'COPIA4',
-		'COPIA5',
 		'RESOLUCION',
 		'ACTIVO',
 		'CREADO_POR',
