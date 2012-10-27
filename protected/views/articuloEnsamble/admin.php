@@ -1,45 +1,50 @@
+<script>
+    function obtenerSeleccion(){
+        var idcategoria = $.fn.yiiGridView.getSelection('articulo-ensamble-grid');
+        $('#check').val(idcategoria);
+    }
+</script>
 <?php
-/* @var $this ArticuloEnsambleController */
-/* @var $model ArticuloEnsamble */
-
 $this->breadcrumbs=array(
 	'Articulo Ensambles'=>array('index'),
-	'Manage',
+	'Administrar',
 );
 
-$this->menu=array(
-	array('label'=>'List ArticuloEnsamble', 'url'=>array('index')),
-	array('label'=>'Create ArticuloEnsamble', 'url'=>array('create')),
-);
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('articulo-ensamble-grid', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
 <h1>Ensambles de articulos</h1>
-
+<?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array()); ?>
+    <?php echo CHtml::HiddenField('check',''); ?>
+<div align="right">
+    <?php
+        $this->widget('bootstrap.widgets.BootButton', array(
+            'label'=>'Ver detalle',
+            'buttonType'=>'ajaxSubmit',
+            'url'=>array('detalle'),
+                'ajaxOptions'=>array(
+                'type'=>'POST',
+                'update'=>'#ver-detalle',
+                ),
+            'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+            'size'=>'mini', // '', 'large', 'small' or 'mini'
+            'icon' => 'search',
+        ));
+    ?>
+</div>
 <?php $this->widget('bootstrap.widgets.BootGridView', array(
         'type'=>'striped bordered condensed',
 	'id'=>'articulo-ensamble-grid',
+        'selectionChanged'=>'obtenerSeleccion',
 	'dataProvider'=>$articulo->searchEnsamble(),
 	'filter'=>$articulo,
-	'columns'=>array(		
+	'columns'=>array(
+                array('class'=>'CCheckBoxColumn'),
 		'ARTICULO',
-		'NOMBRE',
+		'NOMBRE',             
 		array(
 			'class'=>'bootstrap.widgets.BootButtonColumn',
-                        'htmlOptions'=>array('style'=>'width: 50px;'),
-                        'template' => '{update} {view}'
+                        'template' => '{update}'
 		),
 	),
 )); ?>
+<?php $this->endWidget(); ?>

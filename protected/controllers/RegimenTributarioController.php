@@ -89,7 +89,7 @@ class RegimenTributarioController extends Controller
 		$model2=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model2);
+                $this->performAjaxValidation($model2);
 
 		if(isset($_POST['RegimenTributario']))
 		{

@@ -419,6 +419,7 @@ class IngresoCompraController extends Controller
                                     $existenciaBodega->insert(); // - El articulo no pertenece a esta bodega
                                 }
                             }
+                            $transaction->commit();
                         }catch(Exception $e){
                             $contError+=1;
                             $error.= $id.',';

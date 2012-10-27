@@ -32,7 +32,7 @@ class ArticuloEnsambleController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'CargaArticulo'),
+				'actions'=>array('create','update', 'CargaArticulo', 'iniciar'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -54,30 +54,7 @@ class ArticuloEnsambleController extends Controller
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new ArticuloEnsamble;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['ArticuloEnsamble']))
-		{
-			$model->attributes=$_POST['ArticuloEnsamble'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
+	}	
 
 	/**
 	 * Updates a particular model.
@@ -86,24 +63,49 @@ class ArticuloEnsambleController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+                
 		//$model=$this->loadModel($id);
-		$guardadas= ArticuloEnsamble::model()->findAll('ARTICULO_PADRE = "'.$id.'"');
+		$guardadas= ArticuloEnsamble::model()->findAll('ARTICULO_PADRE = "'.$id.'" AND ACTIVO = "S"');
                 $model = new ArticuloEnsamble;
                 $articulo = new Articulo;
 		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['ArticuloEnsamble']))
-		{
-			$model->attributes=$_POST['ArticuloEnsamble'];
+		$this->performAjaxValidation($model);             
+		
+                if(isset($_POST['ARTICULO_PADRE'])){                   
+                    $transaction=$model->dbConnection->beginTransaction();
+                        try{
+                        if(isset($_POST['eliminar'])){
+                            $eliminar = explode(",", $_POST['eliminar']);
+                            foreach($eliminar as $elimina){
+                                if($elimina != -1){
+                                    $borra = ArticuloEnsamble::model()->updateByPk($elimina, array('ACTIVO' => 'N'));
+                                }
+                            }
+                        }                        
+                        
+                        if(isset($_POST['ArticuloEnsamble'])){
+                            foreach ($_POST['ArticuloEnsamble'] as $act){
+                                $linea = ArticuloEnsamble::model()->findByPk($act['ID']);
+                                $linea->ARTICULO_HIJO = $act['ARTICULO_HIJO'];                                
+                                $linea->CANTIDAD = $act['CANTIDAD'];
+                                $linea->save();
+                            }
+                        }
+                        
                         if(isset($_POST['Nuevo'])){
                             foreach ($_POST['Nuevo'] as $datos){
                                 $linea = new ArticuloEnsamble;
                                 $linea->ARTICULO_HIJO = $datos['ARTICULO_HIJO'];
-                                $linea->ARTICULO_PADRE = $_POST['ArticuloEnsamble']['ARTICULO_PADRE'];
+                                $linea->ARTICULO_PADRE = $_POST['ARTICULO_PADRE'];
                                 $linea->CANTIDAD = $datos['CANTIDAD'];
+                                $linea->ACTIVO = "S";
                                 $linea->save();
                             }
+                        }
+                        $transaction->commit();
+                        }catch(Exception $e){
+                            echo $e;
+                            $transaction->rollBack();
                         }
 			$this->redirect(array('admin'));
 		}
@@ -173,19 +175,15 @@ class ArticuloEnsambleController extends Controller
         public function actionCargaArticulo() {
             
             $item_id = $_GET['id'];
-            $bus = Articulo::model()->findByPk($item_id);
+            $bus = Articulo::model()->findByPk($item_id, 'ACTIVO = "S" AND TIPO_ARTICULO <> "16"');
             if($bus){
                 $bus2 = UnidadMedida::model()->find('ID = "'.$bus->UNIDAD_ALMACEN.'"');
-                $bus3 = UnidadMedida::model()->findAll('TIPO = "'.$bus2->TIPO.'"');
-
                 $res = array(
                      'DESCRIPCION'=>$bus->NOMBRE,
-                     'UNIDAD'=>$bus3,
-                     'ALMACEN'=>$bus->UNIDAD_ALMACEN,
-                     'ID'=>$bus->ARTICULO,                  
+                     'UNIDAD'=>$bus2->NOMBRE,
+                     'ID'=>$bus->ARTICULO,                     
                 );           
-             $bus2= '';
-             $bus3= '';            
+             $bus2= '';          
             }
             else{
                 $res = array(
@@ -195,8 +193,17 @@ class ArticuloEnsambleController extends Controller
             }            
             echo CJSON::encode($res);
         }
+        
+        public function actionIniciar(){
+            $item_id = $_GET['id'];
+            $bus = Articulo::model()->findByPk($item_id, 'ACTIVO = "S"');
+            $res = array(
+                     'DESCRIPCION'=>$bus->NOMBRE,                                         
+                ); 
+            echo CJSON::encode($res);
+        }
 
-	/**
+        /**
 	 * Performs the AJAX validation.
 	 * @param CModel the model to be validated
 	 */
