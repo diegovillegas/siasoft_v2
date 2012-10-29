@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-        'Sistema'=>array('update', 'id'=>$model2->ID),
+        'Sistema'=>array('update', 'id'=>$model->ID),
 	"Retenciones");
 ?>
 
