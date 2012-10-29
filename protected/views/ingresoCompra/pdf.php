@@ -34,7 +34,7 @@
 		</tr>
 		<tr>
                     <td colspan="2" height="400" valign="top">
-                        <table cellpadding="10" border="1" bordercolor="#000000" style="border-collapse:collapse;" align="center">
+                        <table cellpadding="0" border="1" bordercolor="#000000" style="border-collapse:collapse;" align="center">
                             <tr>
                                 <th>Articulo</th>
                                 <th>Nombre Articulo</th>

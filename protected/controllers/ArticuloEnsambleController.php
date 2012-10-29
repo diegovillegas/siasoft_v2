@@ -32,7 +32,7 @@ class ArticuloEnsambleController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'CargaArticulo', 'iniciar'),
+				'actions'=>array('create','update', 'CargaArticulo', 'iniciar', 'detalle'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -116,6 +116,37 @@ class ArticuloEnsambleController extends Controller
                         'guardadas'=>$guardadas
 		));
 	}
+        
+        public function actionDetalle(){
+            if($_POST['check'] != ''){
+                $id = $_POST['check'];
+                $consulta = ArticuloEnsamble::model()->findAll('ACTIVO = "S" AND ARTICULO_PADRE = "'.$id.'"');
+                if(!$consulta){
+                    echo '<div id="alert" class="alert alert-warning" data-dismiss="modal">
+                            <h2 align="center">Este articulo no tiene componentes asociados</h2>
+                            </div>';
+                }
+                else{
+                    echo '<table align="center" class="table table-bordered" >
+                        <tr>
+                            <td><b>Articulo</b></td>
+                            <td><b>Cantidad</b></td>
+                        </tr>';
+                    foreach($consulta as $con){                    
+                        echo '<tr><td>'.$con->aRTICULOHIJO->NOMBRE.'</td>';
+                        echo '<td>'.$con->CANTIDAD.'</td></tr>';
+                    }
+                    echo '</table>';
+                }
+                
+                
+            }
+            else{
+                echo '<div id="alert" class="alert alert-warning" data-dismiss="modal">
+                            <h2 align="center">Seleccione un articulo para ver su detalle</h2>
+                            </div>';
+            }
+        }
 
 	/**
 	 * Deletes a particular model.

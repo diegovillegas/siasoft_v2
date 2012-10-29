@@ -1,4 +1,14 @@
 <script>
+    $(document).ready(function(){
+        inicio();
+    });
+    
+    function inicio(){
+        $(".detalle").click(function (e) {
+            $('#myModal').modal();
+        });
+    }
+    
     function obtenerSeleccion(){
         var idcategoria = $.fn.yiiGridView.getSelection('articulo-ensamble-grid');
         $('#check').val(idcategoria);
@@ -28,6 +38,7 @@ $this->breadcrumbs=array(
             'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
             'size'=>'mini', // '', 'large', 'small' or 'mini'
             'icon' => 'search',
+            'htmlOptions'=>array('class'=>'detalle'),
         ));
     ?>
 </div>
@@ -48,3 +59,13 @@ $this->breadcrumbs=array(
 	),
 )); ?>
 <?php $this->endWidget(); ?>
+
+<?php $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'myModal')); ?>
+
+<div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h3>Ver detalle</h3>
+</div>
+
+    <?php echo $this->renderPartial('_view'); ?>
+    <?php $this->endWidget(); ?>
