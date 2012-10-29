@@ -47,6 +47,7 @@
 				array('label'=>'Facturación', 'url'=>'#',	
 						'items'=>array(
 							array('label'=>'Configuracion de Facturación', 'url'=>$fac ? array('/confFa/update','id'=>$fac->ID): array('/confFa/create')),							
+                                                        array('label'=>'Ensamble de articulos', 'url'=>array('/articuloEnsamble/admin')),
 							array('label'=>'Consecutivos', 'url'=>array('/consecutivoFa/admin')),							
 						)
 				),
