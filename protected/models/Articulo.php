@@ -353,16 +353,15 @@ class Articulo extends CActiveRecord
                         $cantTotal += $datos->CANTIDAD;
                     }
                     $costoFinal = $costoTotal/$cantTotal;
-                    $articulo->COSTO_PROMEDIO = $costoFinal;
+                    $articulo->updateByPk($id, array('COSTO_PROMEDIO'=>$costoFinal));
                     
                break;     
                 case 'Último':
-                    $transacciones = TransaccionInvDetalle::model()->findByAttributes(array('ARTICULO'=>$id),array('order'=>'TRANSACCION_INV_DETALLE DESC'));
-                    $articulo->COSTO_PROMEDIO = $transacciones->COSTO_UNITARIO;
+                    $transacciones = TransaccionInvDetalle::model()->findByAttributes(array('ARTIULO'=>$id),array('order'=>'TRANSACCION_INV_DETALLE DESC'));
+                    $articulo->updateByPk($id, array('COSTO_UNITARIO'=>$transacciones->COSTO_UNITARIO));
                break;     
                     
             }
-            $articulo->save();
         }
             
 }
