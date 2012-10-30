@@ -46,10 +46,10 @@
     $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array(
             'id'=>'consecutivo-fa-form',
             'enableAjaxValidation'=>true,
-                    'clientOptions'=>array(
-                            'validateOnSubmit'=>true,
-                    ),
-                    'type'=>'horizontal',
+                   'clientOptions'=>array(
+                          'validateOnSubmit'=>true,
+            ),
+           'type'=>'horizontal',
     ));
 ?>
 

@@ -1,14 +1,12 @@
 <?php
 
-class ImpuestoController extends SBaseController
+class RegimenTributarioController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
-        public $breadcrumbs=array();
-	public $menu=array();
 
 	/**
 	 * @return array action filters
@@ -17,9 +15,9 @@ class ImpuestoController extends SBaseController
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
+			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
-
 
 	/**
 	 * Displays a particular model.
@@ -38,14 +36,14 @@ class ImpuestoController extends SBaseController
 	 */
 	public function actionCreate()
 	{
-		$model2=new Impuesto;
+		$model2=new RegimenTributario;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model2);
 
-		if(isset($_POST['Impuesto']))
+		if(isset($_POST['RegimenTributario']))
 		{
-			$model2->attributes=$_POST['Impuesto'];
+			$model2->attributes=$_POST['RegimenTributario'];
 			if($model2->save())
 				$this->redirect(array('admin'));
 		}
@@ -65,11 +63,11 @@ class ImpuestoController extends SBaseController
 		$model2=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model2);
+                $this->performAjaxValidation($model2);
 
-		if(isset($_POST['Impuesto']))
+		if(isset($_POST['RegimenTributario']))
 		{
-			$model2->attributes=$_POST['Impuesto'];
+			$model2->attributes=$_POST['RegimenTributario'];
 			if($model2->save())
 				$this->redirect(array('admin'));
 		}
@@ -86,17 +84,11 @@ class ImpuestoController extends SBaseController
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+		$this->loadModel($id)->delete();
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Solicitud Invalida. Por favor, no repita esta solicitud de nuevo.');
+		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+		if(!isset($_GET['ajax']))
+			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
 	/**
@@ -104,7 +96,7 @@ class ImpuestoController extends SBaseController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Impuesto');
+		$dataProvider=new CActiveDataProvider('RegimenTributario');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -115,25 +107,22 @@ class ImpuestoController extends SBaseController
 	 */
 	public function actionAdmin()
 	{
-		$model=new Impuesto('search');
+		$model=new RegimenTributario('search');
+                $model2 = new RegimenTributario;
 		$model->unsetAttributes();  // clear any default values
-		$model2=new Impuesto; 
-
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model2);
-
-		if(isset($_POST['Impuesto']))
+                
+                $this->performAjaxValidation($model2);
+                if(isset($_POST['RegimenTributario']))
 		{
-			$model2->attributes=$_POST['Impuesto'];
-			if($model2->save())
-				$this->redirect(array('admin'));
-		}
-		if(isset($_GET['Impuesto']))
-			$model->attributes=$_GET['Impuesto'];
+			$model2->attributes=$_POST['RegimenTributario'];
+			$model2->save();
+                }
+		if(isset($_GET['RegimenTributario']))
+			$model->attributes=$_GET['RegimenTributario'];
 
 		$this->render('admin',array(
 			'model'=>$model,
-			'model2'=>$model2,
+                        'model2'=>$model2,
 		));
 	}
 
@@ -144,9 +133,9 @@ class ImpuestoController extends SBaseController
 	 */
 	public function loadModel($id)
 	{
-		$model=Impuesto::model()->findByPk($id);
+		$model=RegimenTributario::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,'La pagina solicitada no existe.');
+			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
 
@@ -156,23 +145,22 @@ class ImpuestoController extends SBaseController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='impuesto-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='regimen-tributario-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
-        public function actionCargarimpuesto(){
-            
+        
+        public function actionCargarregimen(){
                $item_id = $_GET['id'];
-               $bus = Impuesto::model()->findByPk($item_id);
+               $bus = RegimenTributario::model()->findByPk($item_id);
 
                $res = array(
-                   'ID'=>$bus->ID,
-                   'NOMBRE'=>$bus->NOMBRE,
+                   'REGIMEN'=>$bus->REGIMEN,
+                   'DESCRIPCION'=>$bus->DESCRIPCION,
                );
 
               echo CJSON::encode($res);
-             
         }
 }
