@@ -48,6 +48,7 @@
 						'items'=>array(
 							array('label'=>'Configuracion de Facturación', 'url'=>$fac ? array('/confFa/update','id'=>$fac->ID): array('/confFa/create')),	
                                                         array('label'=>'Ensamble de articulos', 'url'=>array('/articuloEnsamble/admin')),
+                                                        array('label'=>'Precio de articulos', 'url'=>array('/articuloPrecio/admin')),
 						)
 				),
 				array('label'=>'Compras', 'url'=>'#',	

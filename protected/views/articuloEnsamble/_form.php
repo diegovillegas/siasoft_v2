@@ -29,8 +29,7 @@
         var nombreClase;
         var nombreCantidad;
         
-        $(".tonces").live("change", function (e) {
-            
+        $(".tonces").live("change", function (e) {            
             //Obtenemos el numero del campo
             nombreClase = $(this).attr('id').split('_')[0];
             if(nombreClase != 'Nuevo'){
