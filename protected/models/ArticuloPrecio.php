@@ -48,7 +48,6 @@ class ArticuloPrecio extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('ARTICULO, NIVEL_PRECIO, PRECIO, ESQUEMA_TRABAJO, MARGEN_MULTIPLICADOR', 'required'),
 			array('ARTICULO, CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),
 			array('NIVEL_PRECIO', 'length', 'max'=>12),
 			array('PRECIO, MARGEN_MULTIPLICADOR', 'length', 'max'=>28),

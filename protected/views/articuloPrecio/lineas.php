@@ -28,7 +28,7 @@
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td>                                        
+                                    <td>
                                         <textarea class="template" rows="0" cols="0" style="display: none;" >
                                             <tr class="templateContent">
                                                 <td>                                                    
@@ -42,7 +42,7 @@
                                                 </td>
                                                 <td>
                                                     <?php echo CHtml::textField('Nuevo[{0}][PRECIO]','',array()); ?>
-                                                </td>                                              
+                                                </td>                                                                                                
                                                     <input type="hidden" class="rowIndex" value="{0}" />
                                             </tr>
                                         </textarea>
@@ -54,23 +54,23 @@
                                 
                                 <tr class="templateContent">
                                     <td>
-                            <?php echo CHtml::textField("NivelPrecio[$i]_ID", $item->ID); ?>
+                            <?php echo CHtml::textField("NivelPrecio[$i]_ID", $item->ID, array('readonly'=>true)); ?>
                             		</td>
                         <td>
-                            <?php echo CHtml::textField("NivelPrecio[$i]_ESQUEMA_TRABAJO",$item->ESQUEMA_TRABAJO,array('readonly' => true)); ?>
+                            <?php echo CHtml::textField("NivelPrecio2[$i]_ESQUEMA_TRABAJO",$item->ESQUEMA_TRABAJO,array('readonly' => true)); ?>
                         </td>
                         <td>
                             <?php 
                                 if($item->ESQUEMA_TRABAJO == 'NORM'){
-                                    echo CHtml::textField("Precios[$i]_MARGEN_MULTIPLICADOR", '', array('readonly'=>true)); 
+                                    echo CHtml::textField("NivelPrecio3[$i]_MARGEN_MULTIPLICADOR", '', array('readonly'=>true)); 
                                 }
                                 else{
-                                    echo CHtml::textField("Precios[$i]_MARGEN_MULTIPLICADOR", '', array('class'=>'calculosGen')); 
+                                    echo CHtml::textField("NivelPrecio3[$i]_MARGEN_MULTIPLICADOR", '', array('class'=>'calculosGen')); 
                                 }
                             ?>
                         </td>
                         <td>
-                            <?php echo CHtml::textField("Precios[$i]_PRECIO", '', array('readonly'=>true)); ?>
+                            <?php echo CHtml::textField("NivelPrecio4[$i]_PRECIO", '', array('readonly'=>true)); ?>
                         </td>
                       </tr>                      
                       <?php endforeach; ?>                      

@@ -15,21 +15,21 @@ function inicio(){
         var ciclos = $('#ciclos').val();  
         var base = $('#Precio_base').val();
         for(var i=0;i<=ciclos;i++){
-            var margMul = $('#Precios_' + i + '_MARGEN_MULTIPLICADOR').val();
-            switch($('#NivelPrecio_' + i +'_ESQUEMA_TRABAJO').val()){
+            var margMul = $('#NivelPrecio3_' + i + '_MARGEN_MULTIPLICADOR').val();
+            switch($('#NivelPrecio2_' + i +'_ESQUEMA_TRABAJO').val()){
                 case 'NORM':
-                    $('#Precios_' + i + '_PRECIO').val(base);
+                    $('#NivelPrecio4_' + i + '_PRECIO').val(base);
                 break;
                 case 'MULT':
                     if(margMul != ''){
                         margMul = base * margMul / 100;
-                        $('#Precios_' + i + '_PRECIO').val(margMul);
+                        $('#NivelPrecio4_' + i + '_PRECIO').val(margMul);
                     }
                 break;
                 case 'MARG':
                     if($('#Costo').val() != 0){
                         margMul = $('#Costo').val() / (1 - (margMul/100));
-                        $('#Precios_' + i + '_PRECIO').val(margMul.toFixed(0));
+                        $('#NivelPrecio4_' + i + '_PRECIO').val(margMul.toFixed(0));
                     }
                 break;
             }

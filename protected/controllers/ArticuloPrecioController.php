@@ -66,24 +66,37 @@ class ArticuloPrecioController extends Controller
 		$model=new ArticuloPrecio;
                 $precios = NivelPrecio::model()->findAll('ACTIVO = "S"');
                 $articulo = Articulo::model()->findByPk($id);
+                $i=0;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['ArticuloPrecio']))
-		{
-                        $transaction=$model->dbConnection->beginTransaction();
-                        try{
-                            
-                        }
-                            catch(Exception $e){
-                            echo $e;
-                            $transaction->rollBack();
-                        }
-                
-			$model->attributes=$_POST['ArticuloPrecio'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
+		{                                       
+                                $linea = ArticuloPrecio::model()->find('ACTIVO = "S" AND ARTICULO = "'.$_POST['ArticuloPrecio']['ARTICULO'].'"');
+                                if($linea){
+                                    foreach ($_POST['NivelPrecio'] as $nivel){
+                                        $linea->updateAll(array('MARGEN_MULTIPLICADOR'=>$_POST['NivelPrecio3'][$i], 'PRECIO'=>$_POST['NivelPrecio4'][$i]), 'NIVEL_PRECIO = "'.$nivel.'"');
+                                        $i++;
+                                    }                                    
+                                }
+                                else{
+                                    foreach ($_POST['NivelPrecio'] as $nivel){                                        
+                                        $linea = new ArticuloPrecio;
+                                        $linea->ARTICULO = $_POST['ArticuloPrecio']['ARTICULO'];
+                                        $linea->NIVEL_PRECIO = $nivel;
+                                        $linea->ESQUEMA_TRABAJO = $_POST['NivelPrecio2'][$i];
+                                        $linea->MARGEN_MULTIPLICADOR = $_POST['NivelPrecio3'][$i];
+                                        $linea->PRECIO = $_POST['NivelPrecio4'][$i];
+                                        $linea->ACTIVO = 'S';
+                                        $linea->CREADO_POR = Yii::app()->user->name;
+                                        $linea->ACTUALIZADO_POR = Yii::app()->user->name;                                        
+                                        $linea->insert();
+                                        $i++;
+                                    }
+                                }
+                        
+				$this->redirect(array('admin'));
 		}
 
 		$this->render('update',array(
