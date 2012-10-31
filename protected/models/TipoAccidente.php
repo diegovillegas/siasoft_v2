@@ -1,26 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "dia".
+ * This is the model class for table "tipo_accidente".
  *
- * The followings are the available columns in table 'dia':
- * @property integer $DIA
+ * The followings are the available columns in table 'tipo_accidente':
+ * @property integer $TIPO_ACCIDENTE
  * @property string $NOMBRE
  * @property string $ACTIVO
  * @property string $CREADO_POR
  * @property string $CREADO_EL
  * @property string $ACTUALIZADO_POR
  * @property string $ACTUALIZADO_EL
- *
- * The followings are the available model relations:
- * @property HorarioConcepto[] $horarioConceptos
  */
-class Dia extends CActiveRecord
+class TipoAccidente extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Dia the static model class
+	 * @return TipoAccidente the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -32,7 +29,7 @@ class Dia extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'dia';
+		return 'tipo_accidente';
 	}
 
 	/**
@@ -43,14 +40,13 @@ class Dia extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('DIA, NOMBRE', 'required'),
-			array('DIA', 'numerical', 'integerOnly'=>true),
+			array('NOMBRE', 'required'),
 			array('NOMBRE', 'length', 'max'=>16),
 			array('ACTIVO', 'length', 'max'=>1),
 			array('CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('DIA, NOMBRE, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
+			array('TIPO_ACCIDENTE, NOMBRE, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +58,6 @@ class Dia extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'horarioConceptos' => array(self::HAS_MANY, 'HorarioConcepto', 'DIA'),
 		);
 	}
 
@@ -72,7 +67,7 @@ class Dia extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'DIA' => 'Dia',
+			'TIPO_ACCIDENTE' => 'Tipo Accidente',
 			'NOMBRE' => 'Nombre',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
@@ -93,7 +88,7 @@ class Dia extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('DIA',$this->DIA);
+		$criteria->compare('TIPO_ACCIDENTE',$this->TIPO_ACCIDENTE);
 		$criteria->compare('NOMBRE',$this->NOMBRE,true);
 		$criteria->compare('ACTIVO','S');
 		$criteria->compare('CREADO_POR',$this->CREADO_POR,true);
@@ -106,7 +101,7 @@ class Dia extends CActiveRecord
 		));
 	}
         
-         public function behaviors() {
+        public function behaviors() {
         return array(
             'CTimestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',

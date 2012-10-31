@@ -117,7 +117,7 @@ class Cargo extends CActiveRecord
 		$criteria->compare('SALARIO_ACTUAL',$this->SALARIO_ACTUAL,true);
 		$criteria->compare('FUNCIONES',$this->FUNCIONES,true);
 		$criteria->compare('NOTAS',$this->NOTAS,true);
-		$criteria->compare('ACTIVO',$this->ACTIVO,true);
+		$criteria->compare('ACTIVO','S');
 		$criteria->compare('CREADO_POR',$this->CREADO_POR,true);
 		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
 		$criteria->compare('ACTUALIZADO_POR',$this->ACTUALIZADO_POR,true);

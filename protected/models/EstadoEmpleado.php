@@ -112,7 +112,7 @@ class EstadoEmpleado extends CActiveRecord {
 
         $criteria->compare('ESTADO_EMPLEADO', $this->ESTADO_EMPLEADO, true);
         $criteria->compare('DESCRIPCION', $this->DESCRIPCION, true);
-        $criteria->compare('ACTIVO', $this->ACTIVO, true);
+        $criteria->compare('ACTIVO', 'S');
         $criteria->compare('PAGO', $this->PAGO, true);
         $criteria->compare('TEMPORAL', $this->TEMPORAL, true);
         $criteria->compare('CREADO_POR', $this->CREADO_POR, true);

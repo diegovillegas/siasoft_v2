@@ -1,16 +1,16 @@
 <?php
 
-class EstadoEmpleadoController extends SBaseController
+class TipoAcademicoController extends SBaseController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-          public $layout = '//layouts/column2';
+	public $layout = '//layouts/column2';
           public $breadcrumbs = array();
           public $menu = array();
 
-    /**
+	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -28,7 +28,6 @@ class EstadoEmpleadoController extends SBaseController
 	 */
         
         /*
-        
 	public function accessRules()
 	{
 		return array(
@@ -49,9 +48,7 @@ class EstadoEmpleadoController extends SBaseController
 			),
 		);
 	}
-         
-         */
-
+*/
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -69,14 +66,14 @@ class EstadoEmpleadoController extends SBaseController
 	 */
 	public function actionCreate()
 	{
-		$model2=new EstadoEmpleado;
+		$model2=new TipoAcademico;
 
 		// Uncomment the following line if AJAX validation is needed
-		 $this->performAjaxValidation($model2);
+		$this->performAjaxValidation($model2);
 
-		if(isset($_POST['EstadoEmpleado']))
+		if(isset($_POST['TipoAcademico']))
 		{
-			$model2->attributes=$_POST['EstadoEmpleado'];
+			$model2->attributes=$_POST['TipoAcademico'];
 			if($model2->save())
 				$this->redirect(array('admin'));
 		}
@@ -98,9 +95,9 @@ class EstadoEmpleadoController extends SBaseController
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model2);
 
-		if(isset($_POST['EstadoEmpleado']))
+		if(isset($_POST['TipoAcademico']))
 		{
-			$model2->attributes=$_POST['EstadoEmpleado'];
+			$model2->attributes=$_POST['TipoAcademico'];
 			if($model2->save())
 				$this->redirect(array('admin'));
 		}
@@ -117,7 +114,7 @@ class EstadoEmpleadoController extends SBaseController
 	 */
 	public function actionDelete($id)
 	{
-            if(Yii::app()->request->isPostRequest)
+		 if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
 			$this->loadModel($id)->updateByPk($id,array('ACTIVO'=>'N'));
@@ -136,7 +133,7 @@ class EstadoEmpleadoController extends SBaseController
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('EstadoEmpleado');
+		$dataProvider=new CActiveDataProvider('TipoAcademico');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -147,18 +144,18 @@ class EstadoEmpleadoController extends SBaseController
 	 */
 	public function actionAdmin()
 	{
-		$model=new EstadoEmpleado('search');
+		$model=new TipoAcademico('search');
 		$model->unsetAttributes();  // clear any default values
-                $model2=new EstadoEmpleado;
-                
+                $model2=new TipoAcademico;
                 
                 // Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model2);
                 
                 
-                if(isset($_POST['EstadoEmpleado']))
+                
+		     if(isset($_POST['TipoAcademico']))
 		{
-			$model2->attributes=$_POST['EstadoEmpleado'];
+			$model2->attributes=$_POST['TipoAcademico'];
 			if($model2->save()){
                                // $mensaje = MensajeSistema::mensaje('S001');
                                 //$tipo = "success";
@@ -171,12 +168,12 @@ class EstadoEmpleadoController extends SBaseController
                         }
 		}
                 
-		if(isset($_GET['EstadoEmpleado']))
-			$model->attributes=$_GET['EstadoEmpleado'];
+		if(isset($_GET['TipoAcademico']))
+			$model->attributes=$_GET['TipoAcademico'];
 
 		$this->render('admin',array(
 			'model'=>$model,
-                        'model2'=>$model2,
+                    'model2'=>$model2,
 		));
 	}
 
@@ -187,7 +184,7 @@ class EstadoEmpleadoController extends SBaseController
 	 */
 	public function loadModel($id)
 	{
-		$model=EstadoEmpleado::model()->findByPk($id);
+		$model=TipoAcademico::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -199,7 +196,7 @@ class EstadoEmpleadoController extends SBaseController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='estado-empleado-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='tipo-academico-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

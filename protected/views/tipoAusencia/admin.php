@@ -1,15 +1,15 @@
 <?php
-/* @var $this EstadoEmpleadoController */
-/* @var $model EstadoEmpleado */
+/* @var $this TipoAusenciaController */
+/* @var $model TipoAusencia */
 
 $this->breadcrumbs=array(
-    'Recursos Humanos' => array('admin'),
-	'Estados de Empleado',
+        'Recursos Humanos' => array('admin'),
+	'Tipos de Ausencias',
 );
 
 $this->menu=array(
-	array('label'=>'Listar Estados de Empleado', 'url'=>array('index')),
-	array('label'=>'Crear Estados de Empleado', 'url'=>array('create')),
+	array('label'=>'List TipoAusencia', 'url'=>array('index')),
+	array('label'=>'Create TipoAusencia', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -18,7 +18,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('estado-empleado-grid', {
+	$.fn.yiiGridView.update('tipo-ausencia-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -26,9 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Estado Empleados</h1>
-
-
+<h1>Tipos de Ausencias</h1>
 
 <div align="right">
 <?php 
@@ -47,31 +45,25 @@ $this->widget('bootstrap.widgets.BootButton', array(
 
 
 
+
 <?php $this->widget('bootstrap.widgets.BootGridView', array(
      'type'=>'striped bordered condensed',
-	'id'=>'estado-empleado-grid',
+	'id'=>'tipo-ausencia-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'ESTADO_EMPLEADO',
-		'DESCRIPCION',
+		'TIPO_AUSENCIA',
+		'NOMBRE',
 		array(
                     'name'=>'PAGO',
-                    'value'=>'EstadoEmpleado::getPago($data->PAGO)',
+                    'value'=>'TipoAusencia::getPago($data->PAGO)',
                     'filter'=>array('S'=>'Si','N'=>'No'),
                 ),
             array(
-                    'name'=>'TEMPORAL',
-                    'value'=>'EstadoEmpleado::getTemporal($data->TEMPORAL)',
+                    'name'=>'JUSTIFICADA',
+                    'value'=>'TipoAusencia::getJustificada($data->JUSTIFICADA)',
                     'filter'=>array('S'=>'Si','N'=>'No'),
                 ),
-		/*
-                'ACTIVO',
-                'CREADO_POR',
-		'CREADO_EL',
-		'ACTUALIZADO_POR',
-		'ACTUALIZADO_EL',
-		*/
 		array(
                     'class'=>'bootstrap.widgets.BootButtonColumn',
                     'htmlOptions'=>array('style'=>'width: 50px'),
@@ -80,11 +72,14 @@ $this->widget('bootstrap.widgets.BootButton', array(
 )); ?>
 
 
+
+
+
 <?php $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'myModal')); ?>
  
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h3>Crear Estado de Empleado</h3>
+    <h3>Crear Tipo de Ausencia</h3>
     <p class="note"><?php echo Yii::t('app','FIELDS_WITH'); ?><span class="required"> * </span><?php echo Yii::t('app','ARE_REQUIRED'); ?>.</p>
 </div>
 
@@ -93,4 +88,5 @@ $this->widget('bootstrap.widgets.BootButton', array(
         
         
         <?php $this->endWidget(); ?>
+
 

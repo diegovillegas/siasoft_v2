@@ -101,7 +101,16 @@
                                     array('label' => 'Cargo', 'url' => array('/cargo/admin')),
                                     array('label' => 'Estado de empleados', 'url' => array('/estadoEmpleado/admin')),
                                     array('label' => 'Horarios', 'url' => array('/horario/admin')),
-                                                              ),
+                                    array('label' => 'Tipos de Academico', 'url' => array('/tipoAcademico/admin')),
+                                    array('label' => 'Tipos de Accidente', 'url' => array('/tipoAccidente/admin')),
+                                    array('label' => 'Tipos de Ausencia', 'url' => array('/tipoAusencia/admin')),
+                                    array('label' => 'Tipos De Contrato', 'url' => array('/tipoContrato/admin')),
+                                    
+                          
+                                    
+                                    
+                                    
+                                    ),
                             ),
                             array('label' => 'Usuarios', 'url' => array('/usuarios/admin')),
                             array('label' => Yii::t('app', 'LOGIN'), 'url' => array('/site/login'), 'visible' => Yii::app()->user->isGuest),

@@ -44,7 +44,7 @@ class HorarioController extends SBaseController
 	 */
 	public function actionCreate() {
         $model = new Horario;
-        //$transaction = $model->dbConnection->beginTransaction();
+        $transaction = $model->dbConnection->beginTransaction();
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
 
@@ -66,12 +66,12 @@ class HorarioController extends SBaseController
                             }
                     }
                 }
-                //$transaction->commit();
+                $transaction->commit();
                 $this->redirect(array('admin'));
             } catch (Exception $e) {
                 echo $e;
-                //$transaction->rollback();
-                //Yii::app()->end();
+                $transaction->rollback();
+                Yii::app()->end();
             }
         }
 
