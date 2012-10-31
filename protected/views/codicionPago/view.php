@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Condición de Pago";?>
 <?php
 $this->breadcrumbs=array(
-	'Condicion Pagos'=>array('admin'),
+	'Condición Pagos'=>array('admin'),
 	$model->ID,
 );
 
@@ -13,7 +14,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Ver Condicion de Pago # <?php echo $model->ID; ?></h1>
+<h1>Ver Condición de Pago # <?php echo $model->ID; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

@@ -1,3 +1,6 @@
+<?php $this->pageTitle=Yii::app()->name." - Ubicacion Geografica 1";?>
+
+
 <?php
 $this->breadcrumbs=array(
 	'Ubicacion Geografica 1'=>array('index'),

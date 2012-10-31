@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - Días Feriados";?>
 <?php
 $this->breadcrumbs=array(
-	'Dia Feriados'=>array('admin'),
+	'Días Feriados'=>array('admin'),
 	'Administrar',
 );
 
@@ -23,7 +24,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Dias Feriados</h1>
+<h1>Días Feriados</h1>
 
 <div align="right">
 <?php 
@@ -75,7 +76,7 @@ $this->widget('bootstrap.widgets.BootButton', array(
  
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h3>Crear Dia feriado</h3>
+    <h3>Crear Día feriado</h3>
     <p class="note"><?php echo Yii::t('app','FIELDS_WITH'); ?><span class="required"> * </span><?php echo Yii::t('app','ARE_REQUIRED'); ?>.</p>
 </div>
 

@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Retenciones";?>
 <?php
 $this->breadcrumbs=array(
-	'Retencions'=>array('index'),
+	'Retenciones'=>array('index'),
 	$model->ID,
 );
 

@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Tipos de Documento";?>
 <?php
 $this->breadcrumbs=array(
 	'Tipo Documentos'=>array('admin'),

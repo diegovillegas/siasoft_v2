@@ -78,7 +78,7 @@ class Pais extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'Codigo Pais',
+			'ID' => 'Código País',
 			'NOMBRE' => Yii::t('app','NAME'),
 			'CODIGO_ISO' => Yii::t('app','ISO_CODE'),
 			'ACTIVO' => 'Activo',

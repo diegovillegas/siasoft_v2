@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Relación de Nits";?>
 <?php
 $this->breadcrumbs=array(
 	'Nit'=>array('admin'),

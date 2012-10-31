@@ -1,4 +1,4 @@
-<?php
+<?php $this->pageTitle=Yii::app()->name." - Dependencias";?><?php
 $this->breadcrumbs=array(
 	'Dependencia'=>array('admin'),
 	'Administrar',

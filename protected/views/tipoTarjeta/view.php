@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Tipo de Tarjeta";?>
 <?php
 $this->breadcrumbs=array(
 	'Tipo Tarjeta'=>array('admin'),

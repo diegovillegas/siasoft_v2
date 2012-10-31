@@ -3,6 +3,9 @@ $this->breadcrumbs=array(
 	Yii::t('app','ADMINISTRATION_SETTINGS')=>array('admin'),
 	Yii::t('app','MANAGE'),
 );
+    
+$this->pageTitle=Yii::app()->name." - ".Yii::t('app','ADMINISTRATION_SETTINGS');
+
 
 $this->menu=array(
 	array('label'=>Yii::t('app','LIST').' ConfAs', 'url'=>array('index')),

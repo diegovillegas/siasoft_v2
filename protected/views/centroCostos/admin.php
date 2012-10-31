@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Centro de Costos";?>
 <?php
 $this->breadcrumbs=array(
 	'Centro Costos'=>array('admin'),

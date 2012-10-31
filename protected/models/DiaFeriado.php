@@ -74,10 +74,10 @@ class DiaFeriado extends CActiveRecord
 		return array(
 			'ID' => 'ID',
 			'TIPO' => 'Tipo',
-			'DIA' => 'Dia',
+			'DIA' => 'Día',
 			'MES' => 'Mes',
 			'ANIO' => 'A&ntilde;o',
-			'DESCRIPCION' => 'Descripcion',
+			'DESCRIPCION' => 'Descripción',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',
