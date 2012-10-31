@@ -172,4 +172,12 @@ class ClienteController extends SBaseController
 			Yii::app()->end();
 		}
 	}
+        
+        public function actionCargarniveles(){
+            $id = $_GET['id'];
+            $res = CHtml::listData(NivelPrecio::model()->findAllByAttributes(array('ACTIVO'=>'S','CONDICION_PAGO'=>$id)),'ID','DESCRIPCION');
+            
+            echo CJSON::encode($res);
+            Yii::app()->end();
+        }
 }

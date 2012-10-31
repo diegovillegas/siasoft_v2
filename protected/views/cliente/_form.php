@@ -2,37 +2,65 @@
     $(document).ready(inicio);
     
     function inicio(){
-        $( ".escritoNit" ).autocomplete({
-            change: function() { 
-                $.getJSON(
-                    '<?php echo $this->createUrl('proveedor/CargarNit'); ?>&buscar='+$(this).attr('value'),
-                    function(data)
-                    {
-                        $('#Nit2').val(data.NOMBRE);
+        
+        $('#Cliente_CONDICION_PAGO').change(function(){
+            $.getJSON('<?php echo $this->createUrl('cargarniveles')?>&id='+$(this).val(),
+                    function(data){
+                                                
+                        //borrar combo de NIVELES DE PRECIO
+                        $('select[id$=Cliente_TIPO_PRECIO ] > option').remove();
+                        $('#Cliente_TIPO_PRECIO').append("<option value=''>Seleccione</option>");
+                        
+                        $.each(data, function(value, name) {
+                              $('#Cliente_TIPO_PRECIO').append("<option value='"+value+"'>"+name+"</option>");
+                        });
                     }
-               )
+                );
+        });
+        
+        $( ".escritoNit" ).autocomplete({
+            change: function() {
+                if($(this).attr('value') == ''){
+                    $('#Nit2').val('Ninguno');
+                }else{
+                     $.getJSON('<?php echo $this->createUrl('proveedor/CargarNit'); ?>&buscar='+$(this).attr('value'),
+                        function(data)
+                        {
+                            $('#Nit2').val(data.NOMBRE);
+                        }
+                   );
+                }
             }
         });
         $( ".escritoImpuesto" ).autocomplete({
             change: function() { 
-                $.getJSON(
-                    '<?php echo $this->createUrl('impuesto/cargarimpuesto'); ?>&id='+$(this).attr('value'),
-                    function(data)
-                    {
-                        $('#IMPUESTO').val(data.NOMBRE);
-                    }
-               )
+                if($(this).attr('value') == ''){
+                    $('#IMPUESTO').val('Ninguno');
+                }else{
+                    $.getJSON(
+                        '<?php echo $this->createUrl('impuesto/cargarimpuesto'); ?>&id='+$(this).attr('value'),
+                        function(data)
+                        {
+                            $('#IMPUESTO').val(data.NOMBRE);
+                        }
+                   );
+                }
+                
             }
         });
         $( ".escritoRegimen" ).autocomplete({
-            change: function() { 
-                $.getJSON(
-                    '<?php echo $this->createUrl('regimenTributario/Cargarregimen'); ?>&id='+$(this).attr('value'),
-                    function(data)
-                    {
-                        $('#REGIMEN').val(data.DESCRIPCION);
-                    }
-               )
+            change: function() {
+                if($(this).attr('value') == ''){
+                    $('#REGIMEN').val('Ninguno');
+                }else{
+                    $.getJSON(
+                        '<?php echo $this->createUrl('regimenTributario/Cargarregimen'); ?>&id='+$(this).attr('value'),
+                        function(data)
+                        {
+                            $('#REGIMEN').val(data.DESCRIPCION);
+                        }
+                   );
+                }
             }
         });
     }
@@ -45,6 +73,19 @@
             function(data){
                 $('#Cliente_IMPUESTO').val(data.ID);
                 $('#IMPUESTO').val(data.NOMBRE);
+
+            }
+        );
+    }
+    
+    function updateRegimen(grid_id){
+        var id=$.fn.yiiGridView.getSelection(grid_id);
+        
+        $.getJSON(
+            '<?php echo $this->createUrl('regimenTributario/cargarregimen'); ?>&id='+id,
+            function(data){
+                $('#Cliente_REGIMEN').val(data.REGIMEN);
+                $('#REGIMEN').val(data.DESCRIPCION);
 
             }
         );
@@ -181,6 +222,14 @@
                                                         .$form->textFieldRow($model,'ALIAS',array('maxlength'=>64))
                                                         .$form->textFieldRow($model,'CONTACTO',array('maxlength'=>64))
                                                         .$form->textFieldRow($model,'CARGO',array('maxlength'=>32))
+                                                        .'
+                                                        <table>
+                                                            <tr>
+                                                                <td width="50px;">'.$form->textFieldRow($model,'TELEFONO1', array('maxlength'=>16)).'</td>      
+                                                                <td>'.$form->textField($model,'TELEFONO2', array('maxlength'=>16)).'</td>
+                                                           </tr>
+                                                        </table>'
+                                                            .$form->textFieldRow($model,'FAX',array('maxlength'=>16))
                                                         .'<table>
                                                             <tr>
                                                                 <td width="50px;">'
@@ -194,14 +243,6 @@
                                                            </tr>
                                                       </table>
                                                       <table>
-                                                            <tr>
-                                                                <td width="50px;">'.$form->textFieldRow($model,'TELEFONO1', array('maxlength'=>16)).'</td>      
-                                                                <td>'.$form->textField($model,'TELEFONO2', array('maxlength'=>16)).'</td>
-                                                           </tr>
-                                                      </table>'
-                                                      .$form->textFieldRow($model,'FAX',array('maxlength'=>16))
-                                                      .$form->dropDownListRow($model,'CATEGORIA',CHtml::listData(Categoria::model()->findAllByAttributes(array('TIPO'=>'C','ACTIVO'=>'S')),'ID','DESCRIPCION'),array('empty'=>'Seleccione'))
-                                                      .'<table>
                                                                 <tr>
                                                                     <td width="50px;">'
                                                                         .$form->labelEx($model,'IMPUESTO',array('class'=>'control-label'))
@@ -227,118 +268,57 @@
                                                      </table>
                                                   </td>
                                                   <td>
-                                                        <fieldset style="width: 315px; height: 140px; ">
-                                                            <legend ><font face="arial" size=3 >Estado</font></legend>'
-                                                            
-                                                        .'<br><br></fieldset>'
-                                                    .'</td>
+                                                      <fieldset >
+                                                            <legend ><font face="arial" size=3 >Propiedades</font></legend>'
+                                                            .$form->dropDownListRow($model,'CATEGORIA',CHtml::listData(Categoria::model()->findAllByAttributes(array('TIPO'=>'C','ACTIVO'=>'S')),'ID','DESCRIPCION'),array('empty'=>'Seleccione'))
+                                                            .$form->dropDownListRow($model,'CONDICION_PAGO',CHtml::listData(CodicionPago::model()->findAllByAttributes(array('ACTIVO'=>'S')),'ID','DESCRIPCION'),array('empty'=>'Seleccione'))
+                                                            .$form->dropDownListRow($model,'TIPO_PRECIO',array(),array('empty'=>'Seleccione'))
+                                                       .'<br><br></fieldset>
+                                                    </td>
                                                 </tr>
                                             </table>
                                         '
                                     ,   
-                                    'active'=>true
+                                    
                                 ),
                                 array(
-                                    'label'=>'Impresión',
+                                    'label'=>'Condiciones',
                                     'content'=>
-                                        '',
+                                        $form->textFieldRow($model,'INTERES_CORRIENTE',array('size'=>6,'maxlength'=>28,'append'=>'%'))
+                                        .$form->textFieldRow($model,'INTERES_MORA',array('size'=>6,'maxlength'=>28,'append'=>'%'))
+                                        .$form->textFieldRow($model,'DESCUENTO',array('size'=>6,'maxlength'=>28,'append'=>'%'))
+                                        .$form->textFieldRow($model,'LIMITE_CREDITO',array('size'=>14,'maxlength'=>28,'prepend'=>'$'))
+                                    ,
+                               ),
+                                array(
+                                    'label'=>'Otros',
+                                    'content'=>
+                                        '<table>
+                                            <tr>
+                                                <td>'
+                                                    .$form->dropDownListRow($model,'PAIS',CHtml::listData(Pais::model()->findAllByAttributes(array('ACTIVO'=>'S')),'ID','NOMBRE'),array('empty'=>'Seleccione'))
+                                                    .$form->dropDownListRow($model,'UBICACION_GEOGRAFICA1',array(),array('empty'=>'Seleccione'))
+                                                    .$form->dropDownListRow($model,'UBICACION_GEOGRAFICA2',array(),array('empty'=>'Seleccione'))
+                                                    .$form->textFieldRow($model,'CIUDAD',array('maxlength'=>64))
+                                                    .$form->dropDownListRow($model,'ZONA',array(),array('empty'=>'Seleccione'))
+                                                .'</td>
+                                                <td>'
+                                                    .$form->textFieldRow($model,'EMAIL',array('maxlength'=>128,'prepend'=>'<i class="icon-envelope"></i>'))
+                                                    .$form->textFieldRow($model,'SITIO_WEB',array('maxlength'=>128))
+                                                    .$form->textFieldRow($model,'DIRECCION_COBRO',array('maxlength'=>128))
+                                                    .$form->textFieldRow($model,'DIRECCION_EMBARQUE',array('maxlength'=>128))
+                                                .'</td>
+                                            </tr>
+                                        </table>'
+                                    ,
+                                    'active'=>true
                                ),
                             ),
                 ));
             ?>
-	</div>    
+	</div>  
 	<?php echo $form->hiddenField($model,'ACTIVO',array('value'=>'S')); ?>
 
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'TIPO_PRECIO'); ?>
-		<?php echo $form->textField($model,'TIPO_PRECIO',array('size'=>12,'maxlength'=>12)); ?>
-		<?php echo $form->error($model,'TIPO_PRECIO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CONDICION_PAGO'); ?>
-		<?php echo $form->textField($model,'CONDICION_PAGO',array('size'=>4,'maxlength'=>4)); ?>
-		<?php echo $form->error($model,'CONDICION_PAGO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'PAIS'); ?>
-		<?php echo $form->textField($model,'PAIS',array('size'=>4,'maxlength'=>4)); ?>
-		<?php echo $form->error($model,'PAIS'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'UBICACION_GEOGRAFICA1'); ?>
-		<?php echo $form->textField($model,'UBICACION_GEOGRAFICA1',array('size'=>2,'maxlength'=>2)); ?>
-		<?php echo $form->error($model,'UBICACION_GEOGRAFICA1'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'UBICACION_GEOGRAFICA2'); ?>
-		<?php echo $form->textField($model,'UBICACION_GEOGRAFICA2',array('size'=>5,'maxlength'=>5)); ?>
-		<?php echo $form->error($model,'UBICACION_GEOGRAFICA2'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'ZONA'); ?>
-		<?php echo $form->textField($model,'ZONA'); ?>
-		<?php echo $form->error($model,'ZONA'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'CIUDAD'); ?>
-		<?php echo $form->textField($model,'CIUDAD',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'CIUDAD'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'INTERES_CORRIENTE'); ?>
-		<?php echo $form->textField($model,'INTERES_CORRIENTE',array('size'=>28,'maxlength'=>28)); ?>
-		<?php echo $form->error($model,'INTERES_CORRIENTE'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'INTERES_MORA'); ?>
-		<?php echo $form->textField($model,'INTERES_MORA',array('size'=>28,'maxlength'=>28)); ?>
-		<?php echo $form->error($model,'INTERES_MORA'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'DESCUENTO'); ?>
-		<?php echo $form->textField($model,'DESCUENTO',array('size'=>28,'maxlength'=>28)); ?>
-		<?php echo $form->error($model,'DESCUENTO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'LIMITE_CREDITO'); ?>
-		<?php echo $form->textField($model,'LIMITE_CREDITO',array('size'=>28,'maxlength'=>28)); ?>
-		<?php echo $form->error($model,'LIMITE_CREDITO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'EMAIL'); ?>
-		<?php echo $form->textField($model,'EMAIL',array('size'=>60,'maxlength'=>128)); ?>
-		<?php echo $form->error($model,'EMAIL'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'SITIO_WEB'); ?>
-		<?php echo $form->textField($model,'SITIO_WEB',array('size'=>60,'maxlength'=>128)); ?>
-		<?php echo $form->error($model,'SITIO_WEB'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'DIRECCION_COBRO'); ?>
-		<?php echo $form->textField($model,'DIRECCION_COBRO',array('size'=>60,'maxlength'=>128)); ?>
-		<?php echo $form->error($model,'DIRECCION_COBRO'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'DIRECCION_EMBARQUE'); ?>
-		<?php echo $form->textField($model,'DIRECCION_EMBARQUE',array('size'=>60,'maxlength'=>128)); ?>
-		<?php echo $form->error($model,'DIRECCION_EMBARQUE'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'RUBRO1_FA'); ?>
@@ -471,6 +451,30 @@
 <?php 
     $this->endWidget(); 
 
+    $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'regimen')); ?>
+ 
+	<div class="modal-body">
+                <a class="close" data-dismiss="modal">&times;</a>
+                <br>
+		<?php 
+                    
+                    $funcion = 'updateRegimen';
+                    $id = 'regimen-grid';
+                    echo $this->renderPartial('/regimenTributario/regimen', array('regimen'=>$regimen,'funcion'=>$funcion,'id'=>$id));
+                ?>
+	</div>
+        <div class="modal-footer">
+
+            <?php $this->widget('bootstrap.widgets.BootButton', array(
+                'label'=>'Cerrar',
+                'url'=>'#',
+                'htmlOptions'=>array('data-dismiss'=>'modal'),
+            )); ?>
+        </div>
+ 
+<?php
+    $this->endWidget(); 
+    
     $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'impuesto')); ?>
  
 	<div class="modal-body">
