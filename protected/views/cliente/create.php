@@ -1,4 +1,7 @@
 <?php
+if(!ConfFa::darConf())
+     $this->redirect(array('/confFa/create'));   
+
 $this->breadcrumbs=array(
 	'Facturación'=>array('admin'),
 	'Clientes'=>array('admin'),

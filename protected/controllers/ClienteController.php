@@ -8,6 +8,7 @@ class ClienteController extends SBaseController
 	 */
 	public $layout='//layouts/column2';
 	public $breadcrumbs=array();
+	public $conf=array();
 
 	/**
 	 * @return array action filters
@@ -66,6 +67,12 @@ class ClienteController extends SBaseController
 		if(isset($_POST['Cliente']))
 		{
 			$model->attributes=$_POST['Cliente'];
+                        $model->ZONA = $_POST['Cliente']['ZONA'];
+                        $model->NIT = ($_POST['Cliente']['NIT'] != '') ? $_POST['Cliente']['NIT'] : NULL;
+                        $model->REGIMEN = ($_POST['Cliente']['NIT'] != '') ? $_POST['Cliente']['REGIMEN'] : NULL;
+                        $model->IMPUESTO = ($_POST['Cliente']['NIT'] != '') ? $_POST['Cliente']['IMPUESTO'] : NULL;
+                        $model->UBICACION_GEOGRAFICA1 = ($_POST['Cliente']['UBICACION_GEOGRAFICA1'] != '') ? $_POST['Cliente']['UBICACION_GEOGRAFICA1'] : NULL;
+                        $model->UBICACION_GEOGRAFICA2 = ($_POST['Cliente']['UBICACION_GEOGRAFICA2'] != '') ? $_POST['Cliente']['UBICACION_GEOGRAFICA2'] : NULL;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->CLIENTE));
 		}
@@ -95,19 +102,40 @@ class ClienteController extends SBaseController
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+                $nit= new Nit('search');
+		$impuesto= new Impuesto('search');
+		$regimen= new RegimenTributario('search');
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Cliente']))
 		{
 			$model->attributes=$_POST['Cliente'];
+                        $model->ZONA = $_POST['Cliente']['ZONA'];
+                        $model->NIT = ($_POST['Cliente']['NIT'] != '') ? $_POST['Cliente']['NIT'] : NULL;
+                        $model->REGIMEN = ($_POST['Cliente']['NIT'] != '') ? $_POST['Cliente']['REGIMEN'] : NULL;
+                        $model->IMPUESTO = ($_POST['Cliente']['NIT'] != '') ? $_POST['Cliente']['IMPUESTO'] : NULL;
+                        $model->UBICACION_GEOGRAFICA1 = ($_POST['Cliente']['UBICACION_GEOGRAFICA1'] != '') ? $_POST['Cliente']['UBICACION_GEOGRAFICA1'] : NULL;
+                        $model->UBICACION_GEOGRAFICA2 = ($_POST['Cliente']['UBICACION_GEOGRAFICA2'] != '') ? $_POST['Cliente']['UBICACION_GEOGRAFICA2'] : NULL;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->CLIENTE));
 		}
-
+                
+                 if(isset($_GET['Nit']))
+			$nit->attributes=$_GET['Nit'];
+                
+                if(isset($_GET['Impuesto']))
+			$impuesto->attributes=$_GET['Impuesto'];
+                
+                if(isset($_GET['RegimenTributario']))
+			$regimen->attributes=$_GET['RegimenTributario'];
+                
 		$this->render('update',array(
 			'model'=>$model,
+			'nit'=>$nit,
+			'impuesto'=>$impuesto,
+			'regimen'=>$regimen,
 		));
 	}
 

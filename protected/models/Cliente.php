@@ -89,10 +89,12 @@ class Cliente extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('CLIENTE, NOMBRE, ACTIVO', 'required'),
-			array('CATEGORIA, ZONA', 'numerical', 'integerOnly'=>true),
+			array('TELEFONO1, TELEFONO2,FAX', 'numerical', 'integerOnly'=>true),
+			array('INTERES_CORRIENTE, INTERES_MORA, DESCUENTO, LIMITE_CREDITO,', 'numerical'),
 			array('REGIMEN, TIPO_PRECIO', 'length', 'max'=>12),
 			array('IMPUESTO, CONDICION_PAGO, PAIS', 'length', 'max'=>4),
 			array('NIT', 'length', 'max'=>10),
+			array('EMAIL', 'email'),
 			array('UBICACION_GEOGRAFICA1', 'length', 'max'=>2),
 			array('UBICACION_GEOGRAFICA2', 'length', 'max'=>5),
 			array('CIUDAD, NOMBRE, ALIAS, CONTACTO, RUBRO1_FA, RUBRO2_FA, RUBRO3_FA, RUBRO4_FA, RUBRO5_FA, RUBRO1_CC, RUBRO2_CC, RUBRO3_CC, RUBRO4_CC, RUBRO5_CC', 'length', 'max'=>64),
@@ -100,8 +102,9 @@ class Cliente extends CActiveRecord
 			array('TELEFONO1, TELEFONO2, FAX', 'length', 'max'=>16),
 			array('INTERES_CORRIENTE, INTERES_MORA, DESCUENTO, LIMITE_CREDITO', 'length', 'max'=>28),
 			array('EMAIL, SITIO_WEB, DIRECCION_COBRO, DIRECCION_EMBARQUE', 'length', 'max'=>128),
-			array('ACTIVO', 'length', 'max'=>1),
 			array('FECHA_INGRESO', 'safe'),
+                    
+                        array('CLIENTE', 'unique', 'attributeName'=>'CLIENTE', 'className'=>'Cliente','allowEmpty'=>false),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('CLIENTE, REGIMEN, CATEGORIA, IMPUESTO, NIT, TIPO_PRECIO, CONDICION_PAGO, PAIS, UBICACION_GEOGRAFICA1, UBICACION_GEOGRAFICA2, ZONA, CIUDAD, NOMBRE, FECHA_INGRESO, ALIAS, CONTACTO, CARGO, TELEFONO1, TELEFONO2, FAX, INTERES_CORRIENTE, INTERES_MORA, DESCUENTO, LIMITE_CREDITO, EMAIL, SITIO_WEB, DIRECCION_COBRO, DIRECCION_EMBARQUE, RUBRO1_FA, RUBRO2_FA, RUBRO3_FA, RUBRO4_FA, RUBRO5_FA, RUBRO1_CC, RUBRO2_CC, RUBRO3_CC, RUBRO4_CC, RUBRO5_CC, ACTIVO, CREADO_POR, CREADO_EL, ACTUALIZADO_POR, ACTUALIZADO_EL', 'safe', 'on'=>'search'),
@@ -153,6 +156,7 @@ class Cliente extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
+            $conf_fa = ConfFa::model()->find();
 		return array(
 			'CLIENTE' => 'Cliente',
 			'REGIMEN' => 'Regimen',
@@ -177,16 +181,16 @@ class Cliente extends CActiveRecord
 			'INTERES_CORRIENTE' => 'Intereses Corrientes',
 			'INTERES_MORA' => 'Intereses de Mora',
 			'DESCUENTO' => 'Descuento',
-			'LIMITE_CREDITO' => 'Limite Credito',
+			'LIMITE_CREDITO' => 'Limite de Credito',
 			'EMAIL' => 'Email',
 			'SITIO_WEB' => 'Sitio Web',
 			'DIRECCION_COBRO' => 'Dirección Cobro',
-			'DIRECCION_EMBARQUE' => 'Dirección Embarque',
-			'RUBRO1_FA' => 'Rubro1 Fa',
-			'RUBRO2_FA' => 'Rubro2 Fa',
-			'RUBRO3_FA' => 'Rubro3 Fa',
-			'RUBRO4_FA' => 'Rubro4 Fa',
-			'RUBRO5_FA' => 'Rubro5 Fa',
+			'DIRECCION_EMBARQUE' => 'Dirección de envío de articulos',
+			'RUBRO1_FA' => $conf_fa->USAR_RUBROS && $conf_fa->RUBRO1_NOMBRE != '' ? $conf_fa->RUBRO1_NOMBRE : 'N/A',
+			'RUBRO2_FA' => $conf_fa->USAR_RUBROS && $conf_fa->RUBRO2_NOMBRE != '' ? $conf_fa->RUBRO2_NOMBRE : 'N/A',
+			'RUBRO3_FA' => $conf_fa->USAR_RUBROS && $conf_fa->RUBRO3_NOMBRE != '' ? $conf_fa->RUBRO3_NOMBRE : 'N/A',
+			'RUBRO4_FA' => $conf_fa->USAR_RUBROS && $conf_fa->RUBRO4_NOMBRE != '' ? $conf_fa->RUBRO4_NOMBRE : 'N/A',
+			'RUBRO5_FA' => $conf_fa->USAR_RUBROS && $conf_fa->RUBRO5_NOMBRE != '' ? $conf_fa->RUBRO5_NOMBRE : 'N/A',
 			'RUBRO1_CC' => 'Rubro1 Cc',
 			'RUBRO2_CC' => 'Rubro2 Cc',
 			'RUBRO3_CC' => 'Rubro3 Cc',

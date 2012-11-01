@@ -3,6 +3,63 @@
     
     function inicio(){
         
+        <?php if(!$model->isNewRecord){ ?>
+                    var pais = $('#Cliente_PAIS').val();
+                    if(pais == 'COL'){
+                        $('#ciudad').slideUp('slow');
+                        $('#ubicaciones').slideDown('slow');
+                    }
+                    else{
+                        $('#ubicaciones').slideUp('slow');
+                        $('#ciudad').slideDown('slow');
+                    }
+
+                    /*$.getJSON(
+                        '<?php echo $this->createUrl('proveedor/CargarNit'); ?>&buscar='+$('#Cliente_NIT').val(),
+                        function(data)
+                        {
+                            $('#Cliente_NIT').val(data.ID);
+                            $('#Nit2').val(data.NOMBRE);
+                        }
+                   )*/
+        <?php } ?>
+
+        $('#Cliente_PAIS').change(function(){
+            var pais = $(this).val();
+            if(pais == 'COL'){
+                $('#ciudad').slideUp('slow');
+                $('#ubicaciones').slideDown('slow');
+            }
+            else{
+                $('#ubicaciones').slideUp('slow');
+                $('#ciudad').slideDown('slow');
+            }
+            $.getJSON('<?php echo $this->createUrl('/zona/cargarzonas')?>&pais='+pais,
+                    function(data){
+
+                         $('select[id$=Cliente_ZONA ] > option').remove();
+                          $('#Cliente_ZONA').append("<option value=''>Seleccione</option>");
+
+                        $.each(data, function(value, name) {
+                                  $('#Cliente_ZONA').append("<option value='"+value+"'>"+name+"</option>");
+                            });
+             });
+        });
+
+        $('#Cliente_UBICACION_GEOGRAFICA1').change(function(){
+
+                $.getJSON('<?php echo $this->createUrl('/proveedor/cargarubicacion')?>&ubicacion='+$(this).val(),
+                    function(data){
+
+                         $('select[id$=Cliente_UBICACION_GEOGRAFICA2 ] > option').remove();
+                          $('#Cliente_UBICACION_GEOGRAFICA2').append("<option value=''>Seleccione</option>");
+
+                        $.each(data, function(value, name) {
+                                  $('#Cliente_UBICACION_GEOGRAFICA2').append("<option value='"+value+"'>"+name+"</option>");
+                            });
+                    });
+        });
+        
         $('#Cliente_CONDICION_PAGO').change(function(){
             $.getJSON('<?php echo $this->createUrl('cargarniveles')?>&id='+$(this).val(),
                     function(data){
@@ -134,6 +191,7 @@
        </table>  
 
         <?php
+                $this->conf = ConfFa::model()->find();
                 $calendario = $this->widget('zii.widgets.jui.CJuiDatePicker',
                          array(
                               'model'=>$model,
@@ -236,7 +294,7 @@
                                                                     .$form->labelEx($model,'NIT',array('class'=>'control-label'))
                                                                    .' <div class="controls">'.$autocompletarNit.'</div>
                                                                 </td>      
-                                                                <td>'.CHtml::textField('Nit2','', array('readonly' => true, 'size'=>25)).'</td>'
+                                                                <td>'.CHtml::textField('Nit2',!$model->isNewRecord ? isset($model->nIT->RAZON_SOCIAL) : '', array('readonly' => true, 'size'=>25)).'</td>'
                                                                 .'<td width="10px;">'
                                                                     .$botonNit
                                                                .'</td>
@@ -248,7 +306,7 @@
                                                                         .$form->labelEx($model,'IMPUESTO',array('class'=>'control-label'))
                                                                        .' <div class="controls">'.$autocompletarImpuesto.'</div>
                                                                     </td>      
-                                                                    <td>'.CHtml::textField('IMPUESTO','', array('readonly' => true, 'size'=>25)).'</td>'
+                                                                    <td>'.CHtml::textField('IMPUESTO',!$model->isNewRecord ? isset($model->iMPUESTO->NOMBRE) : '', array('readonly' => true, 'size'=>25)).'</td>'
                                                                     .'<td width="10px;">'
                                                                         .$botonImpuesto
                                                                    .'</td>
@@ -260,7 +318,7 @@
                                                                         .$form->labelEx($model,'REGIMEN',array('class'=>'control-label'))
                                                                        .' <div class="controls">'.$autocompletarRegimen.'</div>
                                                                     </td>      
-                                                                    <td>'.CHtml::textField('REGIMEN','', array('readonly' => true, 'size'=>25)).'</td>'
+                                                                    <td>'.CHtml::textField('REGIMEN',!$model->isNewRecord ? isset($model->rEGIMEN->DESCRIPCION) : '', array('readonly' => true, 'size'=>25)).'</td>'
                                                                     .'<td width="10px;">'
                                                                         .$botonRegimen
                                                                    .'</td>
@@ -270,14 +328,15 @@
                                                   <td>
                                                       <fieldset >
                                                             <legend ><font face="arial" size=3 >Propiedades</font></legend>'
-                                                            .$form->dropDownListRow($model,'CATEGORIA',CHtml::listData(Categoria::model()->findAllByAttributes(array('TIPO'=>'C','ACTIVO'=>'S')),'ID','DESCRIPCION'),array('empty'=>'Seleccione'))
-                                                            .$form->dropDownListRow($model,'CONDICION_PAGO',CHtml::listData(CodicionPago::model()->findAllByAttributes(array('ACTIVO'=>'S')),'ID','DESCRIPCION'),array('empty'=>'Seleccione'))
-                                                            .$form->dropDownListRow($model,'TIPO_PRECIO',array(),array('empty'=>'Seleccione'))
+                                                            .$form->dropDownListRow($model,'CATEGORIA',CHtml::listData(Categoria::model()->findAllByAttributes(array('TIPO'=>'C','ACTIVO'=>'S')),'ID','DESCRIPCION'),array('empty'=>'Seleccione','options'=>$model->isNewRecord ? array($this->conf->CATEGORIA_CLIENTE=>array('selected'=>'selected')): array()))
+                                                            .$form->dropDownListRow($model,'CONDICION_PAGO',CHtml::listData(CodicionPago::model()->findAllByAttributes(array('ACTIVO'=>'S')),'ID','DESCRIPCION'),array('empty'=>'Seleccione','options'=>$model->isNewRecord ? array($this->conf->COND_PAGO_CONTADO=>array('selected'=>'selected')): array()))
+                                                            .$form->dropDownListRow($model,'TIPO_PRECIO',CHtml::listData(NivelPrecio::model()->findAllByAttributes(array('ACTIVO'=>'S','CONDICION_PAGO'=>$this->conf->COND_PAGO_CONTADO)),'ID','DESCRIPCION'),array('empty'=>'Seleccione','options'=>$model->isNewRecord ? array($this->conf->NIVEL_PRECIO=>array('selected'=>'selected')): array()))
                                                        .'<br><br></fieldset>
                                                     </td>
                                                 </tr>
                                             </table>
-                                        '
+                                        ',
+                                        'active'=>true
                                     ,   
                                     
                                 ),
@@ -290,28 +349,44 @@
                                         .$form->textFieldRow($model,'LIMITE_CREDITO',array('size'=>14,'maxlength'=>28,'prepend'=>'$'))
                                     ,
                                ),
-                                array(
+                               array(
                                     'label'=>'Otros',
                                     'content'=>
                                         '<table>
                                             <tr>
                                                 <td>'
-                                                    .$form->dropDownListRow($model,'PAIS',CHtml::listData(Pais::model()->findAllByAttributes(array('ACTIVO'=>'S')),'ID','NOMBRE'),array('empty'=>'Seleccione'))
-                                                    .$form->dropDownListRow($model,'UBICACION_GEOGRAFICA1',array(),array('empty'=>'Seleccione'))
-                                                    .$form->dropDownListRow($model,'UBICACION_GEOGRAFICA2',array(),array('empty'=>'Seleccione'))
-                                                    .$form->textFieldRow($model,'CIUDAD',array('maxlength'=>64))
-                                                    .$form->dropDownListRow($model,'ZONA',array(),array('empty'=>'Seleccione'))
-                                                .'</td>
-                                                <td>'
                                                     .$form->textFieldRow($model,'EMAIL',array('maxlength'=>128,'prepend'=>'<i class="icon-envelope"></i>'))
                                                     .$form->textFieldRow($model,'SITIO_WEB',array('maxlength'=>128))
-                                                    .$form->textFieldRow($model,'DIRECCION_COBRO',array('maxlength'=>128))
-                                                    .$form->textFieldRow($model,'DIRECCION_EMBARQUE',array('maxlength'=>128))
+                                                    .$form->textFieldRow($model,'DIRECCION_COBRO',array('maxlength'=>128,'size'=>50))
+                                                    .$form->textFieldRow($model,'DIRECCION_EMBARQUE',array('maxlength'=>128,'size'=>50))
+                                                .'</td>
+                                                <td>'
+                                                    .$form->dropDownListRow($model,'PAIS',CHtml::listData(Pais::model()->findAllByAttributes(array('ACTIVO'=>'S')),'ID','NOMBRE'),array('empty'=>'Seleccione'))
+                                                    .'<span id="ubicaciones" style="display: none">'
+                                                        .$form->dropDownListRow($model,'UBICACION_GEOGRAFICA1',CHtml::listData(UbicacionGeografica1::model()->findAllByAttributes(array('ACTIVO'=>'S')),'ID','NOMBRE'),array('empty'=>'Seleccione'))
+                                                        .$form->dropDownListRow($model,'UBICACION_GEOGRAFICA2',$model->isNewRecord ? array() : CHtml::listData(UbicacionGeografica2::model()->findAllByAttributes(array('ACTIVO'=>'S','UBICACION_GEOGRAFICA1'=>$model->UBICACION_GEOGRAFICA1)),'ID','NOMBRE'),array('empty'=>'Seleccione'))
+                                                    .'</span>'
+                                                    .'<span id="ciudad" style="display: none">'
+                                                        .$form->textFieldRow($model,'CIUDAD',array('maxlength'=>64))
+                                                    .'</span>'
+                                                    .$form->dropDownListRow($model,'ZONA',$model->isNewRecord ? array() : CHtml::listData(Zona::model()->findAllByAttributes(array('ACTIVO'=>'S','PAIS'=>$model->PAIS)),'ID','NOMBRE'),array('empty'=>'Seleccione'))
                                                 .'</td>
                                             </tr>
                                         </table>'
                                     ,
-                                    'active'=>true
+                               ),
+                               array(
+                                    'label'=>'Rubros Valores FA',
+                                    'content'=>
+                                        '<fieldset >
+                                               <legend ><font face="arial" size=3 >Rubros Valores</font></legend>'
+                                               .$form->textFieldRow($model,'RUBRO1_FA',array('maxlength'=>64, 'disabled'=>$this->conf->USAR_RUBROS && $this->conf->RUBRO1_NOMBRE != '' ? false : true))
+                                               .$form->textFieldRow($model,'RUBRO2_FA',array('maxlength'=>64, 'disabled'=>$this->conf->USAR_RUBROS && $this->conf->RUBRO2_NOMBRE != '' ? false : true))
+                                               .$form->textFieldRow($model,'RUBRO3_FA',array('maxlength'=>64, 'disabled'=>$this->conf->USAR_RUBROS && $this->conf->RUBRO3_NOMBRE != '' ? false : true))
+                                               .$form->textFieldRow($model,'RUBRO4_FA',array('maxlength'=>64, 'disabled'=>$this->conf->USAR_RUBROS && $this->conf->RUBRO4_NOMBRE != '' ? false : true))
+                                               .$form->textFieldRow($model,'RUBRO5_FA',array('maxlength'=>64, 'disabled'=>$this->conf->USAR_RUBROS && $this->conf->RUBRO5_NOMBRE != '' ? false : true))
+                                        .'<br><br></fieldset>'
+                                    ,
                                ),
                             ),
                 ));
@@ -319,39 +394,8 @@
 	</div>  
 	<?php echo $form->hiddenField($model,'ACTIVO',array('value'=>'S')); ?>
 
-
 	<div class="row">
-		<?php echo $form->labelEx($model,'RUBRO1_FA'); ?>
-		<?php echo $form->textField($model,'RUBRO1_FA',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'RUBRO1_FA'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'RUBRO2_FA'); ?>
-		<?php echo $form->textField($model,'RUBRO2_FA',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'RUBRO2_FA'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'RUBRO3_FA'); ?>
-		<?php echo $form->textField($model,'RUBRO3_FA',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'RUBRO3_FA'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'RUBRO4_FA'); ?>
-		<?php echo $form->textField($model,'RUBRO4_FA',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'RUBRO4_FA'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'RUBRO5_FA'); ?>
-		<?php echo $form->textField($model,'RUBRO5_FA',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'RUBRO5_FA'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'RUBRO1_CC'); ?>
+		<?php /*echo $form->labelEx($model,'RUBRO1_CC'); ?>
 		<?php echo $form->textField($model,'RUBRO1_CC',array('size'=>60,'maxlength'=>64)); ?>
 		<?php echo $form->error($model,'RUBRO1_CC'); ?>
 	</div>
@@ -377,7 +421,7 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'RUBRO5_CC'); ?>
 		<?php echo $form->textField($model,'RUBRO5_CC',array('size'=>60,'maxlength'=>64)); ?>
-		<?php echo $form->error($model,'RUBRO5_CC'); ?>
+		<?php echo $form->error($model,'RUBRO5_CC'); */?>
 	</div>
 
 

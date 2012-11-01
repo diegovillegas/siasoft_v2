@@ -35,7 +35,6 @@
 		<?php if (!Yii::app()->user->isGuest){
 		
 		$com=ConfCo::model()->find();
-                $fac=  ConfFa::model()->find();
 		$compa=Compania::model()->find();
 		$admin=ConfAs::model()->find();
 		
@@ -46,7 +45,7 @@
 				array('label'=>'Inicio', 'url'=>array('/site/index')),
 				array('label'=>'Facturación', 'url'=>'#',	
 						'items'=>array(
-							array('label'=>'Configuracion de Facturación', 'url'=>$fac ? array('/confFa/update','id'=>$fac->ID): array('/confFa/create')),							
+							array('label'=>'Configuracion de Facturación', 'url'=>array('/confFa/create')),							
                                                         array('label'=>'Ensamble de articulos', 'url'=>array('/articuloEnsamble/admin')),
 							array('label'=>'Consecutivos', 'url'=>array('/consecutivoFa/admin')),							
 							array('label'=>'Clientes', 'url'=>array('/cliente/admin')),							

@@ -28,51 +28,24 @@ $this->breadcrumbs=array(
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'CLIENTE',
-		'REGIMEN',
+                array(
+                    'name'=>'CLIENTE',
+                    'value'=>'$data->CLIENTE." - ".$data->NOMBRE'
+                ),
+                array(
+                    'name'=>'REGIMEN',
+                    'value'=>'isset($data->rEGIMEN->DESCRIPCION) ? $data->rEGIMEN->DESCRIPCION : ""'
+                ),
 		'CATEGORIA',
-		'IMPUESTO',
+                array(
+                    'name'=>'IMPUESTO',
+                    'value'=>'isset($data->iMPUESTO->NOMBRE) ? $data->iMPUESTO->NOMBRE : ""'
+                ),
 		'NIT',
-		'TIPO_PRECIO',
-		/*
-		'CONDICION_PAGO',
-		'PAIS',
-		'UBICACION_GEOGRAFICA1',
-		'UBICACION_GEOGRAFICA2',
-		'ZONA',
-		'CIUDAD',
-		'NOMBRE',
-		'FECHA_INGRESO',
-		'ALIAS',
-		'CONTACTO',
-		'CARGO',
-		'TELEFONO1',
-		'TELEFONO2',
-		'FAX',
-		'INTERES_CORRIENTE',
-		'INTERES_MORA',
-		'DESCUENTO',
-		'LIMITE_CREDITO',
-		'EMAIL',
-		'SITIO_WEB',
-		'DIRECCION_COBRO',
-		'DIRECCION_EMBARQUE',
-		'RUBRO1_FA',
-		'RUBRO2_FA',
-		'RUBRO3_FA',
-		'RUBRO4_FA',
-		'RUBRO5_FA',
-		'RUBRO1_CC',
-		'RUBRO2_CC',
-		'RUBRO3_CC',
-		'RUBRO4_CC',
-		'RUBRO5_CC',
-		'ACTIVO',
-		'CREADO_POR',
-		'CREADO_EL',
-		'ACTUALIZADO_POR',
-		'ACTUALIZADO_EL',
-		*/
+                array(
+                    'name'=>'TIPO_PRECIO',
+                    'value'=>'isset($data->tIPOPRECIO->DESCRIPCION) ? $data->tIPOPRECIO->DESCRIPCION : ""'
+                ),
 		 array(
                       'class'=>'bootstrap.widgets.BootButtonColumn',
                  ),
