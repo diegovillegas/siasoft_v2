@@ -32,7 +32,7 @@ class ArticuloPrecioController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'iniciar'),
+				'actions'=>array('create','update', 'iniciar', 'detalle'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -55,6 +55,37 @@ class ArticuloPrecioController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+        
+        public function actionDetalle(){
+            if($_POST['check'] != ''){
+                $id = $_POST['check'];
+                $consulta = ArticuloPrecio::model()->findAll('ACTIVO = "S" AND ARTICULO = "'.$id.'"');
+                if(!$consulta){
+                    echo '<div id="alert" class="alert alert-warning" data-dismiss="modal">
+                            <h2 align="center">Este articulo no tiene componentes asociados</h2>
+                            </div>';
+                }
+                else{
+                    echo '<table align="center" class="table table-bordered" >
+                        <tr>
+                            <td><b>Articulo</b></td>
+                            <td><b>Cantidad</b></td>
+                        </tr>';
+                    foreach($consulta as $con){                    
+                        echo '<tr><td>'.$con->aRTICULOHIJO->NOMBRE.'</td>';
+                        echo '<td>'.$con->CANTIDAD.'</td></tr>';
+                    }
+                    echo '</table>';
+                }
+                
+                
+            }
+            else{
+                echo '<div id="alert" class="alert alert-warning" data-dismiss="modal">
+                            <h2 align="center">Seleccione un articulo para ver su detalle</h2>
+                            </div>';
+            }
+        }
 
 	/**
 	 * Updates a particular model.
@@ -63,25 +94,29 @@ class ArticuloPrecioController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=new ArticuloPrecio;
-                $precios = NivelPrecio::model()->findAll('ACTIVO = "S"');
+		$model=new ArticuloPrecio;                
                 $articulo = Articulo::model()->findByPk($id);
+                $cargar = ArticuloPrecio::model()->findAll('ACTIVO = "S" AND ARTICULO = "'.$id.'"');
+                $criteria = new CDbCriteria;
+                $criteria->addNotInCondition('ID', CHtml::listData($cargar,'NIVEL_PRECIO', 'NIVEL_PRECIO'));
+                $active = new CActiveDataProvider(NivelPrecio::model(), array('criteria'=>$criteria));                
+                $precios = $active->getData();
                 $i=0;
 
 		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['ArticuloPrecio']))
-		{                                       
-                                $linea = ArticuloPrecio::model()->find('ACTIVO = "S" AND ARTICULO = "'.$_POST['ArticuloPrecio']['ARTICULO'].'"');
-                                if($linea){
-                                    foreach ($_POST['NivelPrecio'] as $nivel){
-                                        $linea->updateAll(array('MARGEN_MULTIPLICADOR'=>$_POST['NivelPrecio3'][$i], 'PRECIO'=>$_POST['NivelPrecio4'][$i]), 'NIVEL_PRECIO = "'.$nivel.'"');
+                    {
+                            foreach ($_POST['NivelPrecio'] as $nivel){
+                                $linea = ArticuloPrecio::model()->find('ACTIVO = "S" AND ARTICULO = "'.$_POST['ArticuloPrecio']['ARTICULO'].'" AND NIVEL_PRECIO = "'.$nivel.'"');
+                                if($linea){                                    
+                                        $linea->updateAll(array('MARGEN_MULTIPLICADOR'=>$_POST['NivelPrecio3'][$i], 'PRECIO'=>$_POST['NivelPrecio4'][$i]), 'NIVEL_PRECIO = "'.$nivel.'" AND ARTICULO = "'.$_POST['ArticuloPrecio']['ARTICULO'].'"');
+                                        $articulo->updateByPk($_POST['ArticuloPrecio']['ARTICULO'], array('PRECIO_BASE'=>$_POST['Precio_base']));
                                         $i++;
-                                    }                                    
+                                   
                                 }
-                                else{
-                                    foreach ($_POST['NivelPrecio'] as $nivel){                                        
+                                else{                                    
                                         $linea = new ArticuloPrecio;
                                         $linea->ARTICULO = $_POST['ArticuloPrecio']['ARTICULO'];
                                         $linea->NIVEL_PRECIO = $nivel;
@@ -90,7 +125,8 @@ class ArticuloPrecioController extends Controller
                                         $linea->PRECIO = $_POST['NivelPrecio4'][$i];
                                         $linea->ACTIVO = 'S';
                                         $linea->CREADO_POR = Yii::app()->user->name;
-                                        $linea->ACTUALIZADO_POR = Yii::app()->user->name;                                        
+                                        $linea->ACTUALIZADO_POR = Yii::app()->user->name; 
+                                        $articulo->updateByPk($_POST['ArticuloPrecio']['ARTICULO'], array('PRECIO_BASE'=>$_POST['Precio_base']));
                                         $linea->insert();
                                         $i++;
                                     }
@@ -103,6 +139,7 @@ class ArticuloPrecioController extends Controller
 			'model'=>$model,
                         'precios'=>$precios,
                         'articulo'=>$articulo,
+                        'cargar'=>$cargar,
 		));
 	}
         

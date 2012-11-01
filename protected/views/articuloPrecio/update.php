@@ -4,6 +4,6 @@ $this->breadcrumbs=array(
 );
 ?>
 
-<h1>Update ArticuloPrecio <?php echo $model->ID; ?></h1>
+<h1>Precios de articulos</h1>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model, 'precios'=>$precios, 'articulo'=>$articulo)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model, 'precios'=>$precios, 'articulo'=>$articulo, 'cargar'=>$cargar)); ?>

@@ -58,12 +58,12 @@ function inicio(){
         </tr>
         <tr>
             <td><label class="control-label">Costo:</label>  <div class="controls"><?php echo CHtml::textField('Costo', '', array('readonly'=>true)); ?></div></td>
-            <td><label class="control-label">Precio Base:</label> <div class="controls"><?php echo CHtml::textField('Precio_base', '', array('class'=>'calculosGen')); ?></div></td>
+            <td><label class="control-label">Precio Base:</label> <div class="controls"><?php echo CHtml::textField('Precio_base', $articulo->PRECIO_BASE, array('class'=>'calculosGen')); ?></div></td>
         </tr>
         <tr>
-            <td colspan="2"><?php $this->renderPartial('lineas', array('precios'=>$precios, 'model'=>$model, 'articulo'=>$articulo)); ?></td>
+            <td colspan="2"><?php $this->renderPartial('lineas', array('precios'=>$precios, 'model'=>$model, 'articulo'=>$articulo, 'cargar'=>$cargar)); ?></td>
         </tr>
-    </table>	
+    </table>
 		<?php echo $form->hiddenField($model,'ACTIVO',array('value'=>'S')); ?>
 
 	<div align="center" id="botones">
