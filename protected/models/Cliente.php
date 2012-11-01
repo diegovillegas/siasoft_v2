@@ -253,11 +253,7 @@ class Cliente extends CActiveRecord
 		$criteria->compare('RUBRO3_CC',$this->RUBRO3_CC,true);
 		$criteria->compare('RUBRO4_CC',$this->RUBRO4_CC,true);
 		$criteria->compare('RUBRO5_CC',$this->RUBRO5_CC,true);
-		$criteria->compare('ACTIVO',$this->ACTIVO,true);
-		$criteria->compare('CREADO_POR',$this->CREADO_POR,true);
-		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
-		$criteria->compare('ACTUALIZADO_POR',$this->ACTUALIZADO_POR,true);
-		$criteria->compare('ACTUALIZADO_EL',$this->ACTUALIZADO_EL,true);
+		$criteria->compare('ACTIVO','S');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
