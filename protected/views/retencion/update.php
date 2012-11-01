@@ -5,6 +5,6 @@ $this->breadcrumbs=array(
 	"Retenciones");
 ?>
 
-<h1>Actualizar Retencion <?php echo $model->ID; ?></h1>
+<h1>Actualizar Retención <?php echo $model->ID; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

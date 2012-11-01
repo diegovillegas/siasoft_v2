@@ -294,7 +294,7 @@ $(document).ready(function(){
                 </tr>
             </table></fieldset>', 'active'=>true),
         
-        array('label'=>'Lineas', 'content'=>$pestana),
+        array('label'=>'Líneas', 'content'=>$pestana),
         
         array('label'=>'Proveedor', 'content'=>
             '<fieldset>'.
@@ -386,7 +386,7 @@ $(document).ready(function(){
             'filter'=>$proveedor,
             'columns'=>array(
                 array(  'name'=>'PROVEEDOR',
-                        'header'=>'Codigo Proveedor',
+                        'header'=>'Código Proveedor',
                         'htmlOptions'=>array('data-dismiss'=>'modal'),
                         'type'=>'raw',
                         'value'=>'CHtml::link($data->PROVEEDOR,"#")'
@@ -428,7 +428,7 @@ $(document).ready(function(){
             'filter'=>$articulo,
             'columns'=>array(
                 array(  'name'=>'ARTICULO',
-                        'header'=>'Codigo Articulo',
+                        'header'=>'Código Artículo',
                         'htmlOptions'=>array('data-dismiss'=>'modal'),
                         'type'=>'raw',
                         'value'=>'CHtml::link($data->ARTICULO,"#")'
@@ -466,7 +466,7 @@ $(document).ready(function(){
             'filter'=>$articulo,
             'columns'=>array(
                 array(  'name'=>'ARTICULO',
-                        'header'=>'Codigo Articulo',
+                        'header'=>'Código Artículo',
                         'htmlOptions'=>array('data-dismiss'=>'modal'),
                         'type'=>'raw',
                         'value'=>'CHtml::link($data->ARTICULO,"#")'
@@ -504,7 +504,7 @@ $(document).ready(function(){
             'columns'=>array(
                 array('class'=>'CCheckBoxColumn'),
                 array(  'name'=>'SOLICITUD_OC_LINEA',
-                        'header'=>'Codigo Solicitud'),
+                        'header'=>'Código Solicitud'),
                     'SOLICITUD_OC',
                     array('name' => 'ARTICULO', 'value'=>'$data->aRTICULO->NOMBRE'),
                     'FECHA_REQUERIDA',
@@ -515,7 +515,7 @@ $(document).ready(function(){
 	</div>
         <div class="modal-footer">
         <?php $this->widget('bootstrap.widgets.BootButton', array(
-                'label'=>'Cargar Lineas',
+                'label'=>'Cargar Líneas',
                 'url'=>'#',
                 'htmlOptions'=>array('data-dismiss'=>'modal', 'onclick' => 'cargaSolicitud()'),
             )); ?>

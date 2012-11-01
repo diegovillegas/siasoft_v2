@@ -29,7 +29,7 @@ $('.search-form form').submit(function(){
 <?php 
 
 $this->widget('bootstrap.widgets.BootButton', array(
-    'label'=>'Busqueda Avanzada',
+    'label'=>'Búsqueda Avanzada',
     'size'=>'mini', // '', 'large', 'small' or 'mini'
 	'url' => '#myModal',
         'htmlOptions'=>array('data-toggle'=>'modal'),
@@ -114,7 +114,7 @@ $this->widget('bootstrap.widgets.BootButton', array(
  
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h3>Busqueda Avanzada</h3>
+    <h3>Búsqueda Avanzada</h3>
     
 </div>
 

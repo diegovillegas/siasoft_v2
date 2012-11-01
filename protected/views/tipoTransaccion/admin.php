@@ -39,7 +39,7 @@ $this->breadcrumbs=array(
 		'NOMBRE',
                  array(
                      'name'=>'TRANSACCION_BASE',
-                     'header'=>'Transaccion Base',
+                     'header'=>'Transacción Base',
                      'value'=>'$data->tRANSACCIONBASE->NOMBRE',
                      'filter'=>CHtml::listData(TipoTransaccion::model()->findAll(),'TIPO_TRANSACCION' ,'NOMBRE' ),
                      
@@ -47,7 +47,7 @@ $this->breadcrumbs=array(
                  ),
                  array(
                      'name'=>'TRANSACCION_FIJA',
-                     'header'=>'Transaccion Fija',
+                     'header'=>'Transacción Fija',
                      'value'=>'($data->TRANSACCION_FIJA == \'S\') ? \'Si\' :\'No\'',
                      'htmlOptions'=>array('style'=>'width: 50px;'),
                      'filter'=>array('S'=>'Si','N'=>'No'),

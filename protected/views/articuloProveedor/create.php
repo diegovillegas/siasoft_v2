@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Articulo Proveedores'=>array('index'),
+	'Artículo Proveedores'=>array('index'),
 	'Crear',
 );
 
@@ -12,7 +12,7 @@ $('.search-button').click(function(){
 
 ?>
 
-<h1>Crear Articulo Proveedor</h1>
+<h1>Crear Artículo Proveedor</h1>
 
 <br>
     <div align="right">

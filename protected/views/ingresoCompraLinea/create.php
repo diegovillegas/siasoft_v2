@@ -3,7 +3,7 @@
 /* @var $model IngresoCompraLinea */
 
 $this->breadcrumbs=array(
-	'Ingreso Compra Lineas'=>array('index'),
+	'Ingreso Compra Líneas'=>array('index'),
 	'Create',
 );
 

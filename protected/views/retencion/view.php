@@ -6,15 +6,15 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Listar Retencion', 'url'=>array('index')),
-	array('label'=>'Crear Retencion', 'url'=>array('create')),
-	array('label'=>'Actualizar Retencion', 'url'=>array('update', 'id'=>$model->ID)),
-	array('label'=>'Eliminar Retencion', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Esta seguro que desea eliminar?')),
-	array('label'=>'Administrar Retencion', 'url'=>array('admin')),
+	array('label'=>'Listar Retención', 'url'=>array('index')),
+	array('label'=>'Crear Retención', 'url'=>array('create')),
+	array('label'=>'Actualizar Retención', 'url'=>array('update', 'id'=>$model->ID)),
+	array('label'=>'Eliminar Retención', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Esta seguro que desea eliminar?')),
+	array('label'=>'Administrar Retención', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Ver Retencion #<?php echo $model->ID; ?></h1>
+<h1>Ver Retención #<?php echo $model->ID; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

@@ -39,8 +39,8 @@
         <td colspan="2">
             <table cellpadding="10" border="1" bordercolor="#000000" style="border-collapse:collapse;" align="center">
                 <tr>
-                    <th>Articulo</th>
-                    <th>Nombre Articulo</th>
+                    <th>Artículo</th>
+                    <th>Nombre Artículo</th>
                     <th>Unidad</th>
                     <th>Cantidad Ordenada</th>
                     <th>Precio Unitario</th>

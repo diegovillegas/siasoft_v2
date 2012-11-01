@@ -96,7 +96,7 @@ class TransaccionInv extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'TRANSACCION_INV' => 'Transaccion Inv',
+			'TRANSACCION_INV' => 'Transacción Inv',
 			'CONSECUTIVO_CI' => 'Consecutivo Ci',
 			'CONSECUTIVO_CO' => 'Consecutivo Co',
 			'CONSECUTIVO_FA' => 'Consecutivo Fa',

@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Inventario'=>array('admin'),
-	'Valores - Clasificaciones'=>array('admin'),
+	'Valores - Clasificaciónes'=>array('admin'),
 	$model2->ID=>array('view','id'=>$model2->ID),
 	'Actualizar',
 );

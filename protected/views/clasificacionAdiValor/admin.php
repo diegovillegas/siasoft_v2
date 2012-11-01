@@ -1,11 +1,11 @@
 <?php
 $this->breadcrumbs=array(
 	'Inventario'=>array('admin'),
-	'Valores - Clasificaciones',
+	'Valores - Clasificaciónes',
 );
 
 ?>
-<h1>Valores - Clasificaciones</h1>
+<h1>Valores - Clasificaciónes</h1>
 <br>
 <div align="right">
 
@@ -32,7 +32,7 @@ $this->breadcrumbs=array(
 		'columns'=>array(
 			array(
 				'name'=>'CLASIFICACION',
-				'header'=>'Clasificacion',
+				'header'=>'Clasificación',
 				'value'=>'$data->cLASIFICACION->NOMBRE',
 			),
                         'VALOR',

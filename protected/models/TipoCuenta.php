@@ -73,7 +73,7 @@ class TipoCuenta extends CActiveRecord
 	{
 		return array(
 			'TIPO_CUENTA' => 'Tipo Cuenta',
-			'DESCRIPCION' => 'Descripcion',
+			'DESCRIPCION' => 'Descripción',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Articulo Proveedores'=>array('admin'),
+	'Artículo Proveedores'=>array('admin'),
 	$model->ID=>array('view','id'=>$model->ID),
 	'Actualizar',
 );

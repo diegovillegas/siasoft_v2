@@ -33,7 +33,7 @@
 		'ISO_CODE' => 'Código Iso',
 		
 		// Traduccion busquedas
-		'ADVANCED_SEARCH' => 'Busqueda Avanzada',
+		'ADVANCED_SEARCH' => 'Búsqueda Avanzada',
 		'SEARCH' =>'Buscar',
 		
 		// Traduccion de vista admin

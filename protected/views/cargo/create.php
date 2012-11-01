@@ -2,6 +2,8 @@
 /* @var $this CargoController */
 /* @var $model Cargo */
 
+$this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Cargo";
+
 $this->breadcrumbs = array(
     'Recursos Humanos' => array('admin'),
     'Cargo' => array('admin'),
@@ -9,6 +11,6 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<h1>Crear Cargo</h1>
+<h1><?php echo Yii::t('app','CREATE')?> Cargo</h1>
 
 <?php echo $this->renderPartial('_form', array('model' => $model)); ?>

@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Solicitud Oc Lineas'=>array('index'),
+	'Solicitud Oc Líneas'=>array('index'),
 	$model->SOLICITUD_OC_LINEA=>array('view','id'=>$model->SOLICITUD_OC_LINEA),
 	'Actualizar',
 );

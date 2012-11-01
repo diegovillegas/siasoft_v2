@@ -659,7 +659,7 @@ class DocumentoInvController extends SBaseController
             
                 $transaccionInv->CONSECUTIVO_CI = $documento->DOCUMENTO_INV;
                 $transaccionInv->MODULO_ORIGEN = 'CI';
-                $transaccionInv->REFERENCIA = 'Transaccion generada por Documento de Inventario';
+                $transaccionInv->REFERENCIA = 'Transacción generada por Documento de Inventario';
                 $transaccionInv->ACTIVO = 'S';
                 
                 if($transaccionInv->save()){

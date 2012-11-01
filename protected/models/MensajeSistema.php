@@ -68,7 +68,7 @@ class MensajeSistema extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'CODIGO' => 'Codigo',
+			'CODIGO' => 'Código',
 			'TIPO' => 'Tipo',
 			'MENSAJE' => 'Mensaje',
 			'ACTIVO' => 'Activo',

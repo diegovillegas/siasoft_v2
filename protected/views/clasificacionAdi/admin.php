@@ -1,11 +1,11 @@
 <?php
 $this->breadcrumbs=array(
 	'Inventario'=>array('admin'),
-	'Clasificaciones'
+	'Clasificaciónes'
 );
 
 ?>
-<h1>Clasificaciones</h1>
+<h1>Clasificaciónes</h1>
 <br>
 <div align="right">
 <?php 

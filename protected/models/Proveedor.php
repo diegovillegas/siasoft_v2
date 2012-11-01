@@ -113,7 +113,7 @@ class Proveedor extends CActiveRecord
 			'NIT' => 'Nit',
 			'CONDICION_PAGO' => 'Condicion Pago',
 			'ACTIVO' => 'Activo',
-			'ORDEN_MINIMA' => 'Orden Minima',
+			'ORDEN_MINIMA' => 'Orden Mínima',
 			'DESCUENTO' => 'Descuento',
 			'TASA_INTERES_MORA' => 'Tasa Interes Mora',
 			'NOTAS' => 'Notas',

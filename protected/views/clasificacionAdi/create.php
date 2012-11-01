@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Inventario'=>array('admin'),
-	'Clasificaciones'=>array('admin'),
+	'Clasificaciónes'=>array('admin'),
 	'Crear',
 );
 

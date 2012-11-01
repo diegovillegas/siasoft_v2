@@ -79,7 +79,7 @@ class Horario extends CActiveRecord
 	{
 		return array(
 			'HORARIO' => 'Horario',
-			'DESCRIPCION' => 'Descripcion',
+			'DESCRIPCION' => 'Descripción',
 			'TOLERA_ENTRADA' => 'Entrada',
 			'TOLERA_SALIDA' => 'Salida',
 			'REDONDEO_ENTRADA' => 'Entrada',

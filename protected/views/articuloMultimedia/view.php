@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Articulo Multimedias'=>array('admin'),
+	'Artículo Multimedias'=>array('admin'),
 	$model->ID,
 );
 

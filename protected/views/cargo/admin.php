@@ -2,14 +2,16 @@
 /* @var $this CargoController */
 /* @var $model Cargo */
 
+$this->pageTitle=Yii::app()->name." - Cargos";
+
 $this->breadcrumbs = array(
     'Recursos Humanos' => array('admin'),
     'Cargos',
 );
 
 $this->menu = array(
-    array('label' => 'Listar Cargo', 'url' => array('index')),
-    array('label' => 'Crear Cargo', 'url' => array('create')),
+    array('label' => Yii::t('app','LIST').' Cargo', 'url' => array('index')),
+    array('label' => Yii::t('app','CREATE').' Cargo', 'url' => array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

@@ -3,7 +3,7 @@
 /* @var $model IngresoCompraLinea */
 
 $this->breadcrumbs=array(
-	'Ingreso Compra Lineas'=>array('index'),
+	'Ingreso Compra Líneas'=>array('index'),
 	'Manage',
 );
 
@@ -26,7 +26,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Ingreso Compra Lineas</h1>
+<h1>Manage Ingreso Compra Líneas</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>

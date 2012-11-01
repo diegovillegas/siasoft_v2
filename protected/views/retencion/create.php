@@ -4,6 +4,6 @@ $this->breadcrumbs=array(
 	"Retenciones");
 ?>
 
-<h1>Crear Retencion</h1>
+<h1>Crear Retención</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
