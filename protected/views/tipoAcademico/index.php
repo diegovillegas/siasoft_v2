@@ -8,8 +8,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create TipoAcademico', 'url'=>array('create')),
-	array('label'=>'Manage TipoAcademico', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' TipoAcademico', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' TipoAcademico', 'url'=>array('admin')),
 );
 ?>
 

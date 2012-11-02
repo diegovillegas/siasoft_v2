@@ -1,10 +1,11 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Estados de Empleado";?>
 <?php
 /* @var $this EstadoEmpleadoController */
 /* @var $model EstadoEmpleado */
 
 $this->breadcrumbs=array(
     'Recursos Humanos' => array('admin'),
-	'Estado Empleados'=>array('admin'),
+	'Estados de Empleado'=>array('admin'),
 	'Nuevo',
 );
 

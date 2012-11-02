@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Tipos de Contrato";?>
 <?php
 /* @var $this TipoContratoController */
 /* @var $model TipoContrato */
@@ -9,11 +10,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoContrato', 'url'=>array('index')),
-	array('label'=>'Create TipoContrato', 'url'=>array('create')),
-	array('label'=>'Update TipoContrato', 'url'=>array('update', 'id'=>$model->TIPO_CONTRATO)),
-	array('label'=>'Delete TipoContrato', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->TIPO_CONTRATO),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage TipoContrato', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' TipoContrato', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoContrato', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' TipoContrato', 'url'=>array('update', 'id'=>$model->TIPO_CONTRATO)),
+	array('label'=>Yii::t('app','DELETE').' TipoContrato', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->TIPO_CONTRATO),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' TipoContrato', 'url'=>array('admin')),
 );
 ?>
 

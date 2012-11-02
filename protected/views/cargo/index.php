@@ -8,8 +8,8 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'Create Cargo', 'url' => array('create')),
-    array('label' => 'Manage Cargo', 'url' => array('admin')),
+    array('label' => Yii::t('app','CREATE').' Cargo', 'url' => array('create')),
+    array('label' => Yii::t('app','MANAGE').' Cargo', 'url' => array('admin')),
 );
 ?>
 

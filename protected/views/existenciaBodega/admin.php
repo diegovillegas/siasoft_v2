@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - Existencias en Bodegas";?>
 <?php
 $this->breadcrumbs=array(
-	'Existencia Bodegas'=>array('index'),
+	'Existencias en Bodegas'=>array('admin'),
 	'Administrar',
 );
 

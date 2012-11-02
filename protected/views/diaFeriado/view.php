@@ -5,11 +5,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List DiaFeriado', 'url'=>array('index')),
-	array('label'=>'Create DiaFeriado', 'url'=>array('create')),
-	array('label'=>'Update DiaFeriado', 'url'=>array('update', 'id'=>$model->ID)),
-	array('label'=>'Delete DiaFeriado', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage DiaFeriado', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' DiaFeriado', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' DiaFeriado', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' DiaFeriado', 'url'=>array('update', 'id'=>$model->ID)),
+	array('label'=>Yii::t('app','DELETE').' DiaFeriado', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' DiaFeriado', 'url'=>array('admin')),
 );
 ?>
 

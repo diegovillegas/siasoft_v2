@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Estados de Empleado";?>
 <?php
 /* @var $this EstadoEmpleadoController */
 /* @var $model EstadoEmpleado */
@@ -9,11 +10,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List EstadoEmpleado', 'url'=>array('index')),
-	array('label'=>'Create EstadoEmpleado', 'url'=>array('create')),
-	array('label'=>'Update EstadoEmpleado', 'url'=>array('update', 'id'=>$model->ESTADO_EMPLEADO)),
-	array('label'=>'Delete EstadoEmpleado', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ESTADO_EMPLEADO),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage EstadoEmpleado', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' EstadoEmpleado', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' EstadoEmpleado', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' EstadoEmpleado', 'url'=>array('update', 'id'=>$model->ESTADO_EMPLEADO)),
+	array('label'=>Yii::t('app','DELETE').' EstadoEmpleado', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ESTADO_EMPLEADO),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' EstadoEmpleado', 'url'=>array('admin')),
 );
 ?>
 

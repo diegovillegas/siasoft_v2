@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Estados de Empleado";?>
 <?php
 /* @var $this EstadoEmpleadoController */
 /* @var $model EstadoEmpleado */

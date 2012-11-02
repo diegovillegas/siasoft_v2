@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Tipos de Accidentes";?>
 <?php
 /* @var $this TipoAccidenteController */
 /* @var $model TipoAccidente */
@@ -9,11 +10,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoAccidente', 'url'=>array('index')),
-	array('label'=>'Create TipoAccidente', 'url'=>array('create')),
-	array('label'=>'Update TipoAccidente', 'url'=>array('update', 'id'=>$model->TIPO_ACCIDENTE)),
-	array('label'=>'Delete TipoAccidente', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->TIPO_ACCIDENTE),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage TipoAccidente', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' TipoAccidente', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoAccidente', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' TipoAccidente', 'url'=>array('update', 'id'=>$model->TIPO_ACCIDENTE)),
+	array('label'=>Yii::t('app','DELETE').' TipoAccidente', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->TIPO_ACCIDENTE),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' TipoAccidente', 'url'=>array('admin')),
 );
 ?>
 

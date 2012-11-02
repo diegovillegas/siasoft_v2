@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Horarios";?>
 <?php
 /* @var $this HorarioController */
 /* @var $model Horario */

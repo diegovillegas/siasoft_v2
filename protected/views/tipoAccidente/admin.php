@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Tipos de Accidentes";?>
 <?php
 /* @var $this TipoAccidenteController */
 /* @var $model TipoAccidente */
@@ -8,8 +9,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoAccidente', 'url'=>array('index')),
-	array('label'=>'Create TipoAccidente', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' TipoAccidente', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoAccidente', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

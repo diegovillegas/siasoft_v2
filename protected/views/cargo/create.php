@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Cargo";?>
 <?php
 /* @var $this CargoController */
 /* @var $model Cargo */

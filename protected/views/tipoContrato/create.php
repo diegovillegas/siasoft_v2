@@ -9,8 +9,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoContrato', 'url'=>array('index')),
-	array('label'=>'Manage TipoContrato', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' TipoContrato', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' TipoContrato', 'url'=>array('admin')),
 );
 ?>
 

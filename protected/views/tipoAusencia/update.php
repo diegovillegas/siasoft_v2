@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','UPDATE')." Tipos de Ausencias";?>
 <?php
 /* @var $this TipoAusenciaController */
 /* @var $model TipoAusencia */
@@ -10,10 +11,10 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoAusencia', 'url'=>array('index')),
-	array('label'=>'Create TipoAusencia', 'url'=>array('create')),
-	array('label'=>'View TipoAusencia', 'url'=>array('view', 'id'=>$model2->TIPO_AUSENCIA)),
-	array('label'=>'Manage TipoAusencia', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' TipoAusencia', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoAusencia', 'url'=>array('create')),
+	array('label'=>Yii::t('app','VIEW').' TipoAusencia', 'url'=>array('view', 'id'=>$model2->TIPO_AUSENCIA)),
+	array('label'=>Yii::t('app','MANAGE').' TipoAusencia', 'url'=>array('admin')),
 );
 ?>
 

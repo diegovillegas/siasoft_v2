@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Dia', 'url'=>array('create')),
-	array('label'=>'Manage Dia', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' Dia', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' Dia', 'url'=>array('admin')),
 );
 ?>
 

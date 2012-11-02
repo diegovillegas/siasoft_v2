@@ -6,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List EntidadFinanciera', 'url'=>array('index')),
-	array('label'=>'Create EntidadFinanciera', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' EntidadFinanciera', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' EntidadFinanciera', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

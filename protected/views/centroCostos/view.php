@@ -5,11 +5,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List CentroCostos', 'url'=>array('index')),
-	array('label'=>'Create CentroCostos', 'url'=>array('create')),
-	array('label'=>'Update CentroCostos', 'url'=>array('update', 'id'=>$model->ID)),
-	array('label'=>'Delete CentroCostos', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage CentroCostos', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' CentroCostos', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' CentroCostos', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' CentroCostos', 'url'=>array('update', 'id'=>$model->ID)),
+	array('label'=>Yii::t('app','DELETE').' CentroCostos', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' CentroCostos', 'url'=>array('admin')),
 );
 ?>
 

@@ -6,11 +6,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List CodicionPago', 'url'=>array('index')),
-	array('label'=>'Create CodicionPago', 'url'=>array('create')),
-	array('label'=>'Update CodicionPago', 'url'=>array('update', 'id'=>$model->ID)),
-	array('label'=>'Delete CodicionPago', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage CodicionPago', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' CodicionPago', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' CodicionPago', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' CodicionPago', 'url'=>array('update', 'id'=>$model->ID)),
+	array('label'=>Yii::t('app','DELETE').' CodicionPago', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' CodicionPago', 'url'=>array('admin')),
 );
 ?>
 

@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Tipos de Contrato";?>
 <?php
 /* @var $this TipoContratoController */
 /* @var $model TipoContrato */
@@ -8,8 +9,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoContrato', 'url'=>array('index')),
-	array('label'=>'Create TipoContrato', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' TipoContrato', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoContrato', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

@@ -6,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List CodicionPago', 'url'=>array('index')),
-	array('label'=>'Create CodicionPago', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' CodicionPago', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' CodicionPago', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

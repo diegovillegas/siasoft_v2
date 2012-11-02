@@ -6,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoDocumento', 'url'=>array('index')),
-	array('label'=>'Create TipoDocumento', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' TipoDocumento', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoDocumento', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

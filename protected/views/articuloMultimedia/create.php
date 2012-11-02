@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Artículo Multimedias";?>
 <?php
 $this->breadcrumbs=array(
 	'Artículo Multimedias'=>array('index'),

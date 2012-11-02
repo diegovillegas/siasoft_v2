@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Clasificaciónes";?>
 <?php
 $this->breadcrumbs=array(
 	'Inventario'=>array('admin'),

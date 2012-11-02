@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Artículo Multimedias";?>
 <?php
 $this->breadcrumbs=array(
 	'Artículo Multimedias',

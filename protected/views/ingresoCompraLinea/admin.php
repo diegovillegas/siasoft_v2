@@ -4,12 +4,12 @@
 
 $this->breadcrumbs=array(
 	'Ingreso Compra Líneas'=>array('index'),
-	'Manage',
+	Yii::t('app','MANAGE').'',
 );
 
 $this->menu=array(
-	array('label'=>'List IngresoCompraLinea', 'url'=>array('index')),
-	array('label'=>'Create IngresoCompraLinea', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' IngresoCompraLinea', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' IngresoCompraLinea', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

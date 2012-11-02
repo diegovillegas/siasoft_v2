@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Bodega', 'url'=>array('index')),
-	array('label'=>'Create Bodega', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' Bodega', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Bodega', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

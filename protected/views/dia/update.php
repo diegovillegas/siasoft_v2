@@ -9,10 +9,10 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Dia', 'url'=>array('index')),
-	array('label'=>'Create Dia', 'url'=>array('create')),
-	array('label'=>'View Dia', 'url'=>array('view', 'id'=>$model->DIA)),
-	array('label'=>'Manage Dia', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Dia', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Dia', 'url'=>array('create')),
+	array('label'=>Yii::t('app','VIEW').' Dia', 'url'=>array('view', 'id'=>$model->DIA)),
+	array('label'=>Yii::t('app','MANAGE').' Dia', 'url'=>array('admin')),
 );
 ?>
 

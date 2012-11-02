@@ -1,12 +1,13 @@
+<?php $this->pageTitle=Yii::app()->name." - Configuración de Compras";?>
 <?php
 $this->breadcrumbs=array(
-	'Configuracion de Compras'=>array('index'),
+	'Configuración de Compras'=>array('index'),
 	'Administracion',
 );
 
 $this->menu=array(
-	array('label'=>'List ConfCo', 'url'=>array('index')),
-	array('label'=>'Create ConfCo', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' ConfCo', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' ConfCo', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -23,7 +24,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Configuracion de Compras</h1>
+<h1>Configuración de Compras</h1>
 
 <div align = "right">
 <?php 

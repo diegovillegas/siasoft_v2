@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - Tipos de Cuentas";?>
 <?php
 $this->breadcrumbs=array(
-	'Tipo Cuentas'=>array('index'),
+	'Tipos de Cuentas'=>array('admin'),
 	'Administrar',
 );
 
@@ -23,7 +24,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Administrar Tipo Cuentas</h1>
+<h1>Administrar Tipos de Cuentas</h1>
 
 <p>
 Si lo desea, puede entrar en un operador de comparacion (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>

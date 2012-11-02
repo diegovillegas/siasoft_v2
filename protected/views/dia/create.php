@@ -4,12 +4,12 @@
 
 $this->breadcrumbs=array(
 	'Dias'=>array('index'),
-	'Create',
+	Yii::t('app','CREATE').'',
 );
 
 $this->menu=array(
-	array('label'=>'List Dia', 'url'=>array('index')),
-	array('label'=>'Manage Dia', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Dia', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' Dia', 'url'=>array('admin')),
 );
 ?>
 

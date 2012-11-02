@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Horarios";?>
 <?php
 /* @var $this HorarioController */
 /* @var $model Horario */
@@ -9,8 +10,8 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'List Horario', 'url' => array('index')),
-    array('label' => 'Manage Horario', 'url' => array('admin')),
+    array('label' => Yii::t('app','LIST').' Horario', 'url' => array('index')),
+    array('label' => Yii::t('app','MANAGE').' Horario', 'url' => array('admin')),
 );
 ?>
 

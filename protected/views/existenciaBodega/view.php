@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Existencias en Bodegas";?>
 <?php
 $this->breadcrumbs=array(
-	'Existencia Bodegas'=>array('index'),
+	'Existencias en Bodegas'=>array('index'),
 	$model->ID,
 );
 
@@ -13,7 +14,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Ver ExistenciaBodega #<?php echo $model->ID; ?></h1>
+<h1>Ver Existencias en Bodegas #<?php echo $model->ID; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

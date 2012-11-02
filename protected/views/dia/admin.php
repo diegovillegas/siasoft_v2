@@ -1,15 +1,16 @@
+<?php $this->pageTitle=Yii::app()->name." - Días";?>
 <?php
 /* @var $this DiaController */
 /* @var $model Dia */
 
 $this->breadcrumbs=array(
-	'Dias'=>array('index'),
-	'Manage',
+	'Días'=>array('index'),
+	Yii::t('app','MANAGE').'',
 );
 
 $this->menu=array(
-	array('label'=>'List Dia', 'url'=>array('index')),
-	array('label'=>'Create Dia', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' Dia', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Dia', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -26,7 +27,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Dias</h1>
+<h1>Manage Días</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>

@@ -41,7 +41,9 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Administrar Solicitudes</h1>
+<?php $this->pageTitle=Yii::app()->name." - Solicitudes";?>
+
+<h1>Solicitudes</h1>
 <br />
 <div id="mensaje"></div>
 <div align="right">

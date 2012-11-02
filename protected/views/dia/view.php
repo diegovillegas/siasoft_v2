@@ -8,11 +8,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Dia', 'url'=>array('index')),
-	array('label'=>'Create Dia', 'url'=>array('create')),
-	array('label'=>'Update Dia', 'url'=>array('update', 'id'=>$model->DIA)),
-	array('label'=>'Delete Dia', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->DIA),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Dia', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Dia', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Dia', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' Dia', 'url'=>array('update', 'id'=>$model->DIA)),
+	array('label'=>Yii::t('app','DELETE').' Dia', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->DIA),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' Dia', 'url'=>array('admin')),
 );
 ?>
 

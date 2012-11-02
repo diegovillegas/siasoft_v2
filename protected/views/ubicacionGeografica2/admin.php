@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List UbicacionGeografica2', 'url'=>array('index')),
-	array('label'=>'Create UbicacionGeografica2', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' UbicacionGeografica2', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' UbicacionGeografica2', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

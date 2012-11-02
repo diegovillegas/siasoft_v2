@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - Solicitud Orden Compra";?>
 <?php
 $this->breadcrumbs=array(
-	'Solicitud Orden Cos'=>array('index'),
+	'Solicitud Orden Compra'=>array('admin'),
 	'Administrar',
 );
 
@@ -23,7 +24,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Administrar Solicitud Orden Cos</h1>
+<h1>Administrar Solicitud Orden Compra</h1>
 
 <p>
 Si lo desea, puede entrar en un operador de comparacion (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>

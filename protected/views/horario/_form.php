@@ -119,7 +119,7 @@ Yii::import('ext.chosen.Chosen');
                 . CHtml::activeHiddenField($model, 'ACTIVO', array('value' => 'S'))
                 , 'active' => true
             ),
-            array('label' => 'Configuracion', 'content' =>
+            array('label' => 'Configuración', 'content' =>
                 $this->renderPartial('/horario/concepto', array('model' => $model, 'tablaConceptos' => $model->isNewRecord ? '' : $tablaConceptos), true)
             ),
             )));

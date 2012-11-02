@@ -6,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Zona', 'url'=>array('index')),
-	array('label'=>'Create Zona', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' Zona', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Zona', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

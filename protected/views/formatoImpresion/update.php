@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','UPDATE')." Formato Impresion";?>
 <?php
 $this->breadcrumbs=array(
-	'Formato Impresions'=>array('index'),
+	'Formato Impresion'=>array('admin'),
 	$model->ID=>array('view','id'=>$model->ID),
 	'Actualizar',
 );

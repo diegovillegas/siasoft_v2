@@ -6,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List NivelPrecio', 'url'=>array('index')),
-	array('label'=>'Create NivelPrecio', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' NivelPrecio', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' NivelPrecio', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

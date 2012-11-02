@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Tipos de Ausencias";?>
 <?php
 /* @var $this TipoAusenciaController */
 /* @var $model TipoAusencia */
@@ -9,11 +10,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoAusencia', 'url'=>array('index')),
-	array('label'=>'Create TipoAusencia', 'url'=>array('create')),
-	array('label'=>'Update TipoAusencia', 'url'=>array('update', 'id'=>$model->TIPO_AUSENCIA)),
-	array('label'=>'Delete TipoAusencia', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->TIPO_AUSENCIA),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage TipoAusencia', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' TipoAusencia', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoAusencia', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' TipoAusencia', 'url'=>array('update', 'id'=>$model->TIPO_AUSENCIA)),
+	array('label'=>Yii::t('app','DELETE').' TipoAusencia', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->TIPO_AUSENCIA),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' TipoAusencia', 'url'=>array('admin')),
 );
 ?>
 

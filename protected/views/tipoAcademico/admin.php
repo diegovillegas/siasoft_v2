@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Tipos de Academicos";?>
 <?php
 /* @var $this TipoAcademicoController */
 /* @var $model TipoAcademico */
@@ -8,8 +9,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoAcademico', 'url'=>array('index')),
-	array('label'=>'Create TipoAcademico', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' TipoAcademico', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoAcademico', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

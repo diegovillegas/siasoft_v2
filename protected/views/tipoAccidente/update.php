@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','UPDATE')." Tipos de Accidentes";?>
 <?php
 /* @var $this TipoAccidenteController */
 /* @var $model TipoAccidente */
@@ -10,10 +11,10 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoAccidente', 'url'=>array('index')),
-	array('label'=>'Create TipoAccidente', 'url'=>array('create')),
-	array('label'=>'View TipoAccidente', 'url'=>array('view', 'id'=>$model2->TIPO_ACCIDENTE)),
-	array('label'=>'Manage TipoAccidente', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' TipoAccidente', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoAccidente', 'url'=>array('create')),
+	array('label'=>Yii::t('app','VIEW').' TipoAccidente', 'url'=>array('view', 'id'=>$model2->TIPO_ACCIDENTE)),
+	array('label'=>Yii::t('app','MANAGE').' TipoAccidente', 'url'=>array('admin')),
 );
 ?>
 

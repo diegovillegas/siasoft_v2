@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Artículos";?>
 <?php
 if(!ConfCi::darConf())
      $this->redirect(array('/confCi/create'));

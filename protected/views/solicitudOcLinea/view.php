@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Solicitud Oc Líneas'=>array('index'),
+	'Solicitud Oc Líneas'=>array('admin'),
 	$model->SOLICITUD_OC_LINEA,
 );
 

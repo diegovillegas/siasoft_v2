@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Tipos de Ausencias";?>
 <?php
 /* @var $this TipoAusenciaController */
 /* @var $model TipoAusencia */
@@ -8,8 +9,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoAusencia', 'url'=>array('index')),
-	array('label'=>'Create TipoAusencia', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' TipoAusencia', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoAusencia', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

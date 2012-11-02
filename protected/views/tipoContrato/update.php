@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','UPDATE')." Tipos de Contrato";?>
 <?php
 /* @var $this TipoContratoController */
 /* @var $model TipoContrato */
@@ -10,10 +11,10 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoContrato', 'url'=>array('index')),
-	array('label'=>'Create TipoContrato', 'url'=>array('create')),
-	array('label'=>'View TipoContrato', 'url'=>array('view', 'id'=>$model2->TIPO_CONTRATO)),
-	array('label'=>'Manage TipoContrato', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' TipoContrato', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoContrato', 'url'=>array('create')),
+	array('label'=>Yii::t('app','VIEW').' TipoContrato', 'url'=>array('view', 'id'=>$model2->TIPO_CONTRATO)),
+	array('label'=>Yii::t('app','MANAGE').' TipoContrato', 'url'=>array('admin')),
 );
 ?>
 

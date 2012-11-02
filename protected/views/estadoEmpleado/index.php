@@ -8,8 +8,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create EstadoEmpleado', 'url'=>array('create')),
-	array('label'=>'Manage EstadoEmpleado', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' EstadoEmpleado', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' EstadoEmpleado', 'url'=>array('admin')),
 );
 ?>
 

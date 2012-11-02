@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - Formato Impresion";?>
 <?php
 $this->breadcrumbs=array(
-	'Formato Impresions'=>array('index'),
+	'Formato Impresion'=>array('admin'),
 	'Administrar',
 );
 

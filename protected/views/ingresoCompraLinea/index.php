@@ -7,8 +7,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create IngresoCompraLinea', 'url'=>array('create')),
-	array('label'=>'Manage IngresoCompraLinea', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' IngresoCompraLinea', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' IngresoCompraLinea', 'url'=>array('admin')),
 );
 ?>
 

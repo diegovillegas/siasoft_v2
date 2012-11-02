@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Artículo Proveedors";?>
 <?php
 $this->breadcrumbs=array(
 	'Artículo Proveedors'=>array('index'),

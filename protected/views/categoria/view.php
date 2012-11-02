@@ -7,11 +7,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Categoria', 'url'=>array('index')),
-	array('label'=>'Create Categoria', 'url'=>array('create')),
-	array('label'=>'Update Categoria', 'url'=>array('update', 'id'=>$model->ID)),
-	array('label'=>'Delete Categoria', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Categoria', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Categoria', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Categoria', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' Categoria', 'url'=>array('update', 'id'=>$model->ID)),
+	array('label'=>Yii::t('app','DELETE').' Categoria', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' Categoria', 'url'=>array('admin')),
 );
 ?>
 
