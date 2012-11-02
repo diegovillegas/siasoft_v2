@@ -10,7 +10,7 @@
     }
     
     function obtenerSeleccion(){
-        var idcategoria = $.fn.yiiGridView.getSelection('articulo-ensamble-grid');
+        var idcategoria = $.fn.yiiGridView.getSelection('articulo-precio-grid');
         $('#check').val(idcategoria);
     }
 </script>

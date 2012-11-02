@@ -62,18 +62,24 @@ class ArticuloPrecioController extends Controller
                 $consulta = ArticuloPrecio::model()->findAll('ACTIVO = "S" AND ARTICULO = "'.$id.'"');
                 if(!$consulta){
                     echo '<div id="alert" class="alert alert-warning" data-dismiss="modal">
-                            <h2 align="center">Este articulo no tiene componentes asociados</h2>
+                            <h2 align="center">Aun no se han definido los precios para este articulo.</h2>
                             </div>';
                 }
                 else{
                     echo '<table align="center" class="table table-bordered" >
                         <tr>
                             <td><b>Articulo</b></td>
-                            <td><b>Cantidad</b></td>
+                            <td><b>Nivel precio</b></td>
+                            <td><b>Precio</b></td>
+                            <td><b>Esquema de trabajo</b></td>
+                            <td><b>Margen/Multiplicador</b></td>
                         </tr>';
                     foreach($consulta as $con){                    
-                        echo '<tr><td>'.$con->aRTICULOHIJO->NOMBRE.'</td>';
-                        echo '<td>'.$con->CANTIDAD.'</td></tr>';
+                        echo '<tr><td>'.$con->aRTICULO->NOMBRE.'</td>';
+                        echo '<td>'.$con->NIVEL_PRECIO.'</td>';
+                        echo '<td>'.$con->PRECIO.'</td>';
+                        echo '<td>'.$con->ESQUEMA_TRABAJO.'</td>';
+                        echo '<td>'.$con->MARGEN_MULTIPLICADOR.'</td></tr>';
                     }
                     echo '</table>';
                 }
