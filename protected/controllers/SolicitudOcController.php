@@ -116,6 +116,7 @@ class SolicitudOcController extends SBaseController
             $mPDF1 = Yii::app()->ePdf->mpdf();
             $mPDF1->WriteHTML($this->renderPartial('pdf', array('solicitud' => $solicitud, 'lineas' => $lineas, 'compania' => $compania, 'conf'=>$conf), true));
             $mPDF1->Output();
+            //$this->render('pdf', array('solicitud' => $solicitud, 'lineas' => $lineas, 'compania' => $compania, 'conf'=>$conf));
             Yii::app()->end();
         }
                 
@@ -357,7 +358,7 @@ class SolicitudOcController extends SBaseController
                 $config = new ConfCo;
                 $linea2 = new SolicitudOcLinea2;
                 $i = 1;
-                            // retrieve items to be updated in a batch mode
+                // retrieve items to be updated in a batch mode
                 // assuming each item is of model class 'Item'
                 $items = $linea->model()->findAll('SOLICITUD_OC = "'.$id.'"');
 		// Uncomment the following line if AJAX validation is needed
