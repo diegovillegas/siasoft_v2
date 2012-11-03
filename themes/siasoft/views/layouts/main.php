@@ -95,6 +95,7 @@
                                                         array('label'=>'Dia feriado', 'url'=>array('/diaFeriado/admin')),
                                                         array('label'=>'Impuesto', 'url'=>array('/impuesto/admin')),
                                                         array('label'=>'Retencion', 'url'=>array('/retencion/admin')),
+                                                        array('label'=>'Regimen tributario', 'url'=>array('/regimenTributario/admin')),
 						),
 				),
 				array('label'=>'Usuarios', 'url'=>array('/usuarios/admin')),		
