@@ -19,11 +19,51 @@ $(document).ready(function(){
 )); ?>
         
         <?php echo $form->errorSummary($model2); ?>
-
+        
 	<?php echo $form->textFieldRow($model2,'ID',array('size'=>12,'maxlength'=>12, 'class'=>'espacio')); ?>
-	<?php echo $form->textAreaRow($model2,'DESCRIPCION'); ?>
-        <?php echo $form->dropDownListRow($model2, 'ESQUEMA_TRABAJO', array('NORM'=>'Normal','MULT'=>'Multiplicador', 'MARG' => 'Margen')); ?>
-		<?php echo $form->dropDownListRow($model2,'CONDICION_PAGO', CHtml::listData(CodicionPago::model()->findAll(),'ID','DESCRIPCION'),array('empty'=>'Seleccione...')); ?>
+            <tr>
+                <td>
+                    <?php echo $form->textFieldRow($model2,'ID',array('size'=>12,'maxlength'=>12)); ?>
+                </td>
+                <td>
+                    <?php $this->widget('bootstrap.widgets.BootButton', array(
+                        //'label'=>'Ayuda',
+                        'type'=>'succes',
+                        'icon'=>'info-sign',
+                        'size'=>'mini',
+                        'htmlOptions'=>array('data-title'=>'Ayuda', 'data-content'=>'Cadena de caracteres alfanumérico.', 'rel'=>'popover'),
+                    )); ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo $form->textAreaRow($model2,'DESCRIPCION'); ?>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo $form->dropDownListRow($model2, 'ESQUEMA_TRABAJO', array('NORM'=>'Normal','MULT'=>'Multiplicador', 'MARG' => 'Margen', 'MARK' => 'Markup')); ?>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <?php echo $form->dropDownListRow($model2,'CONDICION_PAGO', CHtml::listData(CodicionPago::model()->findAll(),'ID','DESCRIPCION'),array('empty'=>'Seleccione...')); ?>
+                </td>
+                <td>
+                    <?php $this->widget('bootstrap.widgets.BootButton', array(
+                        //'label'=>'Ayuda',
+                        'type'=>'succes',
+                        'icon'=>'info-sign',
+                        'size'=>'mini',
+                        'htmlOptions'=>array('data-title'=>'Ayuda', 'data-content'=>'En este campo, se debe seleccionar una condición de pago previamente creada en el submenú "Condición de pago".', 'rel'=>'popover'),
+                    )); ?>
+                </td>
+            </tr>
+        </table>
 	<div class="row">
 		<?php
 			echo CHtml::activeHiddenField($model2,'ACTIVO',array('value'=>'S'));
