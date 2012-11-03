@@ -97,7 +97,7 @@
                                     array('label' => 'Impuesto', 'url' => array('/impuesto/admin')),
                                     array('label' => 'Retención', 'url' => array('/retencion/admin')),
                                                         array('label'=>'Regimen Tributario', 'url'=>array('/regimenTributario/admin')),
-                            ),
+                            )),
                             array('label' => 'Recursos Humanos', 'url' => '#',
                                 'items' => array(
                                     array('label' => 'Cargo', 'url' => array('/cargo/admin')),
