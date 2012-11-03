@@ -69,7 +69,7 @@ class Categoria extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'DESCRIPCION' => 'Descripcion',
+			'DESCRIPCION' => 'Descripción',
 			'TIPO' => 'Tipo',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
@@ -94,6 +94,27 @@ class Categoria extends CActiveRecord
 		$criteria->compare('DESCRIPCION',$this->DESCRIPCION,true);
 		$criteria->compare('TIPO',$this->TIPO,true);
 		$criteria->compare('ACTIVO',$this->ACTIVO,true);
+		$criteria->compare('CREADO_POR',$this->CREADO_POR,true);
+		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
+		$criteria->compare('ACTUALIZADO_POR',$this->ACTUALIZADO_POR,true);
+		$criteria->compare('ACTUALIZADO_EL',$this->ACTUALIZADO_EL,true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+        
+	public function searchModal()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('ID',$this->ID);
+		$criteria->compare('DESCRIPCION',$this->DESCRIPCION,true);
+		$criteria->compare('TIPO',$this->TIPO,true);
+		$criteria->compare('ACTIVO','S');
 		$criteria->compare('CREADO_POR',$this->CREADO_POR,true);
 		$criteria->compare('CREADO_EL',$this->CREADO_EL,true);
 		$criteria->compare('ACTUALIZADO_POR',$this->ACTUALIZADO_POR,true);

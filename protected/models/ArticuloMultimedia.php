@@ -99,11 +99,11 @@ class ArticuloMultimedia extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'ARTICULO' => 'Articulo',
+			'ARTICULO' => 'Artículo',
 			'TIPO' => 'Tipo',
 			'UBICACION' => 'Ubicacion',
 			'NOMBRE' => 'Nombre',
-			'DESCRIPCION' => 'Descripcion',
+			'DESCRIPCION' => 'Descripción',
 			'ORDEN' => 'Orden',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',

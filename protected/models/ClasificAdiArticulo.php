@@ -75,7 +75,7 @@ class ClasificAdiArticulo extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'ARTICULO' => 'Articulo',
+			'ARTICULO' => 'Artículo',
 			'VALOR' => 'Valor',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',

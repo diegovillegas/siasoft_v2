@@ -1,12 +1,13 @@
+<?php $this->pageTitle=Yii::app()->name." - Tipo de Tarjeta";?>
 <?php
 $this->breadcrumbs=array(
-	'Tipo Tarjeta'=>array('admin'),
+	'Tipo de Tarjeta'=>array('admin'),
 	'Administrar',
 );
 
 $this->menu=array(
-	array('label'=>'List TipoTarjeta', 'url'=>array('index')),
-	array('label'=>'Create TipoTarjeta', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' TipoTarjeta', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' TipoTarjeta', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

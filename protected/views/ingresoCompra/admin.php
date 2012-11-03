@@ -32,6 +32,7 @@ $(document).ready(function(){
 
 function buscar(){}
 </script>
+<?php $this->pageTitle=Yii::app()->name." - Ingreso Compras";?>
 <?php
 /* @var $this IngresoCompraController */
 /* @var $model IngresoCompra */
@@ -43,8 +44,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List IngresoCompra', 'url'=>array('index')),
-	array('label'=>'Create IngresoCompra', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' IngresoCompra', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' IngresoCompra', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -69,6 +70,23 @@ $('.search-form form').submit(function(){
     <?php $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array()); ?>
     <?php echo CHtml::HiddenField('check',''); ?>
     
+    
+<?php 
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Cancelar',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('cancelar'),
+        'icon' => 'remove white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('confirm'=>'¿Está seguro que desea cancelar este(os) ingreso(s)?', 'id'=>'cancelar'),
+    ));
+?>
     
 <?php 
     $this->widget('bootstrap.widgets.BootButton', array(

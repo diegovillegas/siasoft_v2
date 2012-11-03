@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Proveedores";?>
 <?php
 $this->breadcrumbs=array(
 	'Proveedor'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Proveedor', 'url'=>array('index')),
-	array('label'=>'Create Proveedor', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' Proveedor', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Proveedor', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -26,18 +27,6 @@ $('.search-form form').submit(function(){
 <h1>Proveedores</h1>
 
 <div align="right">
-<?php 
-
-$this->widget('bootstrap.widgets.BootButton', array(
-    'label'=>'Listar',
-    'type'=>'primary', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
-    'size'=>'mini', // '', 'large', 'small' or 'mini'
-	'url' => array('proveedor/index'),
-	'icon' => 'list-alt white'
-)); 
-
-?>
-
 <?php 
 
 $this->widget('bootstrap.widgets.BootButton', array(

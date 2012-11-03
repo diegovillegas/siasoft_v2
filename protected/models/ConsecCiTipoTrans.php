@@ -76,7 +76,7 @@ class ConsecCiTipoTrans extends CActiveRecord
 		return array(
 			'ID' => 'ID',
 			'CONSECUTIVO_CI' => 'Consecutivo',
-			'TIPO_TRANSACCION' => 'Tipo Transaccion',
+			'TIPO_TRANSACCION' => 'Tipo Transacción',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

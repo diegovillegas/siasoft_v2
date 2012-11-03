@@ -5,8 +5,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List TipoDocumento', 'url'=>array('index')),
-	array('label'=>'Manage TipoDocumento', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' TipoDocumento', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' TipoDocumento', 'url'=>array('admin')),
 );
 ?>
 

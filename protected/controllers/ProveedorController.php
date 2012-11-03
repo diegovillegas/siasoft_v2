@@ -47,6 +47,7 @@ class ProveedorController extends SBaseController
 		if(isset($_POST['Proveedor']))
 		{
 			$model->attributes=$_POST['Proveedor'];
+                        ($_POST['Proveedor']['CONDICION_PAGO'] == '') ? $model->CONDICION_PAGO = NULL : $model->CONDICION_PAGO = $_POST['Proveedor']['CONDICION_PAGO'];
                         if($model->PAIS == 'COL'){
                             $model->CIUDAD = '';
                             $model->UBICACION_GEOGRAFICA1 = $_POST['Proveedor']['UBICACION_GEOGRAFICA1'];

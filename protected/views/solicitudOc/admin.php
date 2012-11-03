@@ -22,26 +22,11 @@ $this->breadcrumbs=array(
 	'Administrar',
 );
 
-$this->menu=array(
-	array('label'=>'Listar SolicitudOc', 'url'=>array('index')),
-	array('label'=>'Crear SolicitudOc', 'url'=>array('create')),
-);
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('solicitud-oc-grid', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
-<h1>Administrar Solicitudes</h1>
+<?php $this->pageTitle=Yii::app()->name." - Solicitudes";?>
+
+<h1>Solicitudes</h1>
 <br />
 <div id="mensaje"></div>
 <div align="right">

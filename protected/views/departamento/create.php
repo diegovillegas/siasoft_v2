@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Dependencia";?>
 <?php
 $this->breadcrumbs=array(
 	'Departamentos'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Departamento', 'url'=>array('index')),
-	array('label'=>'Manage Departamento', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Departamento', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' Departamento', 'url'=>array('admin')),
 );
 ?>
 

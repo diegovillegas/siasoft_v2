@@ -99,11 +99,11 @@ class OrdenCompraLinea extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ORDEN_COMPRA_LINEA' => 'Orden Compra Linea',
+			'ORDEN_COMPRA_LINEA' => 'Orden Compra Línea',
 			'ORDEN_COMPRA' => 'Orden Compra',
-			'LINEA_NUM' => 'Linea Num',
-			'ARTICULO' => 'Articulo',
-			'DESCRIPCION' => 'Descripcion',
+			'LINEA_NUM' => 'Línea Num',
+			'ARTICULO' => 'Artículo',
+			'DESCRIPCION' => 'Descripción',
 			'BODEGA' => 'Bodega',
 			'FECHA_REQUERIDA' => 'Fecha Requerida',
 			'FACTURA' => 'Factura',
@@ -166,6 +166,20 @@ class OrdenCompraLinea extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function cambiaRecibir($id){
+            $i = 0;
+            $buscare = $this->model()->findByPk($id);
+            $buscar = $this->model()->findAll('ORDEN_COMPRA = "'.$buscare->ORDEN_COMPRA.'"');
+            foreach ($buscar as $a){
+                if($a->ESTADO == 'B'){
+                    $i++;
+                }
+            }
+            if($i == 0){
+                OrdenCompra::model()->updateByPk($a->ORDEN_COMPRA, array('ESTADO'=>'R'));
+            }
+        }
         
         public function cambiaRecibir($id){
             $i = 0;

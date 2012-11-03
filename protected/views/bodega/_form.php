@@ -9,13 +9,51 @@ $form = $this->beginWidget('bootstrap.widgets.BootActiveForm', array(
 		'validateOnSubmit'=>true,
 	),	
 )); ?>
-        <?php echo $form->errorSummary($model2); ?>
-
-		<?php echo $form->textFieldRow($model2,'ID',array('size'=>4,'maxlength'=>4)); ?>
-		<?php echo $form->textAreaRow($model2,'DESCRIPCION'); ?>
-                <?php echo $form->dropDownListRow($model2, 'TIPO', array('C'=>'Consumo','V'=>'Ventas','N'=>'No Disponible')); ?>
-		<?php echo $form->textFieldRow($model2,'TELEFONO',array('maxlength'=>20)); ?>
-		<?php echo $form->textFieldRow($model2,'DIRECCION',array('maxlength'=>128)); ?>
+        <?php echo $form->errorSummary($model2); ?>,
+                <table style="width: 400px;">
+                    <tr>
+                        <td>
+                            <?php echo $form->textFieldRow($model2,'ID',array('size'=>4,'maxlength'=>4)); ?>
+                        </td>
+                        <td>
+                            <?php $this->widget('bootstrap.widgets.BootButton', array(
+                                //'label'=>'Ayuda',
+                                'type'=>'succes',
+                                'icon'=>'info-sign',
+                                'size'=>'mini',
+                                'htmlOptions'=>array('data-title'=>'Ayuda', 'data-content'=>'Cadena de caracteres alfanumérico.', 'rel'=>'popover'),
+                            )); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <?php echo $form->textAreaRow($model2,'DESCRIPCION'); ?>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <?php echo $form->dropDownListRow($model2, 'TIPO', array('C'=>'Consumo','V'=>'Ventas','N'=>'No Disponible')); ?>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <?php echo $form->textFieldRow($model2,'TELEFONO',array('maxlength'=>20)); ?>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <?php echo $form->textFieldRow($model2,'DIRECCION',array('maxlength'=>128)); ?>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
 		<?php echo CHtml::activeHiddenField($model2,'ACTIVO',array('value'=>'S')); ?>
 
         <div>

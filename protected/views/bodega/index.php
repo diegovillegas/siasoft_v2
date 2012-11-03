@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Bodega', 'url'=>array('create')),
-	array('label'=>'Manage Bodega', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' Bodega', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' Bodega', 'url'=>array('admin')),
 );
 ?>
 

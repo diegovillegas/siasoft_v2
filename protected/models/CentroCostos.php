@@ -70,8 +70,8 @@ class CentroCostos extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'Codigo',
-			'DESCRIPCION' => 'Descripcion',
+			'ID' => 'Código',
+			'DESCRIPCION' => 'Descripción',
 			'TIPO' => 'Tipo',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',

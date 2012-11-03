@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Categoria', 'url'=>array('create')),
-	array('label'=>'Manage Categoria', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' Categoria', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' Categoria', 'url'=>array('admin')),
 );
 ?>
 

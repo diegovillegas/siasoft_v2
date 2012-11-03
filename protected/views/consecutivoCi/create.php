@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Consecutivos";?>
 <?php
 $this->breadcrumbs=array(
-	'Consecutivo Cis'=>array('index'),
+	'Consecutivos Cis'=>array('index'),
 	'Crear',
 );
 

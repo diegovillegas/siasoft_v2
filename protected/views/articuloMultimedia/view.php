@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Artículo Multimedias";?>
 <?php
 $this->breadcrumbs=array(
-	'Articulo Multimedias'=>array('admin'),
+	'Artículo Multimedias'=>array('admin'),
 	$model->ID,
 );
 

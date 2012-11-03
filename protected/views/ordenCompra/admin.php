@@ -14,6 +14,7 @@ function inicio(){
 
 }
 </script>
+<?php $this->pageTitle=Yii::app()->name." - Orden Compras";?>
 <?php
 if(!ConfCo::darConf())
      $this->redirect(array('/confCo/create'));

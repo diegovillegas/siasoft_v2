@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create TipoDocumento', 'url'=>array('create')),
-	array('label'=>'Manage TipoDocumento', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' TipoDocumento', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' TipoDocumento', 'url'=>array('admin')),
 );
 ?>
 

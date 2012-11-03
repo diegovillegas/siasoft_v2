@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Condicion de Pagos";?>
 <?php
 $this->breadcrumbs=array(
 	'Condicion de Pagos'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List CodicionPago', 'url'=>array('index')),
-	array('label'=>'Manage CodicionPago', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' CodicionPago', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' CodicionPago', 'url'=>array('admin')),
 );
 ?>
 

@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Días Feriados";?>
 <?php
 $this->breadcrumbs=array(
 	'Dia Feriados'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List DiaFeriado', 'url'=>array('index')),
-	array('label'=>'Manage DiaFeriado', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' DiaFeriado', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' DiaFeriado', 'url'=>array('admin')),
 );
 ?>
 

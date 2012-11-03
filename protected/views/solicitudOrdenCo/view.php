@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Solicitud Orden Compra";?>
 <?php
 $this->breadcrumbs=array(
-	'Solicitud Orden Cos'=>array('index'),
+	'Solicitud Orden Compra'=>array('admin'),
 	$model->ID,
 );
 
@@ -13,7 +14,7 @@ $this->menu=array(
 );
 ?>
 
-<h1>Ver SolicitudOrdenCo #<?php echo $model->ID; ?></h1>
+<h1>Ver SolicitudOrden Compra <?php echo $model->ID; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

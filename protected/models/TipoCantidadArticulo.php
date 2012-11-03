@@ -75,7 +75,7 @@ class TipoCantidadArticulo extends CActiveRecord
 		return array(
 			'ID' => 'ID',
 			'NOMBRE' => 'Nombre',
-			'DESCRIPCION' => 'Descripcion',
+			'DESCRIPCION' => 'Descripción',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

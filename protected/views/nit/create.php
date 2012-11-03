@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Relación de Nits";?>
 <?php
 $this->breadcrumbs=array(
 	'Nits'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Nit', 'url'=>array('index')),
-	array('label'=>'Manage Nit', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Nit', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' Nit', 'url'=>array('admin')),
 );
 ?>
 

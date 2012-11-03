@@ -171,15 +171,15 @@ class DocumentoInvLinea extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'DOCUMENTO_INV_LINEA' => 'Documento Inv Linea',
+			'DOCUMENTO_INV_LINEA' => 'Documento Inv Línea',
 			'DOCUMENTO_INV' => 'Documento Inv',
-			'LINEA_NUM' => 'Linea Num',
-			'TIPO_TRANSACCION' => 'Tipo Transaccion',
+			'LINEA_NUM' => 'Línea Num',
+			'TIPO_TRANSACCION' => 'Tipo Transacción',
 			'SUBTIPO' => 'Subtipo',
 			'TIPO_TRANSACCION_CANTIDAD' => 'Cantidad a Afectar',
 			'BODEGA' => 'Bodega',
 			'BODEGA_DESTINO' => 'Bodega Destino',
-			'ARTICULO' => 'Articulo',
+			'ARTICULO' => 'Artículo',
 			'CANTIDAD' => 'Cantidad',
 			'UNIDAD' => 'Unidad',
 			'COSTO_UNITARIO' => 'Costo Unitario',
