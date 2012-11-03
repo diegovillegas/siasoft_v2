@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Nivel Precio'=>array('admin'),
+	'Tipos de Precio'=>array('admin'),
 	'Administrar',
 );
 
@@ -23,7 +23,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Nivel de Precios</h1>
+<h1>Tipos de Precio</h1>
 
 <div align="right">
 <?php 

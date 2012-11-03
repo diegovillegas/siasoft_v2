@@ -31,7 +31,7 @@
         <div class="row-buttons" align="center">
         <?php endif ?>
             <?php $this->widget('bootstrap.widgets.BootButton', array('label'=>$model2->isNewRecord ? 'Crear' : 'Guardar', 'buttonType'=>'submit', 'type'=>'primary', 'icon'=>'ok-circle white')); ?>
-            <?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => '#', 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	        
+            <?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small', 'url' => array('/impuesto/admin'), 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	        
         </div>
         </div>
 <?php $this->endWidget(); ?>
