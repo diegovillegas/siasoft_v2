@@ -1,0 +1,42 @@
+<<<<<<< HEAD
+<?php
+$this->breadcrumbs=array(
+	'Usuarios'=>array('admin'),
+	$model->ID,
+);
+
+?>
+
+<h1>Ver Usuarios #<?php echo $model->ID; ?></h1>
+
+<?php $this->widget('zii.widgets.CDetailView', array(
+	'data'=>$model,
+	'attributes'=>array(
+		'ID',
+		'USERNAME',
+		'PASS',
+		'ACTIVO',
+	),
+)); ?>
+=======
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Usuarios";?>
+<?php
+$this->breadcrumbs=array(
+	'Usuarios'=>array('admin'),
+	$model->ID,
+);
+
+?>
+
+<h1>Ver Usuarios #<?php echo $model->ID; ?></h1>
+
+<?php $this->widget('zii.widgets.CDetailView', array(
+	'data'=>$model,
+	'attributes'=>array(
+		'ID',
+		'USERNAME',
+		'PASS',
+		'ACTIVO',
+	),
+)); ?>
+>>>>>>> 2e17011c2936ebc50f81dee56afaca64baae218d

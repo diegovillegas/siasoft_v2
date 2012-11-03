@@ -16,6 +16,7 @@
  }
 </script>
 
+<?php $this->pageTitle=Yii::app()->name." - Documentos";?>
 <?php
 if(!ConfCi::darConf())
      $this->redirect(array('/confCi/create'));

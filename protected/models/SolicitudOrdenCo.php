@@ -84,9 +84,9 @@ class SolicitudOrdenCo extends CActiveRecord
 		return array(
 			'ID' => 'ID',
 			'SOLICITUD_OC' => 'Solicitud Oc',
-			'SOLICITUD_OC_LINEA' => 'Solicitud Oc Linea',
+			'SOLICITUD_OC_LINEA' => 'Solicitud Oc Línea',
 			'ORDEN_COMPRA' => 'Orden Compra',
-			'ORDEN_COMPRA_LINEA' => 'Orden Compra Linea',
+			'ORDEN_COMPRA_LINEA' => 'Orden Compra Línea',
 			'DECIMA' => 'Decima',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',

@@ -1,0 +1,72 @@
+<<<<<<< HEAD
+<?php
+$this->breadcrumbs=array(
+	'Formato Impresions'=>array('index'),
+	$model->ID,
+);
+
+$this->menu=array(
+	array('label'=>'Listar FormatoImpresion', 'url'=>array('index')),
+	array('label'=>'Crear FormatoImpresion', 'url'=>array('create')),
+	array('label'=>'Actualizar FormatoImpresion', 'url'=>array('update', 'id'=>$model->ID)),
+	array('label'=>'Eliminar FormatoImpresion', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Esta seguro que desea eliminar?')),
+	array('label'=>'Administrar FormatoImpresion', 'url'=>array('admin')),
+);
+?>
+
+<h1>Ver FormatoImpresion #<?php echo $model->ID; ?></h1>
+
+<?php $this->widget('zii.widgets.CDetailView', array(
+	'data'=>$model,
+	'attributes'=>array(
+		'ID',
+		'NOMBRE',
+		'OBSERVACION',
+		'MODULO',
+		'SUBMODULO',
+		'RUTA',
+		'TIPO',
+		'ACTIVO',
+		'CREADO_POR',
+		'CREADO_EL',
+		'ACTUALIZADO_POR',
+		'ACTUALIZADO_EL',
+	),
+)); ?>
+=======
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Formato Impresion";?>
+<?php
+$this->breadcrumbs=array(
+	'Formato Impresion'=>array('admin'),
+	$model->ID,
+);
+
+$this->menu=array(
+	array('label'=>'Listar FormatoImpresion', 'url'=>array('index')),
+	array('label'=>'Crear FormatoImpresion', 'url'=>array('create')),
+	array('label'=>'Actualizar FormatoImpresion', 'url'=>array('update', 'id'=>$model->ID)),
+	array('label'=>'Eliminar FormatoImpresion', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Esta seguro que desea eliminar?')),
+	array('label'=>'Administrar FormatoImpresion', 'url'=>array('admin')),
+);
+?>
+
+<h1>Ver FormatoImpresion #<?php echo $model->ID; ?></h1>
+
+<?php $this->widget('zii.widgets.CDetailView', array(
+	'data'=>$model,
+	'attributes'=>array(
+		'ID',
+		'NOMBRE',
+		'OBSERVACION',
+		'MODULO',
+		'SUBMODULO',
+		'RUTA',
+		'TIPO',
+		'ACTIVO',
+		'CREADO_POR',
+		'CREADO_EL',
+		'ACTUALIZADO_POR',
+		'ACTUALIZADO_EL',
+	),
+)); ?>
+>>>>>>> 2e17011c2936ebc50f81dee56afaca64baae218d

@@ -110,7 +110,7 @@ class Articulo extends CActiveRecord
         public function miValidacion3($attribute,$params){
 		
 		if ($this->EXISTENCIA_MAXIMA <= $this->EXISTENCIA_MINIMA){
-				$this->addError('EXISTENCIA_MAXIMA','Debe ser mayor a Minima');
+				$this->addError('EXISTENCIA_MAXIMA','Debe ser mayor a Mínima');
                 }
 	}
         
@@ -185,17 +185,17 @@ class Articulo extends CActiveRecord
                 
 		return array(
 			'ARTICULO' => 'Referencia',
-			'NOMBRE' => 'Nombre Articulo',
+			'NOMBRE' => 'Nombre Artículo',
 			'ORIGEN_CORP' => 'Origen',
 			'CLASE_ABC' => 'Clase',
-			'TIPO_ARTICULO' => 'Tipo Articulo',
+			'TIPO_ARTICULO' => 'Tipo Artículo',
 			'TIPO_COD_BARRAS' => 'Tipo Cod Barras',
-			'CODIGO_BARRAS' => 'Codigo Barras',
-			'EXISTENCIA_MINIMA' => 'Minima',
-			'EXISTENCIA_MAXIMA' => 'Maxima',
+			'CODIGO_BARRAS' => 'Código Barras',
+			'EXISTENCIA_MINIMA' => 'Mínima',
+			'EXISTENCIA_MAXIMA' => 'Máxima',
 			'PUNTO_REORDEN' => 'Punto Reorden',
 			'COSTO_FISCAL' => 'Costo Fiscal',
-			'DESCRIPCION_COMPRA' => 'Descripcion Compra',
+			'DESCRIPCION_COMPRA' => 'Descripción Compra',
 			'IMPUESTO_COMPRA' => 'Impuesto de Compra',
 			'BODEGA' => 'Bodega',
 			'IMP1_AFECTA_COSTO' => '',
@@ -214,7 +214,7 @@ class Articulo extends CActiveRecord
 			'FACTOR_EMPAQUE' => 'Factor Empaque',
 			'FACTOR_VENTA' => 'Factor Venta',
 			'IMPUESTO_VENTA' => 'Impuesto Venta',
-			'RETENCION_VENTA' => 'Retencion Venta',
+			'RETENCION_VENTA' => 'Retención Venta',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

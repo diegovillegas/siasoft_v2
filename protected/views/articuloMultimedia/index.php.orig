@@ -1,0 +1,30 @@
+<<<<<<< HEAD
+<?php
+$this->breadcrumbs=array(
+	'Articulo Multimedias',
+);
+
+?>
+
+<h1>Articulo Multimedias</h1>
+
+<?php $this->widget('zii.widgets.CListView', array(
+	'dataProvider'=>$dataProvider,
+	'itemView'=>'_view',
+)); ?>
+=======
+<?php $this->pageTitle=Yii::app()->name." - Artículo Multimedias";?>
+<?php
+$this->breadcrumbs=array(
+	'Artículo Multimedias',
+);
+
+?>
+
+<h1>Artículo Multimedias</h1>
+
+<?php $this->widget('zii.widgets.CListView', array(
+	'dataProvider'=>$dataProvider,
+	'itemView'=>'_view',
+)); ?>
+>>>>>>> 2e17011c2936ebc50f81dee56afaca64baae218d

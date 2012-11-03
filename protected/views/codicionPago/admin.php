@@ -1,12 +1,13 @@
+<?php $this->pageTitle=Yii::app()->name." - Condición de Pago";?>
 <?php
 $this->breadcrumbs=array(
-	'Condicion Pagos'=>array('admin'),
+	'Condición Pagos'=>array('admin'),
 	'Administrar',
 );
 
 $this->menu=array(
-	array('label'=>'List CodicionPago', 'url'=>array('index')),
-	array('label'=>'Create CodicionPago', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' CodicionPago', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' CodicionPago', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -23,7 +24,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Condicion Pagos</h1>
+<h1>Condición Pagos</h1>
 
 
 <div align="right">
@@ -67,7 +68,7 @@ $this->widget('bootstrap.widgets.BootButton', array(
  
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h3>Crear Condicion de pago</h3>
+    <h3>Crear Condición de pago</h3>
     <p class="note"><?php echo Yii::t('app','FIELDS_WITH'); ?><span class="required"> * </span><?php echo Yii::t('app','ARE_REQUIRED'); ?>.</p>
 </div>
 

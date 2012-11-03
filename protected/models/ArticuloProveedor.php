@@ -97,9 +97,9 @@ class ArticuloProveedor extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'ARTICULO' => 'Articulo',
+			'ARTICULO' => 'Artículo',
 			'PROVEEDOR' => 'Proveedor',
-			'CODIGO_CATALOGO' => 'Codigo Catalogo',
+			'CODIGO_CATALOGO' => 'Código Catalogo',
 			'NOMBRE_CATALOGO' => 'Nombre Catalogo',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',

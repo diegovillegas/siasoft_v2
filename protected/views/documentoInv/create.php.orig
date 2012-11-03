@@ -1,0 +1,49 @@
+<<<<<<< HEAD
+<?php
+
+Yii::import('application.extensions.bootstrap.widgets.*');
+
+$this->breadcrumbs=array(
+	'Inventario'=>array('admin'),
+	'Documentos'=>array('admin'),
+	'Crear',
+);
+
+?>
+
+<h1>Crear Documento</h1>
+
+<?php echo $this->renderPartial('_form',
+        array(
+            'model'=>$model,
+            'modelLi'=>$modelLi,
+            'bodega'=>$bodega,
+            'articulo'=>$articulo,
+            'ruta'=>$ruta,
+        )
+=======
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Documento";?>
+<?php
+
+Yii::import('application.extensions.bootstrap.widgets.*');
+
+$this->breadcrumbs=array(
+	'Inventario'=>array('admin'),
+	'Documentos'=>array('admin'),
+	'Crear',
+);
+
+?>
+
+<h1>Crear Documento</h1>
+
+<?php echo $this->renderPartial('_form',
+        array(
+            'model'=>$model,
+            'modelLi'=>$modelLi,
+            'bodega'=>$bodega,
+            'articulo'=>$articulo,
+            'ruta'=>$ruta,
+        )
+>>>>>>> 2e17011c2936ebc50f81dee56afaca64baae218d
+     ); ?>

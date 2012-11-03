@@ -75,7 +75,7 @@ class TipoTransaccionCantidad extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'TIPO_TRANSACCION' => 'Tipo Transaccion',
+			'TIPO_TRANSACCION' => 'Tipo Transacción',
 			'CANTIDAD' => 'Cantidad',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',

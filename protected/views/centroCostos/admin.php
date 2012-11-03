@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Centro de Costos";?>
 <?php
 $this->breadcrumbs=array(
 	'Centro Costos'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List CentroCostos', 'url'=>array('index')),
-	array('label'=>'Create CentroCostos', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' CentroCostos', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' CentroCostos', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

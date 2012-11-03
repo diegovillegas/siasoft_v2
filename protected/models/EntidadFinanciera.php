@@ -73,9 +73,9 @@ class EntidadFinanciera extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'Codigo',
+			'ID' => 'Código',
 			'NIT' => 'Nit',
-			'DESCRIPCION' => 'Descripcion',
+			'DESCRIPCION' => 'Descripción',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

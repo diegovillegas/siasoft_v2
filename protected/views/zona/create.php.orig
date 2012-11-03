@@ -1,0 +1,32 @@
+<<<<<<< HEAD
+<?php
+$this->breadcrumbs=array(
+	'Zonas'=>array('admin'),
+	'Crear',
+);
+
+$this->menu=array(
+	array('label'=>'List Zona', 'url'=>array('index')),
+	array('label'=>'Manage Zona', 'url'=>array('admin')),
+);
+?>
+
+<h1>Crear Zona</h1>
+
+=======
+<?php
+$this->breadcrumbs=array(
+	'Zonas'=>array('admin'),
+	'Crear',
+);
+
+$this->menu=array(
+	array('label'=>Yii::t('app','LIST').' Zona', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' Zona', 'url'=>array('admin')),
+);
+?>
+
+<h1>Crear Zona</h1>
+
+>>>>>>> 2e17011c2936ebc50f81dee56afaca64baae218d
+<?php echo $this2->renderPartial('_form', array('model'=>$model2)); ?>

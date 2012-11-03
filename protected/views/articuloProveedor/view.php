@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Artículo Proveedores";?>
 <?php
 $this->breadcrumbs=array(
-	'Articulo Proveedores'=>array('admin'),
+	'Artículo Proveedores'=>array('admin'),
 	$model->ID,
 );
 ?>

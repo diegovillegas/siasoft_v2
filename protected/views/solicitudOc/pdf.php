@@ -38,7 +38,7 @@
                     <td colspan="2" height="400" valign="top">
                         <table cellpadding="10" border="1" bordercolor="#000000" style="border-collapse:collapse;" align="center">
                             <tr>
-                                <th>Articulo</th>
+                    <th>Artículo</th>
                                 <th>Descripción</th>
                                 <th>Cantidad</th>
                                 <th>Unidad</th>                    

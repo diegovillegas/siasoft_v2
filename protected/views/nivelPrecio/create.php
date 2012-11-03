@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Nivel de Precios";?>
 <?php
 $this->breadcrumbs=array(
 	'Tipo de Precio'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List NivelPrecio', 'url'=>array('index')),
-	array('label'=>'Manage NivelPrecio', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' NivelPrecio', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' NivelPrecio', 'url'=>array('admin')),
 );
 ?>
 

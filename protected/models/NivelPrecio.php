@@ -76,10 +76,10 @@ class NivelPrecio extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'Codigo',
-			'DESCRIPCION' => 'Descripcion',
+			'ID' => 'Código',
+			'DESCRIPCION' => 'Descripción',
 			'ESQUEMA_TRABAJO' => 'Esquema Trabajo',
-			'CONDICION_PAGO' => 'Condicion Pago',
+			'CONDICION_PAGO' => 'Condición Pago',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

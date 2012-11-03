@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create Nit', 'url'=>array('create')),
-	array('label'=>'Manage Nit', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' Nit', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' Nit', 'url'=>array('admin')),
 );
 ?>
 

@@ -73,11 +73,11 @@ class Bodega extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'Codigo de bodega',
-			'DESCRIPCION' => 'Descripcion',
+			'ID' => 'Código de bodega',
+			'DESCRIPCION' => 'Descripción',
 			'TIPO' => 'Tipo',
-			'TELEFONO' => 'Telefono',
-			'DIRECCION' => 'Direccion',
+			'TELEFONO' => 'Teléfono',
+			'DIRECCION' => 'Dirección',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

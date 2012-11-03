@@ -1,3 +1,6 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','COUNTRIES');?>
+
+
 <?php
 $this->breadcrumbs=array(
 	Yii::t('app','COUNTRIES')=>array('admin'),

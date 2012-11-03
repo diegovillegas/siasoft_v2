@@ -11,7 +11,7 @@
         
             <?php echo $form->errorSummary($model2); ?>
                 <?php $mask = $config->PATRON_CCOSTO; ?>
-        <table style="width: 400px;">
+                <div class="control-group "><label for="CentroCostos_ID" class="control-label required">Código <span class="required">*</span></label><div class="controls"> 
                     <tr>
                         <td>
                             <div class="control-group "><label for="CentroCostos_ID" class="control-label required">Codigo <span class="required">*</span></label><div class="controls"> 

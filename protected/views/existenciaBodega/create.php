@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Existencias en Bodegas";?>
 <?php
 $this->breadcrumbs=array(
 	'Inventario'=>array('articulo/admin'),

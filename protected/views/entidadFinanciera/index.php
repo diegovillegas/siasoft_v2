@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Create EntidadFinanciera', 'url'=>array('create')),
-	array('label'=>'Manage EntidadFinanciera', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','CREATE').' EntidadFinanciera', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' EntidadFinanciera', 'url'=>array('admin')),
 );
 ?>
 

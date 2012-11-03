@@ -205,7 +205,7 @@ function cargaProveedorGrilla (grid_id){
             'filter'=>$proveedor,
             'columns'=>array(
                 array(  'name'=>'PROVEEDOR',
-                        'header'=>'Codigo Proveedor',
+                        'header'=>'Código Proveedor',
                         'htmlOptions'=>array('data-dismiss'=>'modal'),
                         'type'=>'raw',
                         'value'=>'CHtml::link($data->PROVEEDOR,"#")'
@@ -247,7 +247,7 @@ function cargaProveedorGrilla (grid_id){
                 'columns'=>array(
                     array('class'=>'CCheckBoxColumn'),
                     array('name'=>'ORDEN_COMPRA_LINEA',
-                            'header'=>'Codigo Orden de compra'),
+                            'header'=>'Código Orden de compra'),
                     array('name' => 'ARTICULO', 'value'=>'$data->aRTICULO->NOMBRE'),
                         'FECHA_REQUERIDA',
                 ),
@@ -256,7 +256,7 @@ function cargaProveedorGrilla (grid_id){
 	</div>
         <div class="modal-footer">
         <?php $this->widget('bootstrap.widgets.BootButton', array(
-                'label'=>'Cargar Lineas',
+                'label'=>'Cargar Líneas',
                 'url'=>'#',
                 'htmlOptions'=>array('data-dismiss'=>'modal', 'onclick' => 'cargaSolicitud()'),
             )); ?>
@@ -267,7 +267,7 @@ function cargaProveedorGrilla (grid_id){
     
     	<div class="modal-header">
 		<a class="close" data-dismiss="modal">&times;</a>
-		<h3>Nueva Linea</h3>
+		<h3>Nueva Línea</h3>
 		<p class="note">Los Campos con <span class="required">*</span> Son requeridos.</p>
 	</div>
     

@@ -74,9 +74,9 @@ class TipoDocumento extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'Codigo',
-			'DESCRIPCION' => 'Descripcion',
-			'MASCARA' => 'Mascara',
+			'ID' => 'Código',
+			'DESCRIPCION' => 'Descripción',
+			'MASCARA' => 'Máscara',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

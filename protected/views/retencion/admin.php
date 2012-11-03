@@ -1,12 +1,13 @@
+<?php $this->pageTitle=Yii::app()->name." - Retenciones";?>
 <?php
 $this->breadcrumbs=array(
-	'Retenciones'=>array('index'),
+	'Retenciones'=>array('admin'),
 	'Administrar',
 );
 
 $this->menu=array(
-	array('label'=>'Listar Retencion', 'url'=>array('index')),
-	array('label'=>'Crear Retencion', 'url'=>array('create')),
+	array('label'=>'Listar Retención', 'url'=>array('index')),
+	array('label'=>'Crear Retención', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

@@ -4,8 +4,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Crear Retencion', 'url'=>array('create')),
-	array('label'=>'Administrar Retencion', 'url'=>array('admin')),
+	array('label'=>'Crear Retención', 'url'=>array('create')),
+	array('label'=>'Administrar Retención', 'url'=>array('admin')),
 );
 ?>
 

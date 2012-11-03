@@ -1,3 +1,6 @@
+<?php $this->pageTitle=Yii::app()->name." - Ubicacion Geografica 1";?>
+
+
 <?php
 $this->breadcrumbs=array(
 	'Ubicacion Geografica 1'=>array('index'),
@@ -5,8 +8,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List UbicacionGeografica1', 'url'=>array('index')),
-	array('label'=>'Create UbicacionGeografica1', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' UbicacionGeografica1', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' UbicacionGeografica1', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

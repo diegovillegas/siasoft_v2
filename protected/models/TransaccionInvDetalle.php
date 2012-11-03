@@ -111,13 +111,13 @@ class TransaccionInvDetalle extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'TRANSACCION_INV_DETALLE' => 'Transaccion Inv Detalle',
-			'TRANSACCION_INV' => 'Transaccion Inv',
-			'LINEA' => 'Linea',
-			'TIPO_TRANSACCION' => 'Tipo Transaccion',
+			'TRANSACCION_INV_DETALLE' => 'Transacción Inv Detalle',
+			'TRANSACCION_INV' => 'Transacción Inv',
+			'LINEA' => 'Línea',
+			'TIPO_TRANSACCION' => 'Tipo Transacción',
 			'SUBTIPO' => 'Subtipo',
-			'TIPO_TRANSACCION_CANTIDAD' => 'Tipo Transaccion Cantidad',
-			'ARTICULO' => 'Articulo',
+			'TIPO_TRANSACCION_CANTIDAD' => 'Tipo Transacción Cantidad',
+			'ARTICULO' => 'Artículo',
 			'UNIDAD' => 'Unidad',
 			'BODEGA' => 'Bodega',
 			'NATURALEZA' => 'Naturaleza',
