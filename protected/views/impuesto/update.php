@@ -1,7 +1,8 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','UPDATE')." Impuestos";?>
 <?php
 $this->breadcrumbs=array(
         'Sistema'=>array('update', 'id'=>$model2->ID),
-	"Impuesto");
+	"Impuestos");
 ?>
 
 <h1>Actualizar Impuesto <?php echo $model2->ID; ?></h1>

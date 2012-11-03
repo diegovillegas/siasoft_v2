@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Dependencias";?>
 <?php
 $this->breadcrumbs=array(
 	'Departamentos'=>array('admin'),
@@ -5,11 +6,11 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Departamento', 'url'=>array('index')),
-	array('label'=>'Create Departamento', 'url'=>array('create')),
-	array('label'=>'Update Departamento', 'url'=>array('update', 'id'=>$model->ID)),
-	array('label'=>'Delete Departamento', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage Departamento', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Departamento', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Departamento', 'url'=>array('create')),
+	array('label'=>Yii::t('app','UPDATE').' Departamento', 'url'=>array('update', 'id'=>$model->ID)),
+	array('label'=>Yii::t('app','DELETE').' Departamento', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->ID),'confirm'=>'Are you sure you want to delete this item?')),
+	array('label'=>Yii::t('app','MANAGE').' Departamento', 'url'=>array('admin')),
 );
 ?>
 

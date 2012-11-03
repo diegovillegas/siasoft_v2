@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','VIEW')." Impuestos";?>
 <?php
 $this->breadcrumbs=array(
 	'Impuestos'=>array('index'),

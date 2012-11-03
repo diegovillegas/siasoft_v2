@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Bodegas";?>
 <?php
 $this->breadcrumbs=array(
 	'Bodegas'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Bodega', 'url'=>array('index')),
-	array('label'=>'Manage Bodega', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Bodega', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' Bodega', 'url'=>array('admin')),
 );
 ?>
 

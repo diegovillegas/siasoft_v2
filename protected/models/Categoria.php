@@ -69,7 +69,7 @@ class Categoria extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'DESCRIPCION' => 'Descripcion',
+			'DESCRIPCION' => 'Descripción',
 			'TIPO' => 'Tipo',
 			'ACTIVO' => 'Activo',
 			'CREADO_POR' => 'Creado Por',

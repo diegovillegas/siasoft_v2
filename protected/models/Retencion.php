@@ -82,7 +82,7 @@ class Retencion extends CActiveRecord
 			'ID' => 'ID',
 			'NOMBRE' => 'Nombre',
 			'PORCENTAJE' => 'Porcentaje',
-			'MONTO_MINIMO' => 'Monto Minimo',
+			'MONTO_MINIMO' => 'Monto Mínimo',
 			'TIPO' => 'Tipo',
 			'APLICA_MONTO' => 'Monto',
 			'APLICA_SUBTOTAL' => 'Subtotal',

@@ -1,6 +1,7 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Formato Impresion";?>
 <?php
 $this->breadcrumbs=array(
-	'Formato Impresions'=>array('index'),
+	'Formato Impresion'=>array('admin'),
 	'Crear',
 );
 

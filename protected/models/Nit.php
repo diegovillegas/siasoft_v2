@@ -79,9 +79,9 @@ class Nit extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'Numero de documento',
+			'ID' => 'Número de documento',
 			'TIIPO_DOCUMENTO' => 'Tipo de Documento',
-			'RAZON_SOCIAL' => 'Razon Social',
+			'RAZON_SOCIAL' => 'Razón Social',
 			'ALIAS' => 'Alias',
 			'OBSERVACIONES' => 'Observaciones',
 			'ACTIVO' => 'Activo',

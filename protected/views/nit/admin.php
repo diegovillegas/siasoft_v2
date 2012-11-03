@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Relación de Nits";?>
 <?php
 $this->breadcrumbs=array(
 	'Nit'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Nit', 'url'=>array('index')),
-	array('label'=>'Create Nit', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' Nit', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Nit', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

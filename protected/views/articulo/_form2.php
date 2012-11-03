@@ -190,7 +190,7 @@
                                 <tr>
                                     <td>
                                         <fieldset style="width: 380px;">
-                                            <legend ><font face="arial" size=3 >Codigo de Barras Unidad detalle</font></legend>'
+                                            <legend ><font face="arial" size=3 >Código de Barras Unidad detalle</font></legend>'
                                             .$form->dropDownListRow($model,'TIPO_COD_BARRAS',$tipo,array('empty'=>'Ninguno','disabled'=>$conf->USA_CODIGO_BARRAS ? false : true,'maxlength'=>10))
                                             .$form->textFieldRow($model,'CODIGO_BARRAS',array('disabled'=>$conf->USA_CODIGO_BARRAS ? false : true,'maxlength'=>20))
                                         .'</fieldset>
@@ -207,7 +207,7 @@
                             'active'=>true
                     ),
                     array(
-                        'label'=>'Clasificacion',
+                        'label'=>'Clasificación',
                         'content'=>
                         $this->renderPartial('clasificaciones',
                                             array(
@@ -388,7 +388,7 @@
                                    array(
                                         'type'=>'raw',
                                         'name'=>'ID',
-                                        'header'=>'Codigo Bodega',
+                                        'header'=>'Código Bodega',
                                         'value'=>'CHtml::link($data->ID,"#")',
                                         'htmlOptions'=>array('data-dismiss'=>'modal'),
                                    ),

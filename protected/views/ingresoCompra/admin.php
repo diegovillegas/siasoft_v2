@@ -32,6 +32,7 @@ $(document).ready(function(){
 
 function buscar(){}
 </script>
+<?php $this->pageTitle=Yii::app()->name." - Ingreso Compras";?>
 <?php
 /* @var $this IngresoCompraController */
 /* @var $model IngresoCompra */
@@ -43,8 +44,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List IngresoCompra', 'url'=>array('index')),
-	array('label'=>'Create IngresoCompra', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' IngresoCompra', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' IngresoCompra', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

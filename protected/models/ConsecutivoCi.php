@@ -86,7 +86,7 @@ class ConsecutivoCi extends CActiveRecord
 			'ID' => 'Código',
 			'FORMATO_IMPRESION' => 'Formato Impresión',
 			'DESCRIPCION' => 'Nombre',
-			'MASCARA' => 'Mascara',
+			'MASCARA' => 'Máscara',
 			'SIGUIENTE_VALOR' => 'Siguiente Valor',
 			'TODOS_USUARIOS' => 'Todos los Usuarios',
 			'ACTIVO' => 'Activo',

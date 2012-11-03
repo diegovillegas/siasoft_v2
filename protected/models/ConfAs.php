@@ -72,7 +72,7 @@ class ConfAs extends CActiveRecord
 			'ID' => 'ID',
 			'IMPUESTO1_DESC' => 'Nombre del impuesto de consumo',
 			'IMPUESTO2_DESC' => 'Impuesto 2',
-			'PATRON_CCOSTO' => 'Mascara para centros de costo',
+			'PATRON_CCOSTO' => 'Máscara para centros de costo',
 			'SIMBOLO_MONEDA' => Yii::t('app','CURRENCY_SYMBOL'),
 			'CREADO_POR' => 'Creado Por',
 			'CREADO_EL' => 'Creado El',

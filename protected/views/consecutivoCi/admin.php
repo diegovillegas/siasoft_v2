@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Consecutivos";?>
 <?php
 if(!ConfCi::darConf())
      $this->redirect(array('/confCi/create'));

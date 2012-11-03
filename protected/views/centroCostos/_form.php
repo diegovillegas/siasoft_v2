@@ -11,7 +11,7 @@
         
             <?php echo $form->errorSummary($model2); ?>
                 <?php $mask = $config->PATRON_CCOSTO; ?>
-                <div class="control-group "><label for="CentroCostos_ID" class="control-label required">Codigo <span class="required">*</span></label><div class="controls"> 
+                <div class="control-group "><label for="CentroCostos_ID" class="control-label required">Código <span class="required">*</span></label><div class="controls"> 
                <?php $this->widget('CMaskedTextField', array(
                     'model' => $model2,
                     'attribute' => 'ID',

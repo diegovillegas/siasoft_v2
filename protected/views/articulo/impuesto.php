@@ -10,7 +10,7 @@ $this->widget('bootstrap.widgets.BootGridView', array(
                                array(
                                    'type'=>'raw',
                                    'name'=>'ID',
-                                   'header'=>'Codigo Impuesto',
+                                   'header'=>'Código Impuesto',
                                    'value'=>'CHtml::link($data->ID,"#")',
                                    'htmlOptions'=>array('data-dismiss'=>'modal'),
                                ),

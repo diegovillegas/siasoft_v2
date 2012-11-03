@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - Dependencias";?>
 <?php
 $this->breadcrumbs=array(
 	'Dependencia'=>array('admin'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Dependencia', 'url'=>array('index')),
-	array('label'=>'Create Dependencia', 'url'=>array('create')),
+	array('label'=>Yii::t('app','LIST').' Dependencia', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' Dependencia', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

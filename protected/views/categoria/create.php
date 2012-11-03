@@ -1,3 +1,4 @@
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Categorias";?>
 <?php
 $this->breadcrumbs=array(
 	'Categorias'=>array('index'),
@@ -5,8 +6,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'List Categoria', 'url'=>array('index')),
-	array('label'=>'Manage Categoria', 'url'=>array('admin')),
+	array('label'=>Yii::t('app','LIST').' Categoria', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' Categoria', 'url'=>array('admin')),
 );
 ?>
 
