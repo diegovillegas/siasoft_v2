@@ -1,0 +1,21 @@
+<<<<<<< HEAD
+=======
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','UPDATE')." Configuración";?>
+>>>>>>> ee2334901784f8ba9abed91a24a855c0e1e7ce3e
+<?php
+/* @var $this ConfFaController */
+/* @var $model ConfFa */
+
+$this->breadcrumbs=array(
+	'Facturación'=>array('update'),	
+	'Configuración',
+);
+?>
+
+<<<<<<< HEAD
+<h1>Configuracion de Facturación</h1>
+=======
+<h1>Configuración de Facturación</h1>
+>>>>>>> ee2334901784f8ba9abed91a24a855c0e1e7ce3e
+
+<?php echo $this->renderPartial('_form', array('model'=>$model, 'condicion'=>$condicion, 'categoria'=>$categoria, 'bodega'=>$bodega)); ?>

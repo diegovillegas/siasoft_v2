@@ -198,6 +198,7 @@ class Proveedor extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
         public function behaviors()
 	{
 		return array(

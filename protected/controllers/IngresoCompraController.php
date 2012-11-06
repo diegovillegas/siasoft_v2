@@ -245,6 +245,7 @@ class IngresoCompraController extends Controller
                                     $salvar->save();                                    
                                     $config->ULT_EMBARQUE = $_POST['IngresoCompra']['INGRESO_COMPRA'];
                                     $config->save();
+                                    $config->save();
                                     $i++;
                                 }
                             }
