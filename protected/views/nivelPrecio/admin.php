@@ -1,13 +1,12 @@
-<?php $this->pageTitle=Yii::app()->name." - Nivel de Precios";?>
 <?php
 $this->breadcrumbs=array(
-	'Tipos de Precio'=>array('admin'),
+	'Nivel Precio'=>array('admin'),
 	'Administrar',
 );
 
 $this->menu=array(
-	array('label'=>Yii::t('app','LIST').' NivelPrecio', 'url'=>array('index')),
-	array('label'=>Yii::t('app','CREATE').' NivelPrecio', 'url'=>array('create')),
+	array('label'=>'List NivelPrecio', 'url'=>array('index')),
+	array('label'=>'Create NivelPrecio', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -24,7 +23,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Tipos de Precio</h1>
+<h1>Nivel de Precios</h1>
 
 <div align="right">
 <?php 

@@ -1,4 +1,3 @@
-<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Centro de Costos";?>
 <?php
 $this->breadcrumbs=array(
 	'Centro Costos'=>array('admin'),
@@ -6,8 +5,8 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>Yii::t('app','LIST').' CentroCostos', 'url'=>array('index')),
-	array('label'=>Yii::t('app','MANAGE').' CentroCostos', 'url'=>array('admin')),
+	array('label'=>'List CentroCostos', 'url'=>array('index')),
+	array('label'=>'Manage CentroCostos', 'url'=>array('admin')),
 );
 ?>
 

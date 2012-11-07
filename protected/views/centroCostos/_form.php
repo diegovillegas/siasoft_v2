@@ -11,7 +11,7 @@
         
             <?php echo $form->errorSummary($model2); ?>
                 <?php $mask = $config->PATRON_CCOSTO; ?>
-                <div class="control-group "><label for="CentroCostos_ID" class="control-label required">Código <span class="required">*</span></label><div class="controls"> 
+        <table style="width: 400px;">
                     <tr>
                         <td>
                             <div class="control-group "><label for="CentroCostos_ID" class="control-label required">Codigo <span class="required">*</span></label><div class="controls"> 
@@ -66,7 +66,7 @@
         <div class="row-buttons" align="center">
         <?php endif ?>
     	<?php $this->widget('bootstrap.widgets.BootButton', array('buttonType'=>'submit', 'type'=>'primary', 'icon'=>'ok-circle white', 'size' =>'small', 'label'=>$model2->isNewRecord ? 'Crear' : 'Guardar')); ?>
-	<?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => array('/centroCostos/admin'), 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	        
+	<?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => '#', 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	        
         </div>
 
 
