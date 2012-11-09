@@ -4,24 +4,6 @@ $this->breadcrumbs=array(
 	'Proveedor'=>array('admin'),
 	'Administrar',
 );
-
-$this->menu=array(
-	array('label'=>Yii::t('app','LIST').' Proveedor', 'url'=>array('index')),
-	array('label'=>Yii::t('app','CREATE').' Proveedor', 'url'=>array('create')),
-);
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('proveedor-grid', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
 <h1>Proveedores</h1>

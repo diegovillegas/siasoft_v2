@@ -206,7 +206,7 @@ class ArticuloEnsambleController extends Controller
         public function actionCargaArticulo() {
             
             $item_id = $_GET['id'];
-            $bus = Articulo::model()->findByPk($item_id, 'ACTIVO = "S" AND TIPO_ARTICULO <> "16"');
+            $bus = Articulo::model()->findByPk($item_id, 'ACTIVO = "S"');
             if($bus){
                 $bus2 = UnidadMedida::model()->find('ID = "'.$bus->UNIDAD_ALMACEN.'"');
                 $res = array(
