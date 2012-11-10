@@ -133,6 +133,16 @@ class UbicacionGeografica2Controller extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+          public function actionPdf(){
+            
+            $dataProvider=new UbicacionGeografica2;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

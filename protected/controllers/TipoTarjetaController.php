@@ -134,6 +134,15 @@ class TipoTarjetaController extends SBaseController
 		));
 	}
 
+        public function actionPdf(){
+            
+            $dataProvider=new TipoTarjeta;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 	/**
 	 * Manages all models.
 	 */

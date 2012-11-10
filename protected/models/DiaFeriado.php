@@ -114,6 +114,19 @@ class DiaFeriado extends CActiveRecord
 		));
 	}
         
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> DiaFeriado::model()->count(),
+                        ),
+		));
+	}
+        
         public static function tipo($codigo){
             switch ($codigo){
                 case 'F' : return'Fijo';

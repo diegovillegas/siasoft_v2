@@ -133,6 +133,16 @@ class BodegaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+         public function actionPdf(){
+            
+            $dataProvider=new Bodega;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

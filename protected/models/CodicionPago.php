@@ -111,6 +111,19 @@ class CodicionPago extends CActiveRecord
 		));
 	}
         
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> CodicionPago::model()->count(),
+                        ),
+		));
+	}
+        
 	public function searchMod()
 	{
 		// Warning: Please modify the following code to remove attributes that

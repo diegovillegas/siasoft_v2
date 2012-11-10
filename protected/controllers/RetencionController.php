@@ -79,6 +79,16 @@ class RetencionController extends SBaseController
 			'model'=>$model,
 		));
 	}
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Retencion;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Updates a particular model.

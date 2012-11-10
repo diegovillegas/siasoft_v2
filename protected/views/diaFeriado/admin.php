@@ -27,18 +27,30 @@ $('.search-form form').submit(function(){
 <h1>Días Feriados</h1>
 
 <div align="right">
-<?php 
+    <?php 
 
-$this->widget('bootstrap.widgets.BootButton', array(
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'PDF',
+        'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('diaFeriado/pdf'),
+	'icon' => 'download-alt white'
+        )); 
+    ?>
+    
+    
+    <?php 
+
+    $this->widget('bootstrap.widgets.BootButton', array(
     'label'=>'Nuevo',
     'type'=>'success', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'mini', // '', 'large', 'small' or 'mini'
 	'icon' => 'plus white',
 	'url'=>'#myModal',
 	'htmlOptions'=>array('data-toggle'=>'modal')
-)); 
+    )); 
 
-?>
+    ?>
 </div>
 
 <?php $this->widget('bootstrap.widgets.BootGridView', array(
