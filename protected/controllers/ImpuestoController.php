@@ -134,6 +134,16 @@ class ImpuestoController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Impuesto;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

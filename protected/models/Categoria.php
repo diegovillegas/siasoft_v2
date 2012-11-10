@@ -104,6 +104,19 @@ class Categoria extends CActiveRecord
 		));
 	}
         
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> Categoria::model()->count(),
+                        ),
+		));
+	}
+        
 	public function searchModal()
 	{
 		// Warning: Please modify the following code to remove attributes that

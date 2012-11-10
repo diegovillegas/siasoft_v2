@@ -106,6 +106,19 @@ class CentroCostos extends CActiveRecord
 		));
 	}
         
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> CentroCostos::model()->count(),
+                        ),
+		));
+	}
+        
         public static function tipo($codigo){
             switch ($codigo){
                 case 'G' : return 'Gasto';

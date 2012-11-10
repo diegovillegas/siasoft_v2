@@ -133,6 +133,16 @@ class DiaFeriadoController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        public function actionPdf(){
+            
+            $dataProvider=new DiaFeriado;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

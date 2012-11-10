@@ -133,6 +133,17 @@ class ZonaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        
+                  public function actionPdf(){
+            
+            $dataProvider=new zona;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

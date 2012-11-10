@@ -28,6 +28,17 @@ $('.search-form form').submit(function(){
 
 
 <div align="right">
+     <?php 
+
+    $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'PDF',
+        'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('retencion/pdf'),
+	'icon' => 'download-alt white white'
+        )); 
+    ?>
+    
 <?php 
 
 $this->widget('bootstrap.widgets.BootButton', array(

@@ -112,6 +112,19 @@ class UbicacionGeografica2 extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=>  UbicacionGeografica2::model()->count(),
+                        ),
+		));
+	}
 	
 	public function behaviors()
 	{

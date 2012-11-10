@@ -133,6 +133,17 @@ class DepartamentoController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Departamento;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

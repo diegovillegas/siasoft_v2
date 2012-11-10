@@ -112,6 +112,18 @@ class Bodega extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> Bodega::model()->count(),
+                        ),
+		));
+	}
 	public function searchModal()
 	{
 		// Warning: Please modify the following code to remove attributes that

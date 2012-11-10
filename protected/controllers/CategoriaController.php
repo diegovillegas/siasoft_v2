@@ -133,6 +133,17 @@ class CategoriaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Categoria;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

@@ -1,0 +1,34 @@
+<<<<<<< HEAD
+<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Relación de Nits";?>
+<?php
+$this->breadcrumbs=array(
+	'Nits'=>array('admin'),
+	'Crear',
+);
+
+$this->menu=array(
+	array('label'=>Yii::t('app','LIST').' Nit', 'url'=>array('index')),
+	array('label'=>Yii::t('app','MANAGE').' Nit', 'url'=>array('admin')),
+);
+?>
+
+<h1>Crear Nit</h1>
+
+<?php echo $this->renderPartial('_form', array('model2'=>$model2)); ?>
+=======
+<?php $this->pageTitle=Yii::app()->name.' - '.Yii::t('app','CREATE').' Nit';?>
+<?php
+/* @var $this NitController */
+/* @var $model Nit */
+$this->breadcrumbs=array(
+	'Sistema'=>array('admin'),
+	'Nits'=>array('admin'),
+	'Nuevo',
+);
+
+?>
+
+<h1>Crear Nit</h1>
+
+<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+>>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
