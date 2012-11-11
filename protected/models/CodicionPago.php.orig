@@ -112,6 +112,19 @@ class CodicionPago extends CActiveRecord
 		));
 	}
         
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> CodicionPago::model()->count(),
+                        ),
+		));
+	}
+        
 	public function searchMod()
 	{
 		// Warning: Please modify the following code to remove attributes that
@@ -264,19 +277,6 @@ class CodicionPago extends CActiveRecord
 		));
 	}
         
-        public function searchPdf()
-	{
-
-		$criteria=new CDbCriteria;
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-                        'pagination'=>array(
-                            'pageSize'=> CodicionPago::model()->count(),
-                        ),
-		));
-	}
-        
 	public function searchMod()
 	{
 		// Warning: Please modify the following code to remove attributes that
@@ -297,6 +297,7 @@ class CodicionPago extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
 	
 	public function behaviors()
 	{
@@ -315,5 +316,5 @@ class CodicionPago extends CActiveRecord
 			),
 		);
 	}
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> 8d0b1ca5d7656d8eca24a6ac87bae5c84c3b3a3c
 }

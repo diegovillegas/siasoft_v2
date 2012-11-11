@@ -51,8 +51,8 @@
                                     array('label'=>'Ensamble de articulos', 'url'=>array('/articuloEnsamble/admin')),
                                     array('label'=>'Precio de articulos', 'url'=>array('/articuloPrecio/admin')),
                                     array('label'=>'Pedidos', 'url'=>array('/pedido/admin')),
-                                )
-                            ),
+						)
+				),
                             array('label' => 'Compras', 'url' => '#',
                                 'items' => array(
                                     array('label' => 'Configuración de Compras', 'url' => $com ? array('/confCo/update', 'id' => $com->ID) : array('/confCo/create')),

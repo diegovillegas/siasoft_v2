@@ -134,6 +134,17 @@ class ZonaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        
+                  public function actionPdf(){
+            
+            $dataProvider=new zona;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.
@@ -210,32 +221,6 @@ class ZonaController extends SBaseController
 			'accessControl', // perform access control for CRUD operations
 		);
 	}
-
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	/*public function accessRules()
-	{
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}*/
 
 	/**
 	 * Displays a particular model.
@@ -325,17 +310,6 @@ class ZonaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
-        
-        
-                  public function actionPdf(){
-            
-            $dataProvider=new zona;
-		$this->render('pdf',array(
-			'dataProvider'=>$dataProvider,
-		));
-            
-            
-        }
 
 	/**
 	 * Manages all models.
@@ -390,5 +364,9 @@ class ZonaController extends SBaseController
 			Yii::app()->end();
 		}
 	}
+        
+        public function actionCargarzonas(){
+            echo CJSON::encode(CHtml::listData(Zona::model()->findAllByAttributes(array('ACTIVO'=>'S','PAIS'=>$_GET['pais'])),'ID','NOMBRE'));
+        }
 }
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> 8d0b1ca5d7656d8eca24a6ac87bae5c84c3b3a3c

@@ -90,6 +90,23 @@ $('.search-form form').submit(function(){
     
 <?php 
     $this->widget('bootstrap.widgets.BootButton', array(
+        'label'=>'Cancelar',
+        'buttonType'=>'ajaxSubmit',
+        'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+        'size'=>'mini', // '', 'large', 'small' or 'mini'
+        'url' => array('cancelar'),
+        'icon' => 'remove white',
+        'ajaxOptions'=>array(
+            'type'=>'POST',
+            'update'=>'#mensaje',
+            'complete'=>'completado()',
+        ),
+        'htmlOptions'=>array('confirm'=>'¿Está seguro que desea cancelar este(os) ingreso(s)?', 'id'=>'cancelar'),
+    ));
+?>
+    
+<?php 
+    $this->widget('bootstrap.widgets.BootButton', array(
         'label'=>'Recibir',
         'buttonType'=>'ajaxSubmit',
         'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'

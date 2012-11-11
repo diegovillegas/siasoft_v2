@@ -107,6 +107,8 @@
         $.getJSON(url,function(data){
                 $(campo).val(id);
                 $(campo_nombre).val(data.NOMBRE);
+                if(id_grilla == 'articulo-grid')
+                    $('#DocumentoInvLinea_COSTO_UNITARIO').val(data.COSTO);
             });
         
     }
