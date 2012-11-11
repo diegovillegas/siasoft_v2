@@ -55,64 +55,13 @@
     ?>
 
     <?php echo $form->errorSummary($model); ?>
-                <table style="width: 400px;">
-                    <tr>
-                        <td>
-                            <?php echo $form->dropDownListRow($model2,'TIIPO_DOCUMENTO', CHtml::listData(TipoDocumento::model()->findAll(),'ID','DESCRIPCION'), array('empty'=>'Seleccione...')); ?>        
-                        </td>
-                        <td>
-                            <?php $this->widget('bootstrap.widgets.BootButton', array(
-                                //'label'=>'Ayuda',
-                                'type'=>'succes',
-                                'icon'=>'info-sign',
-                                'size'=>'mini',
-                                'htmlOptions'=>array('data-title'=>'Ayuda', 'data-content'=>'En esta opción se selecciona un tipo de documento previamente creado en el submenú "Tipo de documento".', 'rel'=>'popover'),
-                            )); ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <?php echo $form->textFieldRow($model2,'ID',array('size'=>12,'maxlength'=>12)); ?>
-                        </td>
-                        <td>
-                            <?php $this->widget('bootstrap.widgets.BootButton', array(
-                                //'label'=>'Ayuda',
-                                'type'=>'succes',
-                                'icon'=>'info-sign',
-                                'size'=>'mini',
-                                'htmlOptions'=>array('data-title'=>'Ayuda', 'data-content'=>'En este campo, se debe escribir el número del documento según la máscara definida para el tipo de documento seleccionado.', 'rel'=>'popover'),
-                            )); ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <?php echo $form->textFieldRow($model2,'RAZON_SOCIAL',array('maxlength'=>128)); ?>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <?php echo $form->textFieldRow($model2,'ALIAS',array('maxlength'=>128)); ?>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <?php echo $form->textAreaRow($model2,'OBSERVACIONES'); ?>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                </table>
 
+    <?php $this->renderPartial('lineas', array('model' => $model, 'tablaNits' => $model->isNewRecord ? '' : $tablaNits)) ?>
 
 
     <div class="row-buttons" align="center">
         <?php $this->widget('bootstrap.widgets.BootButton', array('buttonType' => 'submit', 'type' => 'primary', 'icon' => 'ok-circle white', 'size' => 'small', 'label' => $model->isNewRecord ? 'Crear' : 'Guardar')); ?>
         <?php $this->widget('bootstrap.widgets.BootButton', array('label' => 'Cancelar', 'size' => 'small', 'url' => array('/nit/admin'), 'icon' => 'remove', 'htmlOptions' => array('data-dismiss' => 'modal'))); ?>
-	<?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => array('/nit/admin'), 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	        
     </div>
 
 
