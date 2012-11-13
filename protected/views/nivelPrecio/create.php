@@ -1,16 +1,15 @@
-<?php $this->pageTitle=Yii::app()->name." - ".Yii::t('app','CREATE')." Nivel de Precios";?>
 <?php
 $this->breadcrumbs=array(
-	'Tipo de Precio'=>array('admin'),
+	'Nivel Precio'=>array('admin'),
 	'Crear',
 );
 
 $this->menu=array(
-	array('label'=>Yii::t('app','LIST').' NivelPrecio', 'url'=>array('index')),
-	array('label'=>Yii::t('app','MANAGE').' NivelPrecio', 'url'=>array('admin')),
+	array('label'=>'List NivelPrecio', 'url'=>array('index')),
+	array('label'=>'Manage NivelPrecio', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Crear Tipo de Precio</h1>
+<h1>Crear Nivel Precio</h1>
 
 <?php echo $this->renderPartial('_form', array('model2'=>$model2)); ?>

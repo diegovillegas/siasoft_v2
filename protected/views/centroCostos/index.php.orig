@@ -4,8 +4,13 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
+<<<<<<< HEAD
+	array('label'=>Yii::t('app','CREATE').' CentroCostos', 'url'=>array('create')),
+	array('label'=>Yii::t('app','MANAGE').' CentroCostos', 'url'=>array('admin')),
+=======
 	array('label'=>'Create CentroCostos', 'url'=>array('create')),
 	array('label'=>'Manage CentroCostos', 'url'=>array('admin')),
+>>>>>>> ab07e08dcf22460cbb793dbd806d9a2016d1b685
 );
 ?>
 

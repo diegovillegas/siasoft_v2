@@ -1,12 +1,21 @@
+<<<<<<< HEAD
+<?php $this->pageTitle=Yii::app()->name." - Centro de Costos";?>
+=======
+>>>>>>> ab07e08dcf22460cbb793dbd806d9a2016d1b685
 <?php
 $this->breadcrumbs=array(
-	'Nivel Precio'=>array('admin'),
+	'Centro Costos'=>array('admin'),
 	'Administrar',
 );
 
 $this->menu=array(
-	array('label'=>'List NivelPrecio', 'url'=>array('index')),
-	array('label'=>'Create NivelPrecio', 'url'=>array('create')),
+<<<<<<< HEAD
+	array('label'=>Yii::t('app','LIST').' CentroCostos', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' CentroCostos', 'url'=>array('create')),
+=======
+	array('label'=>'List CentroCostos', 'url'=>array('index')),
+	array('label'=>'Create CentroCostos', 'url'=>array('create')),
+>>>>>>> ab07e08dcf22460cbb793dbd806d9a2016d1b685
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -15,7 +24,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('nivel-precio-grid', {
+	$.fn.yiiGridView.update('centro-costos-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -23,7 +32,8 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Nivel de Precios</h1>
+<h1>Centro Costos</h1>
+
 
 <div align="right">
 <?php 
@@ -41,26 +51,18 @@ $this->widget('bootstrap.widgets.BootButton', array(
 </div>
 
 <?php $this->widget('bootstrap.widgets.BootGridView', array(
-    'type'=>'striped bordered condensed',
-	'id'=>'nivel-precio-grid',
+        'type'=>'striped bordered condensed',
+	'id'=>'centro-costos-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
 		'ID',
 		'DESCRIPCION',
-		
-                array(
-                        'name'=>'ESQUEMA_TRABAJO',
-                        'header'=>'Esquema de trabajo',
-                        'value'=>'NivelPrecio::tipo($data->ESQUEMA_TRABAJO)',
-                        'filter'=>array('NORM'=>'Normal','MULT'=>'Multiplicador', 'MARG' => 'Margen', 'MARK' => 'Markup'),
-                    ),
-                array(
-                        'name'=>'CONDICION_PAGO',
-                        'header'=>'Condicion de pago',
-                        'value'=>'$data->cONDICIONPAGO->DESCRIPCION',
-                        'type'=>'text',
-                        'filter' => CHtml::listData(CodicionPago::model()->findAll(), 'ID', 'DESCRIPCION')
+		array(
+                        'name'=>'TIPO',
+                        'header'=>'Tipo',
+                        'value'=>'CentroCostos::tipo($data->TIPO)',
+                        'filter'=>array('G'=>'Gasto','I'=>'Ingreso','A'=>'Ambos'),
                     ),
 		/*'ACTIVO',
 		'CREADO_POR',
@@ -75,13 +77,15 @@ $this->widget('bootstrap.widgets.BootButton', array(
 	),
 )); ?>
 
+
 <?php $this->beginWidget('bootstrap.widgets.BootModal', array('id'=>'myModal')); ?>
  
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h3>Crear Nivel de Precio</h3>
+    <h3>Crear Centro de Costos</h3>
     <p class="note"><?php echo Yii::t('app','FIELDS_WITH'); ?><span class="required"> * </span><?php echo Yii::t('app','ARE_REQUIRED'); ?>.</p>
 </div>
 
-    <?php echo $this->renderPartial('_form', array('model2'=>$model2)); ?>
+<?php echo $this->renderPartial('_form', array('model2'=>$model2, 'config'=>$config)); ?>
+
 <?php $this->endWidget(); ?>

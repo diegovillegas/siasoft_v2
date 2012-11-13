@@ -1,12 +1,3 @@
-<script>
-$(document).ready(function(){
-   $(".espacio").keypress(function(event){
-       if ( event.which == 32 ) {
-            return false;
-       }
-   });
-})
-</script>
 <div class="form">
     <div>
 <?php $form=$this->beginWidget('bootstrap.widgets.BootActiveForm', array(
@@ -20,7 +11,7 @@ $(document).ready(function(){
         
         <?php echo $form->errorSummary($model2); ?>
         
-	<?php echo $form->textFieldRow($model2,'ID',array('size'=>12,'maxlength'=>12, 'class'=>'espacio')); ?>
+        <table style="width: 400px;">
             <tr>
                 <td>
                     <?php echo $form->textFieldRow($model2,'ID',array('size'=>12,'maxlength'=>12)); ?>
@@ -79,7 +70,7 @@ $(document).ready(function(){
         <div class="row-buttons" align="center">
         <?php endif ?>
     	<?php $this->widget('bootstrap.widgets.BootButton', array('buttonType'=>'submit', 'type'=>'primary', 'icon'=>'ok-circle white', 'size' =>'small', 'label'=>$model2->isNewRecord ? 'Crear' : 'Guardar')); ?>
- 	<?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => array('/nivelPrecio/admin'), 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	        
+ 	<?php $this->widget('bootstrap.widgets.BootButton', array('label'=>'Cancelar', 'size'=>'small',	'url' => '#', 'icon' => 'remove', 'htmlOptions'=>array('data-dismiss'=>'modal')));  ?>	        
         </div>
 
 

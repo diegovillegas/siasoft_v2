@@ -1,12 +1,24 @@
+<<<<<<< HEAD
+<?php $this->pageTitle=Yii::app()->name." - Nivel de Precios";?>
+<?php
+$this->breadcrumbs=array(
+	'Tipos de Precio'=>array('admin'),
+=======
 <?php
 $this->breadcrumbs=array(
 	'Nivel Precio'=>array('admin'),
+>>>>>>> ab07e08dcf22460cbb793dbd806d9a2016d1b685
 	'Administrar',
 );
 
 $this->menu=array(
+<<<<<<< HEAD
+	array('label'=>Yii::t('app','LIST').' NivelPrecio', 'url'=>array('index')),
+	array('label'=>Yii::t('app','CREATE').' NivelPrecio', 'url'=>array('create')),
+=======
 	array('label'=>'List NivelPrecio', 'url'=>array('index')),
 	array('label'=>'Create NivelPrecio', 'url'=>array('create')),
+>>>>>>> ab07e08dcf22460cbb793dbd806d9a2016d1b685
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -23,7 +35,11 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
+<<<<<<< HEAD
+<h1>Tipos de Precio</h1>
+=======
 <h1>Nivel de Precios</h1>
+>>>>>>> ab07e08dcf22460cbb793dbd806d9a2016d1b685
 
 <div align="right">
 <?php 
