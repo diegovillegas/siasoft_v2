@@ -134,6 +134,17 @@ class CategoriaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Categoria;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.
@@ -325,6 +336,14 @@ class CategoriaController extends SBaseController
 		));
 	}
         
+                  public function actionExcel()
+	{
+		$model= Categoria::model()->findAll();
+                Yii::app()->request->sendFile('Categorias.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+        
         
         public function actionPdf(){
             
@@ -389,4 +408,4 @@ class CategoriaController extends SBaseController
 		}
 	}
 }
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> aa69f15907e3612c9dfca5d8a212d3f1ce2e578d

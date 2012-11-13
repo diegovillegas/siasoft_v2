@@ -134,6 +134,14 @@ class CategoriaController extends SBaseController
 		));
 	}
         
+                  public function actionExcel()
+	{
+		$model= Categoria::model()->findAll();
+                Yii::app()->request->sendFile('Categorias.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+        
         
         public function actionPdf(){
             

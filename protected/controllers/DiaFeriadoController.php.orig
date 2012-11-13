@@ -134,6 +134,16 @@ class DiaFeriadoController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        public function actionPdf(){
+            
+            $dataProvider=new DiaFeriado;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.
@@ -325,6 +335,13 @@ class DiaFeriadoController extends SBaseController
 		));
 	}
         
+            public function actionExcel()
+	{
+		$model= DiaFeriado::model()->findAll();
+                Yii::app()->request->sendFile('Dias Feriados.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
         public function actionPdf(){
             
             $dataProvider=new DiaFeriado;
@@ -388,4 +405,4 @@ class DiaFeriadoController extends SBaseController
 		}
 	}
 }
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> aa69f15907e3612c9dfca5d8a212d3f1ce2e578d

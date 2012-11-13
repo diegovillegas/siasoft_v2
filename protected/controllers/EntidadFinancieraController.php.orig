@@ -136,6 +136,15 @@ class EntidadFinancieraController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+         public function actionPdf(){
+            
+            $dataProvider=new EntidadFinanciera;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.
@@ -344,6 +353,15 @@ class EntidadFinancieraController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+            public function actionExcel()
+	{
+		$model= EntidadFinanciera::model()->findAll();
+                Yii::app()->request->sendFile('Entidades Finacieras.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+
+        
          public function actionPdf(){
             
             $dataProvider=new EntidadFinanciera;
@@ -423,4 +441,4 @@ class EntidadFinancieraController extends SBaseController
 		}
 	}
 }
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> aa69f15907e3612c9dfca5d8a212d3f1ce2e578d

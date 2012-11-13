@@ -134,6 +134,17 @@ class DepartamentoController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Departamento;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.
@@ -325,6 +336,12 @@ class DepartamentoController extends SBaseController
 		));
 	}
         
+          public function actionExcel()
+	{
+		$model= Departamento::model()->findAll();
+                Yii::app()->request->sendFile('Departamentos.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
         
         public function actionPdf(){
             
@@ -389,4 +406,4 @@ class DepartamentoController extends SBaseController
 		}
 	}
 }
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> aa69f15907e3612c9dfca5d8a212d3f1ce2e578d

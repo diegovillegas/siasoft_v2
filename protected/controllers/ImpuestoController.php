@@ -110,6 +110,13 @@ class ImpuestoController extends SBaseController
 		));
 	}
         
+            public function actionExcel()
+	{
+		$model= Impuesto::model()->findAll();
+                Yii::app()->request->sendFile('Impuestos.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
         public function actionPdf(){
             
             $dataProvider=new Impuesto;

@@ -134,6 +134,13 @@ class DiaFeriadoController extends SBaseController
 		));
 	}
         
+            public function actionExcel()
+	{
+		$model= DiaFeriado::model()->findAll();
+                Yii::app()->request->sendFile('Dias Feriados.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
         public function actionPdf(){
             
             $dataProvider=new DiaFeriado;

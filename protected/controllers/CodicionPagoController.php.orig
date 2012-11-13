@@ -134,6 +134,16 @@ class CodicionPagoController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        public function actionPdf(){
+            
+            $dataProvider=new CodicionPago;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.
@@ -325,6 +335,14 @@ class CodicionPagoController extends SBaseController
 		));
 	}
         
+                          public function actionExcel()
+	{
+		$model= CodicionPago::model()->findAll();
+                Yii::app()->request->sendFile('Codicion_Pagos.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+        
         public function actionPdf(){
             
             $dataProvider=new CodicionPago;
@@ -388,4 +406,4 @@ class CodicionPagoController extends SBaseController
 		}
 	}
 }
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> aa69f15907e3612c9dfca5d8a212d3f1ce2e578d

@@ -135,6 +135,15 @@ class TipoTarjetaController extends SBaseController
 		));
 	}
 
+        public function actionPdf(){
+            
+            $dataProvider=new TipoTarjeta;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 	/**
 	 * Manages all models.
 	 */
@@ -325,6 +334,12 @@ class TipoTarjetaController extends SBaseController
 		));
 	}
 
+            public function actionExcel()
+	{
+		$model= TipoTarjeta::model()->findAll();
+                Yii::app()->request->sendFile('Tipos de Tarjeta.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
         public function actionPdf(){
             
             $dataProvider=new TipoTarjeta;
@@ -387,4 +402,4 @@ class TipoTarjetaController extends SBaseController
 		}
 	}
 }
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> aa69f15907e3612c9dfca5d8a212d3f1ce2e578d

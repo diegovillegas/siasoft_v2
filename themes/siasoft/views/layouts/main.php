@@ -51,6 +51,8 @@
                                     array('label'=>'Ensamble de articulos', 'url'=>array('/articuloEnsamble/admin')),
                                     array('label'=>'Precio de articulos', 'url'=>array('/articuloPrecio/admin')),
                                     array('label'=>'Pedidos', 'url'=>array('/pedido/admin')),
+									array('label'=>'Consecutivos', 'url'=>array('/consecutivoFa/admin')),	
+									array('label'=>'Clientes', 'url'=>array('/cliente/admin')),	
 						)
 				),
                             array('label' => 'Compras', 'url' => '#',

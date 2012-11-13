@@ -134,6 +134,12 @@ class DepartamentoController extends SBaseController
 		));
 	}
         
+          public function actionExcel()
+	{
+		$model= Departamento::model()->findAll();
+                Yii::app()->request->sendFile('Departamentos.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
         
         public function actionPdf(){
             

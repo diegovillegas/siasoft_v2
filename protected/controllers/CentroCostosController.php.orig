@@ -138,6 +138,16 @@ class CentroCostosController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        public function actionPdf(){
+            
+            $dataProvider=new CentroCostos;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.
@@ -335,6 +345,14 @@ class CentroCostosController extends SBaseController
 		));
 	}
         
+                  public function actionExcel()
+	{
+		$model= CentroCostos::model()->findAll();
+                Yii::app()->request->sendFile('Centros_Costos.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+        
         public function actionPdf(){
             
             $dataProvider=new CentroCostos;
@@ -400,4 +418,4 @@ class CentroCostosController extends SBaseController
 		}
 	}
 }
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> aa69f15907e3612c9dfca5d8a212d3f1ce2e578d

@@ -63,21 +63,53 @@ class NitController extends SBaseController
 	 */
 	public function actionCreate()
 	{
-		$model2=new Nit;
+		$model = new Nit;
+                $transaction = $model->dbConnection->beginTransaction();
+                // Uncomment the following line if AJAX validation is needed
+                $this->performAjaxValidation($model);
 
-		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model2);
-
-		if(isset($_POST['Nit']))
-		{
-			$model2->attributes=$_POST['Nit'];
-			if($model2->save())
-				$this->redirect(array('admin'));
+                if (isset($_POST['LineaNueva'])) {
+                    /*echo '<pre>';
+                    print_r($_POST['LineaNueva']);
+                    echo '</pre>';
+                    Yii::app()->end();*/
+                    try {
+                        foreach ($_POST['LineaNueva'] as $datos) {
+                                $model = new Nit;
+                                $model->ID = $datos['ID'];
+                                $model->TIIPO_DOCUMENTO = $datos['TIIPO_DOCUMENTO'];
+                                $model->RAZON_SOCIAL = $datos['RAZON_SOCIAL'];
+                                $model->ALIAS = $datos['ALIAS'];
+                                $model->OBSERVACIONES = $datos['OBSERVACIONES'];
+                                $model->ACTIVO = 'S';
+                                
+                                if($model->save()){
+                                     echo 'guardado '.$datos['ID'].' - '.$datos['TIIPO_DOCUMENTO'].'<br>';
+                                     echo '<pre>';
+                                    print_r($model->attributes);
+                                    echo '</pre>';
+                                }else{
+                                    echo 'No guardado '.$datos['ID'].' - '.$datos['TIIPO_DOCUMENTO'].'<br>';
+                                    echo '<pre>';
+                                    print_r($model->attributes);
+                                    echo '</pre>';
+                                }
+                               // $model->unsetAttributes();
+                        }
+                        Yii::app()->end();
+                        $transaction->commit();
+                        $this->redirect(array('admin'));
+                    }catch (Exception $e) {
+                        echo $e;
+                        $transaction->rollback();
+                    }
 		}
+                
+                $this->render('create',array(
+                    'model'=>$model,
+                    ));
 
-		$this->render('create',array(
-			'model2'=>$model2,
-		));
+		
 	}
 
 	/**
@@ -85,7 +117,7 @@ class NitController extends SBaseController
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+		public function actionUpdate($id)
 	{
 		$model2=$this->loadModel($id);
 
@@ -114,7 +146,7 @@ class NitController extends SBaseController
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+			$this->loadModel($id)->updateByPk($id,array('ACTIVO'=>'N'));
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
@@ -135,30 +167,34 @@ class NitController extends SBaseController
 		));
 	}
 
+        public function actionPdf(){
+            
+            $dataProvider=new Nit;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
+        
 	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
 		$model=new Nit('search');
-		$model->unsetAttributes();  // clear any default values
-		$model2=new Nit;
-
+                $model->unsetAttributes();  // clear any default values
+                
 		// Uncomment the following line if AJAX validation is needed
-		$this->performAjaxValidation($model2);
+		$this->performAjaxValidation($model);
 
-		if(isset($_POST['Nit']))
-		{
-			$model2->attributes=$_POST['Nit'];
-			if($model2->save())
-				$this->redirect(array('admin'));
-		}
+		
 		if(isset($_GET['Nit']))
 			$model->attributes=$_GET['Nit'];
 
 		$this->render('admin',array(
 			'model'=>$model,
-			'model2'=>$model2,
+                    
 		));
 	}
 
@@ -363,6 +399,13 @@ class NitController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        public function actionExcel()
+	{
+		$model= Nit::model()->findAll();
+                Yii::app()->request->sendFile('Relacion de Nits.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
 
         public function actionPdf(){
             
@@ -428,5 +471,5 @@ class NitController extends SBaseController
                 $res = array('MASCARA' => $bus->MASCARA);
                 echo CJSON::encode($res);
 	}
->>>>>>> 09004a4a2694c9aaff89050821fef42eeff6c4d5
+>>>>>>> aa69f15907e3612c9dfca5d8a212d3f1ce2e578d
 }
