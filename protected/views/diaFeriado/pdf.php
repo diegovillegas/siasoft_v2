@@ -1,6 +1,6 @@
 <?php
 
-$this->widget('ext.pdfGrid.EPDFGrid', array(
+$this->widget('ext.PdfGrid.EPDFGrid', array(
     'id'        => 'dia-feriado-pdf',
     'fileName'  => 'Dia Feriado',//Nombre del archivo generado sin la extension pdf (.pdf)
     'dataProvider'  => $dataProvider->searchPdf(), //puede ser $model->search()

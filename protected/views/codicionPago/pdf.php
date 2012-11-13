@@ -1,6 +1,6 @@
 <?php
 
-$this->widget('ext.pdfGrid.EPDFGrid', array(
+$this->widget('ext.PdfGrid.EPDFGrid', array(
     'id'        => 'condicion-pago-pdf',
     'fileName'  => 'Condicion de Pagos',//Nombre del archivo generado sin la extension pdf (.pdf)
     'dataProvider'  => $dataProvider->searchPdf(), //puede ser $model->search()

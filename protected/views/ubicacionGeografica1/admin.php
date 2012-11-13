@@ -28,11 +28,23 @@ $('.search-form form').submit(function(){
 
 <h1>Departamento</h1>
 <div align="right">
+        <?php 
+
+$this->widget('bootstrap.widgets.BootButton', array(
+    'label'=>'EXCEL',
+    'type'=>'inverse', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('ubicacionGeografica1/excel'),
+	'icon' => 'download-alt white'
+)); 
+
+?>
+    
 <?php 
 
 $this->widget('bootstrap.widgets.BootButton', array(
     'label'=>'PDF',
-    'type'=>'info', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'mini', // '', 'large', 'small' or 'mini'
 	'url' => array('ubicaciongeografica1/pdf'),
 	'icon' => 'download-alt white'

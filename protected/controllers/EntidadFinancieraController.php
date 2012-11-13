@@ -135,6 +135,15 @@ class EntidadFinancieraController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+            public function actionExcel()
+	{
+		$model= EntidadFinanciera::model()->findAll();
+                Yii::app()->request->sendFile('Entidades Finacieras.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+
+        
          public function actionPdf(){
             
             $dataProvider=new EntidadFinanciera;

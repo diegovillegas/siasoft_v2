@@ -25,7 +25,7 @@ return array(
 		'application.components.*',
 		'application.extensions.helpers.*',
 		'application.modules.srbac.controllers.SBaseController',
-                'application.extensions.pdfGrid.*',
+                'application.extensions.PdfGrid.*',
         'ext.helpers.*',
 	),
 	'modules'=>array(
