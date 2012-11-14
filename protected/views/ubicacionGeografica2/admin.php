@@ -46,7 +46,7 @@ $this->widget('bootstrap.widgets.BootButton', array(
     'label'=>'PDF',
     'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
     'size'=>'mini', // '', 'large', 'small' or 'mini'
-	'url' => array('ubicaciongeografica2/pdf'),
+	'url' => array('ubicacionGeografica2/pdf'),
 	'icon' => 'download-alt white'
 )); 
 
