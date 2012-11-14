@@ -54,7 +54,7 @@ class DocumentoInvController extends SBaseController
                 
 		if(isset($_POST['DocumentoInv']))
 		{
-			$model->attributes=$_POST['DocumentoInv'];
+                        $model->attributes=$_POST['DocumentoInv'];
                         
                          //ACTUALIZAR CONSECUTIVO
                             $modelConsecutivo = ConsecutivoCi::model()->findByPk($model->CONSECUTIVO);
@@ -94,7 +94,7 @@ class DocumentoInvController extends SBaseController
                             
                             $this->redirect(array('admin'));
                         }
-				
+			
 		}
                 if(isset($_GET['Bodega']))
 			$bodega->attributes=$_GET['Bodega'];
@@ -193,8 +193,18 @@ class DocumentoInvController extends SBaseController
         protected function cargarArticulo($idArticulo){
             $bus = Articulo::model()->findByPk($idArticulo);
             $res = array(
-                'NOMBRE'=>isset($bus->NOMBRE) ? $bus->NOMBRE :'Ninguno'
+                'NOMBRE'=>isset($bus->NOMBRE) ? $bus->NOMBRE :'Ninguno',
+                'COSTO'=>''
             );
+            
+            if($bus->COSTO_FISCAL == 'Estandar')
+                $res['COSTO'] = $bus->COSTO_ESTANDAR;
+            
+            if($bus->COSTO_FISCAL == 'Promedio')
+                $res['COSTO'] = $bus->COSTO_PROMEDIO;
+            
+            if($bus->COSTO_FISCAL == 'Último')
+                $res['COSTO'] = $bus->COSTO_ULTIMO;
             
             echo CJSON::encode($res);
             Yii::app()->end();

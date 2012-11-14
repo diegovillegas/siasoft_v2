@@ -133,6 +133,25 @@ class CategoriaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+                  public function actionExcel()
+	{
+		$model= Categoria::model()->findAll();
+                Yii::app()->request->sendFile('Categorias.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+        
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Categoria;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

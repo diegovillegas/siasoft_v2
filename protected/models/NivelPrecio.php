@@ -114,6 +114,19 @@ class NivelPrecio extends CActiveRecord
 		));
 	}
         
+          public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> NivelPrecio::model()->count(),
+                        ),
+		));
+	}
+        
         public static function tipo($codigo){
             switch ($codigo){
                 case 'NORM' : return 'Normal';

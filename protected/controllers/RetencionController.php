@@ -79,6 +79,22 @@ class RetencionController extends SBaseController
 			'model'=>$model,
 		));
 	}
+            public function actionExcel()
+	{
+		$model= Retencion::model()->findAll();
+                Yii::app()->request->sendFile('Retenciones.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Retencion;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Updates a particular model.

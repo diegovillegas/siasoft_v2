@@ -133,6 +133,24 @@ class PaisController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        public function actionExcel()
+	{
+		$model=  Pais::model()->findAll();
+                Yii::app()->request->sendFile('Paises.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+        
+        public function actionPdf(){
+            
+            $dataProvider=new Pais;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

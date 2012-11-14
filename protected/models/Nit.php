@@ -49,10 +49,8 @@ class Nit extends CActiveRecord
 		return array(
 			array('ID, TIIPO_DOCUMENTO, RAZON_SOCIAL', 'required'),
                         array('ID', 'unique', 'attributeName'=>'ID', 'className'=>'Nit','allowEmpty'=>false),
-			array('ID, TIIPO_DOCUMENTO', 'length', 'max'=>12),
+			array('ID', 'length', 'max'=>20),
 			array('RAZON_SOCIAL, ALIAS', 'length', 'max'=>128),
-			array('ACTIVO', 'length', 'max'=>1),
-			array('CREADO_POR, ACTUALIZADO_POR', 'length', 'max'=>20),
 			array('OBSERVACIONES', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -144,6 +142,19 @@ class Nit extends CActiveRecord
                         ),
 		));
 	}
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> NIt::model()->count(),
+                        ),
+		));
+	}
+
 	
 	public function behaviors()
 	{

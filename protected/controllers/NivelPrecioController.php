@@ -133,7 +133,25 @@ class NivelPrecioController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+            public function actionExcel()
+	{
+		$model= NivelPrecio::model()->findAll();
+                Yii::app()->request->sendFile('Nivel de Precios.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
 
+        
+public function actionPdf(){
+            
+            $dataProvider=new NivelPrecio;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
+        
 	/**
 	 * Manages all models.
 	 */
