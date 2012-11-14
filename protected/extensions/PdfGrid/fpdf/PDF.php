@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.pdfGrid.fpdf.fpdf');
+Yii::import('ext.PdfGrid.fpdf.fpdf');
 
 class PDF extends fpdf
 {
