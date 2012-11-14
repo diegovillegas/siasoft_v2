@@ -137,6 +137,24 @@ class CentroCostosController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+                  public function actionExcel()
+	{
+		$model= CentroCostos::model()->findAll();
+                Yii::app()->request->sendFile('Centros_Costos.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+        
+        public function actionPdf(){
+            
+            $dataProvider=new CentroCostos;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

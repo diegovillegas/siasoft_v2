@@ -27,6 +27,31 @@ $('.search-form form').submit(function(){
 
 <h1>Municipio</h1>
 
+<div align="right">
+            <?php 
+
+$this->widget('bootstrap.widgets.BootButton', array(
+    'label'=>'EXCEL',
+    'type'=>'inverse', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('ubicacionGeografica2/excel'),
+	'icon' => 'download-alt white'
+)); 
+
+?>
+    
+<?php 
+
+$this->widget('bootstrap.widgets.BootButton', array(
+    'label'=>'PDF',
+    'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('ubicacionGeografica2/pdf'),
+	'icon' => 'download-alt white'
+)); 
+
+?>
+</div>
 <?php $this->widget('bootstrap.widgets.BootGridView', array(
     'type'=>'striped bordered condensed',
 	'id'=>'ubicacion-geografica2-grid',

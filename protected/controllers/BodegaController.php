@@ -133,6 +133,23 @@ class BodegaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+              public function actionExcel()
+	{
+		$model= Bodega::model()->findAll();
+                Yii::app()->request->sendFile('Bodegas.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+         public function actionPdf(){
+            
+            $dataProvider=new Bodega;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.

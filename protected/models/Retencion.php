@@ -130,6 +130,20 @@ class Retencion extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        public function searchPdf()
+	{
+
+		$criteria=new CDbCriteria;
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+                        'pagination'=>array(
+                            'pageSize'=> Retencion::model()->count(),
+                        ),
+		));
+	}
+
+        
         	public function behaviors()
 	{
 		return array(

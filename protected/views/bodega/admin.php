@@ -32,6 +32,31 @@ if(isset($_GET['mensaje'])){ ?>
 <?php } ?>
 
 <div align="right">
+
+                <?php 
+
+$this->widget('bootstrap.widgets.BootButton', array(
+    'label'=>'EXCEL',
+    'type'=>'inverse', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('bodega/excel'),
+	'icon' => 'download-alt white'
+)); 
+
+?>
+    
+<?php 
+
+$this->widget('bootstrap.widgets.BootButton', array(
+    'label'=>'PDF',
+    'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('bodega/pdf'),
+	'icon' => 'download-alt white'
+)); 
+
+?>
+    
 <?php 
 
 $this->widget('bootstrap.widgets.BootButton', array(

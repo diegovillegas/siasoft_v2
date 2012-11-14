@@ -27,6 +27,31 @@ $('.search-form form').submit(function(){
 
 
 <div align="right">
+                    <?php 
+
+$this->widget('bootstrap.widgets.BootButton', array(
+    'label'=>'EXCEL',
+    'type'=>'inverse', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('centroCostos/excel'),
+	'icon' => 'download-alt white'
+)); 
+
+?>
+    
+    
+    <?php 
+
+$this->widget('bootstrap.widgets.BootButton', array(
+    'label'=>'PDF',
+    'type'=>'danger', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'mini', // '', 'large', 'small' or 'mini'
+	'url' => array('centroCostos/pdf'),
+	'icon' => 'download-alt white'
+)); 
+
+?>
+    
 <?php 
 
 $this->widget('bootstrap.widgets.BootButton', array(

@@ -107,6 +107,24 @@ class ZonaController extends SBaseController
 			'dataProvider'=>$dataProvider,
 		));
 	}
+        
+        
+             public function actionExcel()
+	{
+		$model= Zona::model()->findAll();
+                Yii::app()->request->sendFile('Zonas.xls', 
+                        $this->renderPartial('excel',array('model'=>$model),true));
+	}
+        
+                  public function actionPdf(){
+            
+            $dataProvider=new zona;
+		$this->render('pdf',array(
+			'dataProvider'=>$dataProvider,
+		));
+            
+            
+        }
 
 	/**
 	 * Manages all models.
